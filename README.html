@@ -1,0 +1,292 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\jungd\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.11\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="wonder-boy">Wonder-Boy </h1>
+<p>My implementation of the classic wonder boy arcade game</p>
+<h2 id="cover-page">Cover page </h2>
+<h1 id="wonder-boy-project-in-comprehensive-programming-course">Wonder Boy Project in Comprehensive Programming Course </h1>
+<p><em>Jung Dae Kwon</em></p>
+<p><em>Gaming Experience Development</em></p>
+<p><a href="https://nbcc.ca/programs-courses/program-details?baseCurriculumId=83db4e15-85f6-445f-8e89-60de01d802c7"><img src="https://nbcc.ca/Template/Images/Logos/logo-horizontal-color-195x35.png?McasCtx=1" alt="NBCC"></a></p>
+<p><a href="https://app.travis-ci.com/github/JungDaeKwon/Wonder-Boy"><img src="https://app.travis-ci.com/JungDaeKwon/Wonder-Boy.svg?branch=main" alt="Build Status"></a></p>
+<p><img src="images/title_WonderBoy.png" alt="Title_img_WonderBoy"></p>
+<h2 id="executive-summary">Executive summary </h2>
+<blockquote>
+<p>The adventurous young boy goes out on a long journey to chase the Evil King, who had kidnapped his girlfriend. Players should guide "Wonder Boy" through an island and rescue her.</p>
+</blockquote>
+<blockquote>
+<p>In this game, players encounter a dynamic and visually captivating arcade experience. The game features a diverse range of areas, each presenting unique challenges and enemies for Wonder Boy to overcome.</p>
+</blockquote>
+<h2 id="game-description">Game Description </h2>
+<p><em>Overview</em></p>
+<ul>
+<li>
+<p>The Wonder Boy arcade game is a classic side-scrolling platformer that takes players on an exciting adventure. Players navigate through various levels filled with obstacles, enemies, and challenging terrain, embodying the mischievous young boy on a quest to rescue his kidnapped girlfriend from the clutches of the villainous King.</p>
+</li>
+<li>
+<p>When riding the skateboard, the gameplay in Wonder Boy undergoes a transition to a horizontal side-scrolling format. During this phase, players have the ability to accelerate and decelerate, introducing dynamic control over the character's speed.</p>
+</li>
+<li>
+<p>The main character begins the game without any weapons. However, after acquiring a weapon, the player can throw it towards enemies. It he loses a life, the character respawns without any equipment.</p>
+</li>
+</ul>
+<p><em>Quest</em></p>
+<ul>
+<li>The player's mission is to rescue the girlfriend, who has been kidnapped by Evil King. To achieve this, players must guide Wonder Boy through diverse landscapes, overcoming enemies and obstacles in each level. The journey is characterized by a mix of platforming elements, strategic gameplay, and the exploration of different areas, making the quest both challenging and rewarding.</li>
+</ul>
+<p><em>Main Character</em></p>
+<ul>
+<li>A lively and determined young boy, he has a smiling face and cheerful eyes. Wearing a simple active outfit to combat immediately, he exhibits excellent athletic abilities, including high jumps and fast movements. The skateboard provides him with rapid mobility, serving as a special feature in the game. Filled with passion and courage, he adventures to rescue his girlfriend.</li>
+</ul>
+<p><em>Sketch of Main Character</em><br>
+<img src="images/player_img01.jpg" alt="Player_img"></p>
+<p><em>Opponents</em></p>
+<table>
+<thead>
+<tr>
+<th>Enemy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Snail</td>
+<td>The most frequently encountered enemy. Approaches very slowly.</td>
+</tr>
+<tr>
+<td>Hornet</td>
+<td>Moves vertically and approaches as an enemy.</td>
+</tr>
+<tr>
+<td>Cobra</td>
+<td>Primarily found in cliff stages. Since they don't move, players can either avoid them or eliminate them.</td>
+</tr>
+<tr>
+<td>Frog</td>
+<td>Jumps up when approached. Requires two stone axe hits to defeat.</td>
+</tr>
+<tr>
+<td>Octopus</td>
+<td>Appears in sea stages.</td>
+</tr>
+<tr>
+<td>Bat</td>
+<td>Found in cave stages. Clings to the ceiling and suddenly approaches when the player gets close.</td>
+</tr>
+<tr>
+<td>Skeleton</td>
+<td>Doesn't move but burns upon contact, requiring players to either jump over or defeat them.</td>
+</tr>
+<tr>
+<td>Native</td>
+<td>Primarily appears in sea stages. Approaches quite rapidly.</td>
+</tr>
+<tr>
+<td>Spider</td>
+<td>Descends from above, moving downward.</td>
+</tr>
+<tr>
+<td>Goblin</td>
+<td>Extremely fast pursuer. Requires two stone axe hits to defeat.</td>
+</tr>
+<tr>
+<td>Bluefish</td>
+<td>Only appears in sea stages. Moves vertically.</td>
+</tr>
+<tr>
+<td>Rock</td>
+<td>Doesn't cause death upon contact but heavily depletes time, should jump over it.</td>
+</tr>
+<tr>
+<td>Bonfire</td>
+<td>Instant death upon contact. Must be jumped over. Disappears along with the skateboard if riding one.</td>
+</tr>
+<tr>
+<td>Icicle</td>
+<td>Exclusive to ice cave stages. Hangs from the ceiling and falls when the player gets close.</td>
+</tr>
+<tr>
+<td>Boulder</td>
+<td>Rolls down hills, occasionally appearing in cave stages. Instant death upon contact; jump over them. Destruction is only possible with the angel equipped.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Sketch of Opponents</em></p>
+<p><img src="images/Arcade%20-%20Wonder%20Boy%20-%20Enemies.png" alt="Enemy_img"></p>
+<p><em>Envirnment</em></p>
+<blockquote>
+<p>A vibrant and diverse world that seamlessly blends natural landscapes with fantasy elements.<br>
+Forest Stage: The game typically begins in a lush forest setting, characterized by dense vegetation, trees, and vibrant colors.</p>
+</blockquote>
+<blockquote>
+<p>Meadow Stage: Expansive meadows and open areas may be encountered, introducing different types of enemies and platform challenges.</p>
+</blockquote>
+<blockquote>
+<p>Cliff Stage: This stage presents vertical challenges with cliffs, ledges, and elevated platforms. Precise jumping and timing are essential to avoid falling.</p>
+</blockquote>
+<blockquote>
+<p>Underwater/Sea Stage</p>
+</blockquote>
+<blockquote>
+<p>Cave Stage: Dark and mysterious caves featuring dimly lit passages and other underground elements.</p>
+</blockquote>
+<blockquote>
+<p>Boss Stages: Players encounter powerful bosses that must be defeated to progress.</p>
+</blockquote>
+<p><em>Menus</em></p>
+<ul>
+<li>Start</li>
+<li>High Scores</li>
+<li>Quit</li>
+</ul>
+<p><em>Controls</em></p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Right</td>
+<td>Right arrow or D</td>
+</tr>
+<tr>
+<td>Left</td>
+<td>Left arrow or A</td>
+</tr>
+<tr>
+<td>Throw weapon</td>
+<td>Space</td>
+</tr>
+<tr>
+<td>Jump</td>
+<td>Up arrow or W</td>
+</tr>
+<tr>
+<td>Speed down</td>
+<td>Same as Left (on Skate Board)</td>
+</tr>
+<tr>
+<td>Speed up</td>
+<td>Same as Right (on Skate Board)</td>
+</tr>
+<tr>
+<td>Pause</td>
+<td>P</td>
+</tr>
+<tr>
+<td>Quit</td>
+<td>Q</td>
+</tr>
+</tbody>
+</table>
+<p><em>Sounds</em></p>
+<table>
+<thead>
+<tr>
+<th>Sounds</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Background music</td>
+<td>Cheerful melodiy and bright tone to create a positive and engaging atmosphere</td>
+</tr>
+<tr>
+<td>On skateboard</td>
+<td>Upbeat and fast-paced music with a quick tempo, creating a sense of speed and excitement as the character rides the skateboard</td>
+</tr>
+<tr>
+<td>Thorwing weapon</td>
+<td>Audible throwing sound effect when the player launches a weapon</td>
+</tr>
+<tr>
+<td>Death</td>
+<td>Failure sound with deducting lives</td>
+</tr>
+<tr>
+<td>Game over</td>
+<td>Short melody accompanied by a classic game over sound, signaling the end of the game after losing all lives</td>
+</tr>
+<tr>
+<td>Collision</td>
+<td>Collision beep sound with deducting heath bars</td>
+</tr>
+<tr>
+<td>Calculating scores</td>
+<td>Sound effect played during the computation of scores</td>
+</tr>
+<tr>
+<td>Getting items</td>
+<td>Beep sound accompanying the acquisition of beneficial items</td>
+</tr>
+<tr>
+<td>Enemy death</td>
+<td>Providing feedback on successful actions against enemies</td>
+</tr>
+</tbody>
+</table>
+<h2 id="summary">Summary </h2>
+<p>Wonder Boy, a classic platformer, follows the adventures of main character navigates diverse landscapes. The game features stages such as lush forests, meadows, cliffs, underwater areas, caves, and challenging boss encounters.</p>
+<h2 id="key-points">Key Points: </h2>
+<ul>
+<li>
+<p><strong>Main character:</strong> A spirited character on a quest to rescue his girlfriend.</p>
+</li>
+<li>
+<p><strong>Stages:</strong></p>
+<ol>
+<li>Forest: Introduction to gameplay mechanics.</li>
+<li>Meadow: Open areas with new challenges.</li>
+<li>Cliff: Vertical challenges, precise jumping.</li>
+<li>Underwater/Sea</li>
+<li>Cave: Dark, mysterious caves with obstacles.</li>
+<li>Boss Stages: Combat with powerful bosses.</li>
+</ol>
+</li>
+<li>
+<p><strong>Environment:</strong> A timeless blend of natural wonders and fantastical landscapes.</p>
+</li>
+<li>
+<p>Wonder Boy provides a nostalgic experience for players.</p>
+</li>
+</ul>
+<p>In Wonder Boy, players will have a classic pixel graphic journey, overcoming obstacles, and reliving the magic of classic platformers.</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
