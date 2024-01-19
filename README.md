@@ -70,6 +70,7 @@ _Sketch of Opponents_
 _Envirnment_
 
 >A vibrant and diverse world that seamlessly blends natural landscapes with fantasy elements.
+
 >Forest Stage: The game typically begins in a lush forest setting, characterized by dense vegetation, trees, and vibrant colors. 
 
 >Meadow Stage: Expansive meadows and open areas may be encountered, introducing different types of enemies and platform challenges. 
