@@ -40,6 +40,7 @@ _Main Character_
 - A lively and determined young boy, he has a smiling face and cheerful eyes. Wearing a simple active outfit to combat immediately, he exhibits excellent athletic abilities, including high jumps and fast movements. The skateboard provides him with rapid mobility, serving as a special feature in the game. Filled with passion and courage, he adventures to rescue his girlfriend.
 
 _Sketch of Main Character_
+
 ![Player_img](images/player_img01.jpg)
 
 _Opponents_
