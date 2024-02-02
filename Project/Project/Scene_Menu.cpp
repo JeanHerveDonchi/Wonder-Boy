@@ -1,5 +1,5 @@
 #include "Scene_Menu.h"
-#include "Scene_Frogger.h"
+#include "Scene_Wonder_Boy.h"
 #include <memory>
 
 void Scene_Menu::onEnd()
@@ -24,14 +24,10 @@ void Scene_Menu:: init()
 	registerAction(sf::Keyboard::D,			"PLAY");
 	registerAction(sf::Keyboard::Escape,	"QUIT");
 
-	m_title = "GEX Planes";
-	m_menuStrings.push_back("Level 1");
-	m_menuStrings.push_back("Level 2");
-	m_menuStrings.push_back("Level 3");
-
-	m_levelPaths.push_back("../assets/level1.txt");
-	m_levelPaths.push_back("../assets/level1.txt");
-	m_levelPaths.push_back("../assets/level1.txt");
+	m_title = "Wonder Boy Project";
+	m_menuStrings.push_back("Start");
+	m_menuStrings.push_back("High Scores");
+	m_menuStrings.push_back("quit");
 
 	m_menuText.setFont(Assets::getInstance().getFont("main"));
 
@@ -61,25 +57,38 @@ void Scene_Menu::sRender()
 	sf::Text footer("UP: W    DOWN: S   PLAY:D    QUIT: ESC", 
 		Assets::getInstance().getFont("main"), 20);
 	footer.setFillColor(normalColor);
-	footer.setPosition(32, 700);
+	footer.setPosition(60, 800);
 
 	m_game->window().clear(backgroundColor);
 
+	// draw bkg first
+	sf::Texture bkgTexture;
+	if (!bkgTexture.loadFromFile("../Assets/Textures/Title_Screen.png")) {
+		std::cerr << "Error loading title_Screen.png\n";
+
+		exit(1);
+	}
+
+	sf::Sprite bkgSprite(bkgTexture);
+	bkgSprite.setOrigin(bkgSprite.getLocalBounds().width / 2, bkgSprite.getLocalBounds().height / 2);
+	bkgSprite.setPosition(m_game->window().getSize().x / 1.5, m_game->window().getSize().y / 2);
+	bkgSprite.setScale(5, 4);
+	m_game->window().draw(bkgSprite);
+
 	m_menuText.setFillColor(normalColor);
 	m_menuText.setString(m_title);
-	m_menuText.setPosition(10, 10);
+	m_menuText.setPosition(30, 70);
 	m_game->window().draw(m_menuText);
 
 	for (size_t i{ 0 }; i < m_menuStrings.size(); ++i)
 	{
 		m_menuText.setFillColor((i == m_menuIndex ? selectedColor : normalColor));
-		m_menuText.setPosition(32, 32 + (i+1) * 96);
+		m_menuText.setPosition(60, 180 + (i+1) * 96);
 		m_menuText.setString(m_menuStrings.at(i));
 		m_game->window().draw(m_menuText);
 	} 
 
 	m_game->window().draw(footer);
-	//m_game->window().display();
 
 }
 
@@ -98,7 +107,7 @@ void Scene_Menu::sDoAction(const Command& action)
 		}
 		else if (action.name() == "PLAY")
 		{
-			m_game->changeScene("PLAY", std::make_shared<Scene_Frogger>(m_game, m_levelPaths[m_menuIndex]));
+			m_game->changeScene("PLAY", std::make_shared<Scene_Wonder_Boy>(m_game, m_levelPaths[m_menuIndex]));
 		}
 		else if (action.name() == "QUIT")
 		{

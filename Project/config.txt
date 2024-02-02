@@ -1,0 +1,19 @@
+# GameEngine Config
+
+Window  1920 980
+
+Font    Arial           ../Assets/Fonts/arial.ttf
+Font    main            ../Assets/Fonts/Sansation.ttf
+Font    Arcade          ../Assets/Fonts/arcadeclassic.regular.ttf
+
+
+# Textures
+Texture Title           ../Assets/Textures/Title_Screen.png
+
+
+# Sprites
+Sprite Background       Background   0 0  1920 1080
+Sprite Title            ../Assets/ 0 0 1820 1080
+
+#  Animation    Name            Texture     Speed   Repeats
+
