@@ -21,8 +21,7 @@ void GameEngine::init(const std::string& path)
     unsigned int height;
     loadConfigFromFile(path, width, height);
 
-
-    m_window.create(sf::VideoMode(width, height), "Wonder Boy Project");
+    m_window.create(sf::VideoMode::getDesktopMode(), "Wonder Boy Project");
 
     m_statisticsText.setFont(Assets::getInstance().getFont("main"));
     m_statisticsText.setPosition(15.0f, 5.0f);

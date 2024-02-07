@@ -33,7 +33,7 @@ Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& le
 
 	init();
 
-	MusicPlayer::getInstance().play("gameTheme");
+	MusicPlayer::getInstance().play("level01");
 	MusicPlayer::getInstance().setVolume(50);
 }
 
@@ -41,15 +41,7 @@ Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& le
 void Scene_Wonder_Boy::init()
 {
 	auto pos = m_worldView.getSize();
-
-	// spawn frog in middle of first row
-	pos.x = pos.x / 2.f;
-	pos.y -= 20.f;
-
 	
-	spawnLives();
-
-	spawnPlayer(pos);
 
 	m_clock.restart();
 
@@ -87,10 +79,9 @@ void Scene_Wonder_Boy::registerActions()
 	registerAction(sf::Keyboard::Left, "LEFT");
 	registerAction(sf::Keyboard::D, "RIGHT");
 	registerAction(sf::Keyboard::Right, "RIGHT");
-	registerAction(sf::Keyboard::W, "UP");
-	registerAction(sf::Keyboard::Up, "UP");
-	registerAction(sf::Keyboard::S, "DOWN");
-	registerAction(sf::Keyboard::Down, "DOWN");
+	registerAction(sf::Keyboard::W, "JUMP");
+	registerAction(sf::Keyboard::Up, "JUMP");
+	registerAction(sf::Keyboard::Space, "THROW_WEAPON");
 }
 
 
@@ -101,44 +92,7 @@ void Scene_Wonder_Boy::onEnd()
 
 void Scene_Wonder_Boy::playerMovement()
 {
-	// no movement if player is dead
-	if (m_player->hasComponent<CState>() && m_player->getComponent<CState>().state == "dead")
-		return;
 
-	sManageScore();
-
-
-	auto& dir = m_player->getComponent<CInput>().dir;
-	auto& pos = m_player->getComponent<CTransform>().pos;
-
-	if (dir & CInput::UP)
-	{
-		m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("up"));
-		pos.y -= 40.f;
-	}
-	if (dir & CInput::DOWN)
-	{
-		m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("down"));
-		pos.y += 40.f;
-	}
-
-	if (dir & CInput::LEFT)
-	{
-		m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("left"));
-		pos.x -= 40.f;
-	}
-
-	if (dir & CInput::RIGHT)
-	{
-		m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("right"));
-		pos.x += 40.f;
-	}
-
-	if (dir != 0)
-	{
-		SoundPlayer::getInstance().play("hop", m_player->getComponent<CTransform>().pos);
-		dir = 0;
-	}
 }
 
 
@@ -251,55 +205,19 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 
 void Scene_Wonder_Boy::sDoAction(const Command& action)
 {
-	// On Key Press
-	if (action.type() == "START")
-	{
-		if (action.name() == "PAUSE") { setPaused(!m_isPaused); }
-		else if (action.name() == "QUIT") { m_game->quitLevel(); }
-		else if (action.name() == "BACK") { m_game->backLevel(); }
-
-		else if (action.name() == "TOGGLE_TEXTURE") { m_drawTextures = !m_drawTextures; }
-		else if (action.name() == "TOGGLE_COLLISION") { m_drawAABB = !m_drawAABB; }
-		else if (action.name() == "TOGGLE_GRID") { m_drawGrid = !m_drawGrid; }
-
-		// Player control
-		// Not using them, overwriting them => to use only 1 direction at a time, 
-		// if multiple keys are pressed, only the last one is used (during 16ms, the time between frames)
-		if (action.name() == "LEFT") { m_player->getComponent<CInput>().dir = CInput::LEFT; }
-		else if (action.name() == "RIGHT") { m_player->getComponent<CInput>().dir = CInput::RIGHT; }
-		else if (action.name() == "UP") { m_player->getComponent<CInput>().dir = CInput::UP; }
-		else if (action.name() == "DOWN") { m_player->getComponent<CInput>().dir = CInput::DOWN; }
-	}
-	// on Key Release
-	// the frog can only go in one direction at a time, no angles
-	// use a bitset and exclusive setting.
-	else if (action.type() == "END" && (action.name() == "LEFT" || action.name() == "RIGHT" || action.name() == "UP" ||
-		action.name() == "DOWN"))
-	{
-		m_player->getComponent<CInput>().dir = 0;
-	}
+	
 }
 
 
 void Scene_Wonder_Boy::spawnPlayer(sf::Vector2f pos)
 {
-	m_player = m_entityManager.addEntity("player");
-	m_player->addComponent<CTransform>(pos);
-	m_player->addComponent<CBoundingBox>(sf::Vector2f(15.f, 15.f));
-	m_player->addComponent<CInput>();
-	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("up"));
-	m_player->addComponent<CState>("alive");
+	
 }
 
 
 void Scene_Wonder_Boy::spawnLives()
 {
-	for (int i{ 0 }; i < m_lifeCount; ++i)
-	{
-		auto life = m_entityManager.addEntity("lives");
-		life->addComponent<CTransform>(sf::Vector2f{ 60.f - 20.f * i, 20.f });
-		life->addComponent<CAnimation>(Assets::getInstance().getAnimation("lives"));
-	}
+	
 }
 
 
@@ -312,152 +230,12 @@ sf::FloatRect Scene_Wonder_Boy::getViewBounds()
 void Scene_Wonder_Boy::sCollisions()
 {
 
-
-	auto entities = m_entityManager.getEntities();
-	auto carentities = m_entityManager.getEntities("car");
-	auto turtleentities = m_entityManager.getEntities("turtle");
-	auto logentities = m_entityManager.getEntities("log");
-	auto lillyPadentities = m_entityManager.getEntities("lillyPad");
-
-	auto playerBox = m_player->getComponent<CBoundingBox>();
-	auto& playerTfm = m_player->getComponent<CTransform>();
-
-	auto state = m_player->getComponent<CState>().state;
-	const int LINE = 320;
-	const int LILLYPAD_LINE = 110;
-
-	if (state != "dead")
-	{
-
-		if (playerTfm.pos.y > LINE)
-		{
-			for (auto e : carentities)
-			{
-				auto carBox = e->getComponent<CBoundingBox>();
-				auto carTfm = e->getComponent<CTransform>();
-				auto overlap = Physics::getOverlap(m_player, e);
-
-				if (overlap.x > 0 && overlap.y > 0)
-				{
-					m_player->getComponent<CState>().state = "dead";
-					m_player->removeComponent<CBoundingBox>();
-					m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("die");
-					SoundPlayer::getInstance().play("death", m_player->getComponent<CTransform>().pos);
-					break;
-				}
-			}
-		}
-		else if (playerTfm.pos.y < LINE && playerTfm.pos.y > LILLYPAD_LINE)
-		{
-			if (playerTfm.pos.x == 20 || playerTfm.pos.x == 460)
-			{
-				m_player->getComponent<CState>().state = "dead";
-				m_player->removeComponent<CBoundingBox>();
-				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("die");
-				SoundPlayer::getInstance().play("death", m_player->getComponent<CTransform>().pos);
-				return;
-			}
-
-			m_player->getComponent<CState>().state = "dead";
-			for (auto e : turtleentities)
-			{
-				auto turtleBox = e->getComponent<CBoundingBox>();
-				auto turtleTfm = e->getComponent<CTransform>();
-				auto overlap = Physics::getOverlap(m_player, e);
-
-				if (overlap.x > 0 && overlap.y > 0)
-				{
-					playerTfm.vel.x = turtleTfm.vel.x;
-					m_player->getComponent<CState>().state = "alive";
-					break;
-				}
-			}
-			for (auto e : logentities)
-			{
-				auto logBox = e->getComponent<CBoundingBox>();
-				auto logTfm = e->getComponent<CTransform>();
-				auto overlap = Physics::getOverlap(m_player, e);
-
-				if (overlap.x > 0 && overlap.y > 0)
-				{
-					playerTfm.vel.x = logTfm.vel.x;
-					m_player->getComponent<CState>().state = "alive";
-				}
-			}
-			if (m_player->getComponent<CState>().state == "dead")
-			{
-				m_player->removeComponent<CBoundingBox>();
-				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("die");
-				SoundPlayer::getInstance().play("death", m_player->getComponent<CTransform>().pos);
-			}
-		}
-		else if (playerTfm.pos.y < LILLYPAD_LINE)
-		{
-			m_player->getComponent<CState>().state = "dead";
-			for (auto e : lillyPadentities)
-			{
-				auto lillyPadBox = e->getComponent<CBoundingBox>();
-				auto lillyPadTfm = e->getComponent<CTransform>();
-				auto overlap = Physics::getOverlap(m_player, e);
-
-				if (overlap.x > 0 && overlap.y > 0)
-				{
-					m_player->getComponent<CState>().state = "destinationReached";
-					e->removeComponent<CBoundingBox>();
-					auto reachedFrog = m_entityManager.addEntity("reachedFrog");
-					reachedFrog->addComponent<CTransform>(lillyPadTfm.pos);
-					reachedFrog->addComponent<CAnimation>(Assets::getInstance().getAnimation("frogIcon"));
-
-					break;
-				}
-			}
-		}
-
-		if (m_player->getComponent<CState>().state == "dead")
-		{
-			m_player->removeComponent<CBoundingBox>();
-			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("die");
-			SoundPlayer::getInstance().play("death", m_player->getComponent<CTransform>().pos);
-		}
-	}
-
 }
 
 
 void Scene_Wonder_Boy::checkRestart()
 {
-	if (m_lifeCount == 0 && m_isPaused)
-	{
-
-		/*MusicPlayer::getInstance().stop();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			MusicPlayer::getInstance().setVolume(50);
-			MusicPlayer::getInstance().play("gameTheme"); 
-			Scene::m_isPaused = false;
-			m_lifeCount = 3;
-			spawnLives();
-			m_score = 0;
-			auto reachedFrogs = m_entityManager.getEntities("reachedFrog");
-			for (auto e : reachedFrogs)
-			{
-				e->destroy();
-			}
-			auto lilypads = m_entityManager.getEntities("lillyPad");
-			for (auto e : lilypads)
-			{
-				if (!e->hasComponent<CBoundingBox>())
-					e->addComponent<CBoundingBox>(sf::Vector2f{ LILLYPAD_BB });	
-			}
-			
-			return;
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		{
-			m_game->changeScene("MENU", nullptr, false);
-		}*/
-	}
+	
 }
 
 void Scene_Wonder_Boy::sUpdate(sf::Time dt)
@@ -569,39 +347,12 @@ void Scene_Wonder_Boy::sManageBoulder()
 
 void Scene_Wonder_Boy::sManageTimer()
 {
-	if (m_clock.getElapsedTime().asSeconds() > 1)
-	{
-		m_clock.restart();
-		m_timeCount--;
-	}
-
-	if (m_timeCount <= 0)
-	{
-		m_player->getComponent<CState>().state = "dead";
-		m_player->removeComponent<CBoundingBox>();
-		m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("die");
-		SoundPlayer::getInstance().play("death", m_player->getComponent<CTransform>().pos);
-
-		m_timeCount = 40;
-	}
-
+	
 
 }
 
 void Scene_Wonder_Boy::sManageScore()
 {
-	if (m_score > m_highScore)
-	{
-		m_highScore = m_score;
-	}
-
-	auto playerPosY = m_player->getComponent<CTransform>().pos.y;
-
-	if (playerPosY < m_reachDistance)
-	{
-		m_score += 10;
-		m_reachDistance = playerPosY;
-	}
 	
 }
 
@@ -609,71 +360,12 @@ void Scene_Wonder_Boy::sManageScore()
 
 void Scene_Wonder_Boy::adjustPlayerPosition()
 {
-	auto center = m_worldView.getCenter();
-	sf::Vector2f viewHalfSize = m_worldView.getSize() / 2.f;
-
-
-	auto left = center.x - viewHalfSize.x;
-	auto right = center.x + viewHalfSize.x;
-	auto top = center.y - viewHalfSize.y;
-	auto bot = center.y + viewHalfSize.y;
-
-	auto& player_pos = m_player->getComponent<CTransform>().pos;
-	auto halfSize = sf::Vector2f{ 20, 20 };
-	// keep player in bounds
-	player_pos.x = std::max(player_pos.x, left + halfSize.x);
-	player_pos.x = std::min(player_pos.x, right - halfSize.x);
-	player_pos.y = std::max(player_pos.y, top + halfSize.y);
-	player_pos.y = std::min(player_pos.y, bot - halfSize.y);
+	
 }
 
 void Scene_Wonder_Boy::checkPlayerState()
 {
-	if (m_player->getComponent<CState>().state == "dead")
-	{
-		m_reachDistance = 560.0f;
-
-		auto& anim = m_player->getComponent<CAnimation>().animation;
-		if (anim.hasEnded())
-		{
-			// respawn player
-			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("up");
-			m_player->getComponent<CTransform>().pos = sf::Vector2f{ 240.f, 580.f };
-			m_player->getComponent<CTransform>().vel = sf::Vector2f{ 0.f, 0.f };
-			m_player->getComponent<CState>().state = "alive";
-			m_player->addComponent<CBoundingBox>(sf::Vector2f{ 15.f, 15.f });
-
-			
-			// with deducting a life
-			m_lifeCount--;
-			auto lives = m_entityManager.getEntities("lives");
-			lives[m_lifeCount]->destroy();
-
-			m_clock.restart();
-			m_timeCount = 40;
-
-			if (m_lifeCount == 0)
-			{
-				Scene::m_isPaused = true;						
-			}
-		}
-	}
-	if (m_player->getComponent<CState>().state == "destinationReached")
-	{
-		m_reachDistance = 560.0f;
-		// respawn player withour deducting a life
-		m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("up");
-		m_player->getComponent<CTransform>().pos = sf::Vector2f{ 240.f, 580.f };
-		m_player->getComponent<CTransform>().vel = sf::Vector2f{ 0.f, 0.f };
-		m_player->getComponent<CState>().state = "alive";
-		m_player->addComponent<CBoundingBox>(sf::Vector2f{ 15.f, 15.f });
-
-
-		m_score += 50;
-
-		m_clock.restart();
-		m_timeCount = 40;
-	}
+	
 }
 
 void Scene_Wonder_Boy::loadLevel(const std::string& path)
@@ -701,6 +393,10 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			// and no center origin, position by top left corner
 			// stationary so no CTransfrom required.
 			auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
+
+			sf::Vector2u windowSize = m_game->window().getSize();
+
+			sprite.setTextureRect(sf::IntRect(0, 0, windowSize.x, windowSize.y));
 			sprite.setOrigin(0.f, 0.f);
 			sprite.setPosition(pos);
 		}

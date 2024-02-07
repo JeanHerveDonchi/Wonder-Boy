@@ -77,6 +77,13 @@ struct CBoundingBox : public Component
 };
 
 struct CState : public Component {
+
+    enum playerState {
+        Dead,
+        OnGround,
+        OnSkateBoard,
+    };
+
     std::string state{"none"};
 
     CState() = default;

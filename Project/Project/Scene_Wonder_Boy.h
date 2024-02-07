@@ -13,7 +13,6 @@
 #include "GameEngine.h"
 
 
-
 class Scene_Wonder_Boy : public Scene {
 private:
     sPtrEntt        m_player{nullptr};

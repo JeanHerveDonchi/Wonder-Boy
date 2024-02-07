@@ -1,6 +1,7 @@
 #include "Scene_Menu.h"
 #include "Scene_Wonder_Boy.h"
 #include <memory>
+#include "MusicPlayer.h"
 
 void Scene_Menu::onEnd()
 {
@@ -11,6 +12,9 @@ Scene_Menu::Scene_Menu(GameEngine* gameEngine)
 	: Scene(gameEngine)
 {
 	init();
+
+	MusicPlayer::getInstance().play("menuTheme");
+	MusicPlayer::getInstance().setVolume(50);
 }
 
 
@@ -27,7 +31,7 @@ void Scene_Menu:: init()
 	m_title = "Wonder Boy Project";
 	m_menuStrings.push_back("Start");
 	m_menuStrings.push_back("High Scores");
-	m_menuStrings.push_back("quit");
+	m_menuStrings.push_back("Quit");
 
 	m_menuText.setFont(Assets::getInstance().getFont("main"));
 
@@ -45,10 +49,6 @@ void Scene_Menu::update(sf::Time dt)
 void Scene_Menu::sRender()
 {
 	 
-	sf::View view = m_game->window().getView();
-	view.setCenter(m_game->window().getSize().x / 2.f, m_game->window().getSize().y / 2.f);
-	m_game->window().setView(view);
-
 	static const sf::Color selectedColor(255, 255, 255);
 	static const sf::Color normalColor(0, 0, 0);
 
@@ -72,7 +72,9 @@ void Scene_Menu::sRender()
 	sf::Sprite bkgSprite(bkgTexture);
 	bkgSprite.setOrigin(bkgSprite.getLocalBounds().width / 2, bkgSprite.getLocalBounds().height / 2);
 	bkgSprite.setPosition(m_game->window().getSize().x / 1.5, m_game->window().getSize().y / 2);
-	bkgSprite.setScale(5, 4);
+	bkgSprite.setScale(5.1, 4.5);
+	
+
 	m_game->window().draw(bkgSprite);
 
 	m_menuText.setFillColor(normalColor);
@@ -107,7 +109,7 @@ void Scene_Menu::sDoAction(const Command& action)
 		}
 		else if (action.name() == "PLAY")
 		{
-			m_game->changeScene("PLAY", std::make_shared<Scene_Wonder_Boy>(m_game, m_levelPaths[m_menuIndex]));
+			m_game->changeScene("PLAY", std::make_shared<Scene_Wonder_Boy>(m_game, "../Assets/level1.txt"));
 		}
 		else if (action.name() == "QUIT")
 		{
