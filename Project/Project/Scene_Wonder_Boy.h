@@ -18,6 +18,7 @@ private:
     sPtrEntt        m_player{nullptr};
     sf::View        m_worldView;
     sf::FloatRect   m_worldBounds;
+    sf::Sprite		m_bkgSprite;
 
     bool			m_drawTextures{true};
     bool			m_drawAABB{false};
@@ -28,69 +29,20 @@ private:
     int 		    m_score{0};
     int             m_timeCount{ 40 };
     sf::Clock       m_clock;
-    float           m_reachDistance{ 560.0f }; 
 
 
     //systems
-    void            sMovement(sf::Time dt);
-    void            sCollisions();
-    void            sUpdate(sf::Time dt);
-    void            sAnimation(sf::Time dt);
+    //void            sMovement(sf::Time dt);
+    //void            sCollisions();
+    //void            sAnimation(sf::Time dt);
 
     // Enemy Systems
-    void            sManageSnail();
-    void            sManageHornet();
-    void            sManageCobra();
-    void            sManageFrog();
-    void            sManageOctopus();
-    void            sManageBat();
-    void            sManageSkeleton();
-    void            sManageNative();
-    void            sManageSpider();
-    void            sManageGoblin();
-    void            sManageBluefish();
-    void            sManageRock();
-    void            sManageBonfire();
-    void            sManageIcicle();
-    void            sManageBoulder();
-
-
-    void            sManageTimer();
-    void            sManageScore();
 
     void	        onEnd() override;
 
 
     // helper functions
-    void            playerMovement();
-    void            adjustPlayerPosition();
-    void            adjustCameraPosition();
-    void            checkPlayerState();
-    void	        registerActions();
     void            spawnPlayer(sf::Vector2f pos);
-
-    void            spawnSnail();
-    void            spawnHornet();
-	void            spawnCobra();
-    void            spawnFrog();
-    void            spawnOctopus();
-    void            spawnBat();
-    void            spawnSkeleton();
-    void            spawnNative();
-    void            spawnSpider();
-    void            spawnGoblin();
-    void            spawnBluefish();
-    void            spawnRock();
-    void            spawnBonfire();
-    void            spawnIcicle();
-    void            spawnBoulder();
-
-    
-    void            spawnLives();
-
-    void            checkRestart();
-
-    void            getItems();
 
     void            init();
     void            loadLevel(const std::string &path);

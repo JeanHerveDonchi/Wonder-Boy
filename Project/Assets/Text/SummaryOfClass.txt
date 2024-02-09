@@ -1,0 +1,57 @@
+<Component.h>
+Components : has
+CAnimation: animation
+CSprite: sprite
+CTransform: tfm, pos, prePos, vel, scale, angVel, angle
+CBoundingBoc: size, halfSize
+CState: state
+CInput: dir
+
+<Entity.h> friend EntityManager
+std::tuple<CSprite, CAnimation, CState, CTransform, CBoundingBox, CInput>;
+: m_id, m_tag, m_active, m_components
+: destriy(), getId(), getTag(), isActive()
+: hasComponent(), addComponent(), removeComponent(), getComponent(), const getComponent()
+
+<entityManager.h>
+: m_entities, m_entityMap, m_totalEntities, m_entitiesToAdd
+: RemoveDeadEntities(), addEntity(tag), getEntities(), getEntities(tag), update()
+
+<GameEngine.h>
+: m_window, m_currentScene, m_sceneMap, m_simulationSpeed, m_running
+: m_statisticsText, m_statisticsUpdateTime,  m_statisticsNumFrames
+: loadConfigFromFile(), init(), sUserInput(), currentScene()
+: changeScene(), quit(), run(), quitLevel(), backLevel(), window(), windowSize(), isRunning()
+
+<Assets.h>
+: struct Sprite : textureName, textureRect
+: getInstance() Singleton
+: m_fontMap, m_textures, m_spriteMap, m_soundEffects, m_animationMap, m_frameSets
+: load - fonts, textures, sprts, sounds, json, animation
+: loadFromFile()
+: add - font, sound, textures, sprt
+: get - font, sound, texture, sprt, animation
+
+<Animation.h>
+: m_name, m_frame, m_timePerFrame, m_currentFrame, m_countDown, m_isRepeating, m_hasEnded, m_sprite
+: update(), hasEnded(), getName(), getSprite(), getBB()
+
+<Scene.h>
+: *m_game, m_entityManager, m_commands, m_isPaused, m_hasEnded, m_currentFrame
+: V: onEnd(), setPAused()
+: V: update(), sDoAction(), sRender(), 
+: simulate(), doAction(), registration(), getActionMap()
+
+<SceneMenu.h> : Scene
+: m_menuStrings, m_menuText, m_levelPaths, m_menuIndex, m_title, m_bkgSprite
+: init(), onEnd()
+: update(), sRender(), sDoAction()
+
+<SceneWonderBoy.h> : Scene
+: m_player, m_worldView, m_worldBounds, m_drawTextures, m_drawAABB, m_drawDrid, m_lifeCount, m_scoure, m_timeCount, m_clock
+: onEnd(), spawnPlayer(), init(), loadLevel(), getViewBound()
+: update(), sDoaction(), sRender()
+
+
+
+

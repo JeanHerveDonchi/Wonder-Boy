@@ -61,7 +61,6 @@ void Scene_Menu::sRender()
 
 	m_game->window().clear(backgroundColor);
 
-	// draw bkg first
 	sf::Texture bkgTexture;
 	if (!bkgTexture.loadFromFile("../Assets/Textures/Title_Screen.png")) {
 		std::cerr << "Error loading title_Screen.png\n";
@@ -69,13 +68,11 @@ void Scene_Menu::sRender()
 		exit(1);
 	}
 
-	sf::Sprite bkgSprite(bkgTexture);
-	bkgSprite.setOrigin(bkgSprite.getLocalBounds().width / 2, bkgSprite.getLocalBounds().height / 2);
-	bkgSprite.setPosition(m_game->window().getSize().x / 1.5, m_game->window().getSize().y / 2);
-	bkgSprite.setScale(5.1, 4.5);
-	
+	m_bkgSprite.setTexture(bkgTexture);
+	m_bkgSprite.setPosition(m_game->window().getSize().x / 3, 0);
+	m_bkgSprite.setScale(5.1, 4.5);
 
-	m_game->window().draw(bkgSprite);
+	m_game->window().draw(m_bkgSprite);
 
 	m_menuText.setFillColor(normalColor);
 	m_menuText.setString(m_title);

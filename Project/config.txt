@@ -1,6 +1,6 @@
 # GameEngine Config
 
-Window  1920 980
+Window  1920 1080
 
 Font    Arial           ../Assets/Fonts/arial.ttf
 Font    main            ../Assets/Fonts/Sansation.ttf
@@ -11,6 +11,7 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
 Texture Background      ../Assets/Textures/background.png
+Texture testPlayer	../Assets/Textures/testPlayer.png
 
 
 # Sprites
