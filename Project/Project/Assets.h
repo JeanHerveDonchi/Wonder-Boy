@@ -1,7 +1,3 @@
-//
-// Created by David Burchill on 2023-10-31.
-//
-
 #ifndef BREAKOUT_ASSETS_H
 #define BREAKOUT_ASSETS_H
 
@@ -12,12 +8,8 @@
 #include "Animation.h"
 
 
-class Assets {
-public:
-    struct Sprite {
-        std::string textureName;
-        sf::IntRect textureRect;
-    };
+class Assets 
+{
 
 private:
     // singleton class
@@ -35,11 +27,11 @@ public:
 
 private:
     std::map<std::string, std::unique_ptr<sf::Font>>            m_fontMap;
-    std::map<std::string, sf::Texture>                          m_textures;
-    std::map<std::string, Sprite>                               m_spriteMap;
-    std::map<std::string, std::unique_ptr<sf::SoundBuffer>>     m_soundEffects;
+    std::map<std::string, sf::Texture>                          m_textureMap;
+    std::map<std::string, sf::Sprite>                           m_spriteMap;
+    std::map<std::string, std::unique_ptr<sf::SoundBuffer>>     m_soundEffectsMap;
     std::map<std::string, Animation>                            m_animationMap;
-    std::map<std::string, std::vector<sf::IntRect>>             m_frameSets;
+    std::map<std::string, std::vector<sf::IntRect>>             m_frameSetsMap;
 
 
     void loadFonts(const std::string& path);
@@ -51,15 +43,17 @@ private:
 
 public:
     void loadFromFile(const std::string path);
+
     void addFont(const std::string &fontName, const std::string &path);
     void addSound(const std::string &soundEffectName, const std::string &path);
     void addTexture(const std::string& textureName, const std::string& path, bool smooth = true);
     void addSprite(const std::string& spriteName, const std::string& textureName, sf::IntRect);
+    void addAnimation(const std::string& name, const std::string& textureName, std::vector<sf::IntRect> frames, sf::Time tpf, bool repeats=true);
 
     const sf::Font&             getFont(const std::string &fontName) const;
     const sf::SoundBuffer&      getSound(const std::string &fontName) const;
     const sf::Texture&          getTexture(const std::string& textureName) const;
-    const Sprite&               getSprt(const std::string& sprtName) const;
+    const sf::Sprite&           getSprt(const std::string& sprtName) const;
     const Animation&            getAnimation(const std::string& name) const;
 
 };

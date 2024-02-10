@@ -1,4 +1,3 @@
-
 #include "Animation.h"
 #include "Utilities.h"
 
@@ -39,6 +38,22 @@ void Animation::update(sf::Time dt) {
 }
 
 
+Animation::Animation()
+{
+}
+
+Animation::Animation(const std::string& name, const sf::Texture& t)
+{
+}
+
+Animation::Animation(const std::string& name, const sf::Texture& t, size_t frameCount, size_t speed)
+{
+}
+
+void Animation::update(bool repeat)
+{
+}
+
 bool Animation::hasEnded() const {
     return (m_currentFrame >= m_frames.size());
 }
@@ -46,6 +61,11 @@ bool Animation::hasEnded() const {
 
 const std::string &Animation::getName() const {
     return m_name;
+}
+
+const Vec2 Animation::getSize() const
+{
+    return Vec2();
 }
 
 

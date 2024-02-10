@@ -38,7 +38,8 @@ void GameEngine::init(const std::string& path)
 	changeScene("MENU", std::make_shared<Scene_Menu>(this));
 }
 
-void GameEngine::loadConfigFromFile(const std::string &path, unsigned int &width, unsigned int &height) const {
+void GameEngine::loadConfigFromFile(const std::string &path, unsigned int &width, unsigned int &height) const 
+{
     std::ifstream config(path);
     if (config.fail()) {
         std::cerr << "Open file " << path << " failed\n";
@@ -94,12 +95,14 @@ void GameEngine::changeScene(const std::string& sceneName, std::shared_ptr<Scene
 {
 
 
-	if (endCurrentScene) {
+	if (endCurrentScene) 
+	{
 		// remove scene from map
 		m_sceneMap.erase(m_currentScene);
 	}
 
-	if (!m_sceneMap.contains(sceneName)) {
+	if (!m_sceneMap.contains(sceneName)) 
+	{
 		// if scene not in map alrady put new one in
 		// otherwise use existing scene arleady in map
 		m_sceneMap[sceneName] = scene;
@@ -142,11 +145,13 @@ void GameEngine::run()
 	}
 }
 
-void GameEngine::quitLevel() {
+void GameEngine::quitLevel() 
+{
 	changeScene("MENU", nullptr, true);
 }
 
-void GameEngine::backLevel() {
+void GameEngine::backLevel() 
+{
 	changeScene("MENU", nullptr, false);
 
 }
@@ -157,7 +162,8 @@ sf::RenderWindow& GameEngine::window()
 	return m_window;
 }
 
-sf::Vector2f GameEngine::windowSize() const {
+sf::Vector2f GameEngine::windowSize() const 
+{
 	return sf::Vector2f{m_window.getSize()};
 }
 

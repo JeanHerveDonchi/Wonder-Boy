@@ -11,7 +11,7 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
 Texture Background      ../Assets/Textures/background.png
-Texture testPlayer	../Assets/Textures/testPlayer.png
+Texture Player		../Assets/Textures/testPlayer.png
 
 
 # Sprites

@@ -1,4 +1,3 @@
-
 #include <fstream>
 #include <iostream>
 
@@ -26,8 +25,6 @@ Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& le
 
 	init();
 
-	MusicPlayer::getInstance().play("level01");
-	MusicPlayer::getInstance().setVolume(50);
 }
 
 
@@ -37,12 +34,16 @@ void Scene_Wonder_Boy::init()
 	auto pos = m_worldView.getSize();
 	
 	spawnPlayer(pos / 2.f);
+
+
+	MusicPlayer::getInstance().play("level01");
+	MusicPlayer::getInstance().setVolume(50);
 }
 
 
 
 void Scene_Wonder_Boy::onEnd()
-{
+{;
 	m_game->changeScene("MENU", nullptr, false);
 }
 
@@ -51,11 +52,18 @@ void Scene_Wonder_Boy::sRender()
 {
 	m_game->window().setView(m_worldView);
 
-	static const sf::Color backgroundColor(100, 100, 255);
+	static const sf::Color backgroundColor(0x23, 0xc7, 0xc9);
 	m_game->window().clear(backgroundColor);
 
-
-
+	auto& entities = m_entityManager.getEntities();
+	for (auto& e : entities)
+	{
+		if (e->hasComponent<CSprite>())
+		{
+			auto& eCSprite = e->getComponent<CSprite>();
+			m_game->window().draw(eCSprite.sprite);
+		}
+	}
 }
 
 
@@ -80,7 +88,7 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 
 void Scene_Wonder_Boy::spawnPlayer(sf::Vector2f pos)
 {
-	m_player->getComponent<CTransform>().pos = pos;
+	m_player->addComponent<CTransform>(pos);
 
 }
 
@@ -94,45 +102,38 @@ sf::FloatRect Scene_Wonder_Boy::getViewBounds()
 
 void Scene_Wonder_Boy::loadLevel(const std::string& path)
 {
-	std::ifstream config(path);
-	if (config.fail())
+	std::ifstream levelConfig(path);
+	if (levelConfig.fail())
 	{
 		std::cerr << "Open file " << path << " failed\n";
-		config.close();
+		levelConfig.close();
 		exit(1);
 	}
 
 	std::string token{ "" };
-	config >> token;
+	levelConfig >> token;
 
-	static const sf::Color backgroundColor(100, 100, 255);
-	while (!config.eof())
+	while (!levelConfig.eof())
 	{
-		if (token == "Bkg")
-		{
+		
 
-		}
-		else if (token == "Player")
-		{
-			std::string name;
-			sf::Vector2f pos;
-			config >> name;
-			auto e = m_entityManager.addEntity("player");
-			m_player = e;
+		if (token == "Player") {
 
-			auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
-			sprite.setPosition(pos);
-			sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-			sprite.setScale(2.f, 2.f);
+			std::string playerTexturePath;
+			levelConfig >> playerTexturePath;
+			sf::Texture playerTexture;
+			if (!playerTexture.loadFromFile(playerTexturePath)) {
+				std::cerr << "Error loading testPlayer.png\n";
+				exit(1);
+			}
 
-		}
-		else if (token[0] == '#')
-		{
-			std::cout << token;
+			m_player = m_entityManager.addEntity("Player");
+
+			auto& pCSprite = m_player->addComponent<CSprite>(playerTexture);
 		}
 
-		config >> token;
+		levelConfig >> token;
 	}
 
-	config.close();
+	levelConfig.close();
 }

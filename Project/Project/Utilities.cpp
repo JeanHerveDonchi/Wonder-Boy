@@ -1,4 +1,3 @@
-
 #include "Utilities.h"
 #include <numbers>
 #include <cmath>
@@ -6,12 +5,14 @@
 static const float PI = std::numbers::pi_v<float>;
 
 
-float radToDeg(float r) {
+float radToDeg(float r) 
+{
     return r * 180.f / PI ;
 }
 
 
-float degToRad(float d) {
+float degToRad(float d) 
+{
     return d * PI / 180.f;
 }
 

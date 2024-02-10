@@ -62,7 +62,8 @@ void Scene_Menu::sRender()
 	m_game->window().clear(backgroundColor);
 
 	sf::Texture bkgTexture;
-	if (!bkgTexture.loadFromFile("../Assets/Textures/Title_Screen.png")) {
+	if (!bkgTexture.loadFromFile("../Assets/Textures/Title_Screen.png")) 
+	{
 		std::cerr << "Error loading title_Screen.png\n";
 
 		exit(1);

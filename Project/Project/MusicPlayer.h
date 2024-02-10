@@ -1,7 +1,3 @@
-//
-// Created by David Burchill on 2022-11-29.
-//
-
 #ifndef SFMLCLASS_MUSICPLAYER_H
 #define SFMLCLASS_MUSICPLAYER_H
 

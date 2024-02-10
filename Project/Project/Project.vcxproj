@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -153,16 +154,18 @@
     <ClCompile Include="Scene_Menu.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="json.hpp" />
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Scene.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="Scene_Menu.h" />
     <ClInclude Include="SoundPlayer.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

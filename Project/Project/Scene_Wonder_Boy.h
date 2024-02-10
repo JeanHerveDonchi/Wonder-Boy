@@ -1,7 +1,3 @@
-//
-// Created by David Burchill on 2023-09-27.
-//
-
 #ifndef BREAKOUT_SCENE_BREAKOUT_H
 #define BREAKOUT_SCENE_BREAKOUT_H
 
@@ -13,22 +9,22 @@
 #include "GameEngine.h"
 
 
-class Scene_Wonder_Boy : public Scene {
+class Scene_Wonder_Boy : public Scene 
+{
+    struct PlayerConfig
+    {
+        float X{ 0.f }, Y{ 0.f }, CW{ 0.f }, CH{ 0.f };
+        float SPEED{ 0.f }, MAXSPEED{ 0.f }, JUMP{ 0.f }, GRAVITY{ 0.f };
+        std::string WEAPON;
+    };
 private:
     sPtrEntt        m_player{nullptr};
+    std::string	    m_levelPath;
+    PlayerConfig	m_playerConfig;
+
     sf::View        m_worldView;
     sf::FloatRect   m_worldBounds;
-    sf::Sprite		m_bkgSprite;
-
-    bool			m_drawTextures{true};
-    bool			m_drawAABB{false};
-    bool			m_drawGrid{false};
-
-    //
-    int             m_lifeCount{3};
-    int 		    m_score{0};
-    int             m_timeCount{ 40 };
-    sf::Clock       m_clock;
+    
 
 
     //systems
@@ -37,6 +33,7 @@ private:
     //void            sAnimation(sf::Time dt);
 
     // Enemy Systems
+
 
     void	        onEnd() override;
 

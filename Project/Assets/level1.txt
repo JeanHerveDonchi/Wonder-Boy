@@ -3,6 +3,5 @@
 World 1920 980
 
 
-Bkg Background 0 0
-Player testPlayer 900 450
+Player 	../Assets/Textures/testPlayer.png 
 

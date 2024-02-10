@@ -1,5 +1,3 @@
-
-
 #include "Assets.h"
 #include "MusicPlayer.h"
 #include <iostream>

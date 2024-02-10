@@ -1,7 +1,3 @@
-//
-// Created by David Burchill on 2023-09-27.
-//
-
 #ifndef BREAKOUT_ENTITY_H
 #define BREAKOUT_ENTITY_H
 

@@ -1,7 +1,3 @@
-//
-// Created by David Burchill on 2022-11-29.
-//
-
 #ifndef SFMLCLASS_SOUNDPLAYER_H
 #define SFMLCLASS_SOUNDPLAYER_H
 
