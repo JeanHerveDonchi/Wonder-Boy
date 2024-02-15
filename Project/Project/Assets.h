@@ -29,16 +29,14 @@ private:
     std::map<std::string, std::unique_ptr<sf::Font>>            m_fontMap;
     std::map<std::string, sf::Texture>                          m_textureMap;
     std::map<std::string, sf::Sprite>                           m_spriteMap;
-    std::map<std::string, std::unique_ptr<sf::SoundBuffer>>     m_soundEffectsMap;
+    std::map<std::string, std::unique_ptr<sf::SoundBuffer>>     m_soundEffectMap;
     std::map<std::string, Animation>                            m_animationMap;
-    std::map<std::string, std::vector<sf::IntRect>>             m_frameSetsMap;
+    std::map<std::string, std::vector<sf::IntRect>>             m_frameSetMap;
 
 
     void loadFonts(const std::string& path);
     void loadTextures(const std::string& path);
-    void loadSprts(const std::string& path);
     void loadSounds(const std::string& path);
-    void loadJson(const std::string& path);
     void loadAnimations(const std::string& path);
 
 public:
@@ -47,9 +45,7 @@ public:
     void addFont(const std::string &fontName, const std::string &path);
     void addSound(const std::string &soundEffectName, const std::string &path);
     void addTexture(const std::string& textureName, const std::string& path, bool smooth = true);
-    void addSprite(const std::string& spriteName, const std::string& textureName, sf::IntRect);
-    void addAnimation(const std::string& name, const std::string& textureName, std::vector<sf::IntRect> frames, sf::Time tpf, bool repeats=true);
-
+    void addAnimation(const std::string& animationName, const std::string& textureName, size_t frameCount, size_t speed);
     const sf::Font&             getFont(const std::string &fontName) const;
     const sf::SoundBuffer&      getSound(const std::string &fontName) const;
     const sf::Texture&          getTexture(const std::string& textureName) const;

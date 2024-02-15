@@ -21,12 +21,15 @@ Scene_Menu::Scene_Menu(GameEngine* gameEngine)
 
 void Scene_Menu:: init()
 {
+	m_game->window().setView(m_game->window().getDefaultView());
+
     registerAction(sf::Keyboard::W,			"UP");
     registerAction(sf::Keyboard::Up,		"UP");
     registerAction(sf::Keyboard::S,			"DOWN");
     registerAction(sf::Keyboard::Down,	 	"DOWN");
 	registerAction(sf::Keyboard::D,			"PLAY");
 	registerAction(sf::Keyboard::Escape,	"QUIT");
+	registerAction(sf::Keyboard::Q, "QUIT");
 
 	m_title = "Wonder Boy Project";
 	m_menuStrings.push_back("Start");
@@ -70,8 +73,8 @@ void Scene_Menu::sRender()
 	}
 
 	m_bkgSprite.setTexture(bkgTexture);
-	m_bkgSprite.setPosition(m_game->window().getSize().x / 3, 0);
-	m_bkgSprite.setScale(5.1, 4.5);
+	m_bkgSprite.setPosition(m_game->window().getSize().x / 3, 40);
+	m_bkgSprite.setScale(5, 4);
 
 	m_game->window().draw(m_bkgSprite);
 

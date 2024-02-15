@@ -1,6 +1,6 @@
 # GameEngine Config
 
-Window  1920 1080
+Window  1280 720
 
 Font    Arial           ../Assets/Fonts/arial.ttf
 Font    main            ../Assets/Fonts/Sansation.ttf
@@ -11,12 +11,15 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
 Texture Background      ../Assets/Textures/background.png
-Texture Player		../Assets/Textures/testPlayer.png
+Texture TexStand	../Assets/Textures/testPlayer.png
+Texture TexRun		../Assets/Textures/playerRunEdited.png
 
 
 # Sprites
 
 
 
-#  Animation    Name            Texture     Speed   Repeats
+#  Animation    Name            Texture     Frame   Speed
+Animation 	PlayerStand 	TexStand 	1 	0 
+Animation 	PlayerRun 	TexRun 		6 	5
 

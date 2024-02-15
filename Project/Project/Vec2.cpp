@@ -1,5 +1,6 @@
 #include "Vec2.h"
 #include <cmath>
+#include <numbers>
 
 namespace 
 {
@@ -47,8 +48,9 @@ namespace
 	}
 }
 
-// trigonometric functions helper
-const float PI = 3.14159265358979323846f;
+// trigonometric functions helper#include <numbers>
+
+static const float PI = std::numbers::pi_v<float>;
 
 // radian represents an angle formed by an arc whose length is equal to radius
 // circumference(360 degree) = PI * 2 * radius
@@ -84,3 +86,76 @@ Vec2::Vec2(float bearing)
 // when include C++ cmath, sin and cos are defined in std namespace globally
 // but using std:: is better for readability and team coding
 
+bool Vec2::operator==(const Vec2 & rhs) const
+{
+	return (essentiallyEqual(x, rhs.x), essentiallyEqual(y, rhs.y));
+}
+bool Vec2::operator!=(const Vec2& rhs) const
+{
+	return !(*this == rhs);
+}
+Vec2& Vec2::operator+=(const Vec2& rhs)
+{
+	x += rhs.x;
+	y += rhs.y;
+
+	return *this; 
+	// return reference to change the value which this points to. 
+}
+Vec2 Vec2::operator+(const Vec2& rhs) const
+{
+	return Vec2(*this) += rhs;
+	// return new Vec2 object using a copy constructor. 
+	// Because we want to preserve the original values and return a new object representing the result of the addition operation.
+}
+Vec2& Vec2::operator-=(const Vec2& rhs)
+{
+	x -= rhs.x;
+	y -= rhs.y;
+
+	return *this;
+}
+Vec2 Vec2::operator-(const Vec2& rhs) const
+{
+	return Vec2(*this) -= rhs;
+}
+Vec2 Vec2::operator*(const float& rhs) const
+{
+	return Vec2((*this).x * rhs, (*this).y * rhs);
+}
+float Vec2::length() const
+{
+	return sqrt((*this).x * (*this).x + (*this).y * (*this).y);
+}
+float Vec2::dist(const Vec2& rhs)
+{
+	return sqrt((rhs.x - (*this).x) * (rhs.x - (*this).x) + (rhs.y - (*this).y) * (rhs.y - (*this).x));
+}
+Vec2 Vec2::normalize() const
+{
+	static const float epsilon{ 0.00001f };
+
+	if (length() > epsilon)
+		return Vec2(*this) * (1.f / length());
+	else
+		return Vec2(0.f, 0.f);
+	// if length is bigger than epsilon, 
+	// return copy object of diveden by length
+	// otherwise, return Vec2(0.f, 0.f)
+}
+float Vec2::bearingTo(const Vec2& target) const
+{
+	float radianValue = std::atan2(target.y - (*this).y, target.x - (*this).x);
+	return radToDeg(radianValue);
+}
+
+Vec2 operator*(float lhs, Vec2 rhs)
+{
+	return rhs * lhs;
+}
+
+std::ostream& operator<<(std::ostream& os, const Vec2& other)
+{
+	os << "(" << other.x << ", " << other.y << ")";
+	return os;
+}

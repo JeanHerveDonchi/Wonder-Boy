@@ -21,16 +21,20 @@ private:
     sPtrEntt        m_player{nullptr};
     std::string	    m_levelPath;
     PlayerConfig	m_playerConfig;
-
     sf::View        m_worldView;
     sf::FloatRect   m_worldBounds;
+    bool 		    m_drawTextures{ true };
+    bool 		    m_drawColliders{ false };
+    bool 		    m_drawGrid{ false };
+    const Vec2      m_gridSize{ 100, 100 };
+    sf::Text        m_gridText;
     
 
 
     //systems
-    //void            sMovement(sf::Time dt);
+    void            sMovement(sf::Time dt);
     //void            sCollisions();
-    //void            sAnimation(sf::Time dt);
+    void            sAnimation();
 
     // Enemy Systems
 
@@ -39,10 +43,11 @@ private:
 
 
     // helper functions
-    void            spawnPlayer(sf::Vector2f pos);
+    void            spawnPlayer();
 
-    void            init();
+    void            init(const std::string& levelPath);
     void            loadLevel(const std::string &path);
+    void			registerActions();
 
     sf::FloatRect   getViewBounds();
 
@@ -53,7 +58,8 @@ public:
     void		  update(sf::Time dt) override;
     void		  sDoAction(const Command& command) override;
     void		  sRender() override;
-
+    void          checkPlayerState();
+    Vec2          gridToMidPixel(float gridX, float gridY, sPtrEntt entity);
 
 };
 

@@ -1,7 +1,8 @@
 #ifndef SFMLCLASS_VEC2_H
 #define SFMLCLASS_VEC2_H
 
-class Vec2
+#include <iostream>
+struct Vec2
 {
 	float x{ 0.f };
 	float y{ 0.f };
@@ -33,7 +34,9 @@ class Vec2
 	friend std::ostream& operator<<(std::ostream& os, const Vec2& other);
 };
 
+
 Vec2 operator*(float lhs, Vec2 rhs); // scalar * Vec2
 std::ostream& operator<<(std::ostream& os, const Vec2& other);
 
 #endif //SFMLCLASS_VEC2_H
+

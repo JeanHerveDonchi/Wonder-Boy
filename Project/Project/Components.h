@@ -16,15 +16,18 @@ struct Component
 };
 
 
-struct CAnimation : public Component {
+struct CAnimation : public Component 
+{
     Animation   animation;
+    bool repeat{ false };
 
     CAnimation() = default;
-    CAnimation(const Animation& a) : animation(a) {}
+    CAnimation(const Animation& a, bool r) : animation(a), repeat(r) {}
 
 };
 
-struct CSprite : public Component {
+struct CSprite : public Component 
+{
     sf::Sprite sprite;
 
     CSprite() = default;
@@ -45,18 +48,22 @@ struct CTransform : public Component
 {
 
     sf::Transformable  tfm;
-    sf::Vector2f	pos			{ 0.f, 0.f };
-    sf::Vector2f	prevPos		{ 0.f, 0.f };
-    sf::Vector2f	vel			{ 0.f, 0.f };
-    sf::Vector2f	scale		{ 1.f, 1.f };
+    Vec2	pos			{ 0.f, 0.f };
+    Vec2	prevPos		{ 0.f, 0.f };
+    Vec2	vel			{ 0.f, 0.f };
+    Vec2	scale		{ 1.f, 1.f };
 
     float           angVel{ 0 };
     float	        angle{ 0.f };
 
     CTransform() = default;
-    CTransform(const sf::Vector2f& p) : pos(p)  {}
-    CTransform(const sf::Vector2f& p, const sf::Vector2f& v)
+    CTransform(const Vec2& p) : pos(p)  {}
+    CTransform(const Vec2& p, const Vec2& v)
             : pos(p), prevPos(p),  vel(v){}
+    CTransform(const Vec2& p, const Vec2& v, const Vec2& sc)
+        : pos(p), prevPos(p), vel(v), scale(sc) {}
+    CTransform(const Vec2& p, const Vec2& v, const Vec2& sc, float a)
+        : pos(p), prevPos(p), vel(v), scale(sc), angle(a) {}
 
 };
 
@@ -64,40 +71,42 @@ struct CTransform : public Component
 
 struct CBoundingBox : public Component
 {
-    sf::Vector2f size{0.f, 0.f};
-    sf::Vector2f halfSize{ 0.f, 0.f };
+    Vec2 size{0.f, 0.f};
+    Vec2 halfSize{ 0.f, 0.f };
 
     CBoundingBox() = default;
-    CBoundingBox(const sf::Vector2f& s) : size(s), halfSize(0.5f * s)
+    CBoundingBox(const Vec2& s) : size(s), halfSize(0.5f * s)
     {}
 };
 
 struct CState : public Component {
 
     enum playerState {
-        Dead,
-        OnGround,
-        OnSkateBoard,
+        isGrounded      = 1,        // 1
+        isFacingLeft    = 1 << 1,   // 2
+        isRuuning	    = 1 << 2,   // 4
+        onSkate         = 1 << 3,   // 8
     };
-
-    std::string state{"none"};
+    unsigned int state{ 0 };
 
     CState() = default;
-    CState(const std::string& s) : state(s){}
+    CState(unsigned int s) : state(s) {}
+    // using bitset to test, set and unset state
+    bool test(unsigned int x) { return (state & x); }
+    void set(unsigned int x) { state |= x; }
+    void unSet(unsigned int x) { state &= ~x; }
 
 };
 
 
 struct CInput : public Component
 {
-    enum dirs {
-        UP = 1 << 0,
-        DOWN = 1 << 1,
-        LEFT = 1 << 2,
-        RIGHT = 1 << 3
-    };
-
-    unsigned char dir{0};
+    bool jump{ false };
+    bool left{ false };
+    bool right{ false };
+    bool shoot{ false };
+    bool canShoot{ false };
+    bool canJump{ true };
 
     CInput() = default;
 };

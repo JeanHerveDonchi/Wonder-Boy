@@ -1,7 +1,7 @@
 # Level 1
 
-World 1920 980
+World 1280 720
 
-
-Player 	../Assets/Textures/testPlayer.png 
+#     gX, gY, cW, cH, sX, sY,  sM,  g,   bullet 
+Player 2   2  40  60   5  20  20  0.75   stoneAxe
 
