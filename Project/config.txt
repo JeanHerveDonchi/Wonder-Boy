@@ -10,9 +10,9 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
-Texture Background      ../Assets/Textures/background.png
-Texture TexStand	../Assets/Textures/testPlayer.png
 Texture TexRun		../Assets/Textures/playerRunEdited.png
+Texture TexGround1	../Assets/Textures/Tiles/common/bottom_common.png
+Texture TexGround2	../Assets/Textures/Tiles/common/grass_common.png
 
 
 # Sprites
@@ -20,6 +20,7 @@ Texture TexRun		../Assets/Textures/playerRunEdited.png
 
 
 #  Animation    Name            Texture     Frame   Speed
-Animation 	PlayerStand 	TexStand 	1 	0 
 Animation 	PlayerRun 	TexRun 		6 	5
+Animation	Ground1		TexGround1	1	0
+Animation	Ground2		TexGround2	1	0
 

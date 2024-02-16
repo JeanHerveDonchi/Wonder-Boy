@@ -220,7 +220,7 @@ void Scene_Wonder_Boy::checkPlayerState()
 	// face the rightway
 	if (std::abs(tfm.vel.x) > 0.1f)
 	{
-		tfm.scale.x = (tfm.vel.x > 0) ? 1.f : -1.f;
+		tfm.scale.x = (tfm.vel.x > 0) ? abs(tfm.scale.x) : -abs(tfm.scale.x);
 	}
 
 	if (!state.test(CState::isGrounded))
@@ -237,7 +237,7 @@ void Scene_Wonder_Boy::checkPlayerState()
 		}
 		else
 		{
-			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("PlayerStand");
+			
 			state.unSet(CState::isRuuning);
 		}
 	}
@@ -255,7 +255,7 @@ Vec2 Scene_Wonder_Boy::gridToMidPixel(float gridX, float gridY, sPtrEntt entity)
 
 	Vec2 spriteSize = entity->getComponent<CAnimation>().animation.getSize();
 
-	return Vec2(x + spriteSize.x / 2.f, y - spriteSize.y / 2.f);
+	return Vec2(x + spriteSize.x, y - spriteSize.y);
 }
 
 
@@ -370,6 +370,22 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 				m_playerConfig.MAXSPEED >>
 				m_playerConfig.GRAVITY >>
 				m_playerConfig.WEAPON;
+		}
+		else if (token == "Tile")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("tile");
+			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			tfm.scale = Vec2(3.1f, 3.1f);
+			e->addComponent<CBoundingBox>(Vec2(32 * tfm.scale.x, 32 * tfm.scale.y));
+			
+
+
+
 		}
 		else if (token == "#") 
 		{
