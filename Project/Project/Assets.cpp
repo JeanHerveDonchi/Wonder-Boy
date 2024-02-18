@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <fstream>
+#include "json.hpp"
 
 Assets::Assets() {
 }
@@ -29,7 +30,7 @@ void Assets::addSound(const std::string&soundName, const std::string&path) {
     if (!sb->loadFromFile(path))
         throw std::runtime_error("Load failed - " + path);
 
-    auto rc = m_soundEffectMap.insert(std::make_pair(soundName, std::move(sb)));
+    auto rc = m_soundEffects.insert(std::make_pair(soundName, std::move(sb)));
     if (!rc.second)
         assert(0); // big problems if insert fails
 
@@ -37,22 +38,22 @@ void Assets::addSound(const std::string&soundName, const std::string&path) {
 }
 
 void Assets::addTexture(const std::string&textureName, const std::string&path, bool smooth) {
-    m_textureMap[textureName] = sf::Texture();
-    if (!m_textureMap[textureName].loadFromFile(path)) {
+    m_textures[textureName] = sf::Texture();
+    if (!m_textures[textureName].loadFromFile(path)) {
         std::cerr << "Could not load texture file: " << path << std::endl;
-        m_textureMap.erase(textureName);
+        m_textures.erase(textureName);
     }
     else {
-        m_textureMap.at(textureName).setSmooth(smooth);
+        m_textures.at(textureName).setSmooth(smooth);
         std::cout << "Loaded texture: " << path << std::endl;
     }
 }
 
 
 
-void Assets::addAnimation(const std::string& animationName, const std::string& textureName, size_t frameCount, size_t speed)
+void Assets::addSprt(const std::string& sprtName, const std::string& textureName, const sf::IntRect& textureRect)
 {
-    m_animationMap[animationName] = Animation(animationName, getTexture(textureName), frameCount, speed);
+    m_spriteMap[sprtName] = { textureName, textureRect };
 }
 
 const sf::Font& Assets::getFont(const std::string&fontName) const {
@@ -63,16 +64,20 @@ const sf::Font& Assets::getFont(const std::string&fontName) const {
 
 
 const sf::SoundBuffer& Assets::getSound(const std::string&soundName) const {
-    auto found = m_soundEffectMap.find(soundName);
-    assert(found != m_soundEffectMap.end());
+    auto found = m_soundEffects.find(soundName);
+    assert(found != m_soundEffects.end());
     return *found->second;
 }
 
 
 const sf::Texture& Assets::getTexture(const std::string&textureName) const {
-    return m_textureMap.at(textureName);
+    return m_textures.at(textureName);
 }
 
+
+const Assets::Sprite& Assets::getSprt(const std::string& spriteName) const {
+    return m_spriteMap.at(spriteName);
+}
 
 const Animation& Assets::getAnimation(const std::string& name) const {
     return m_animationMap.at(name);
@@ -122,10 +127,20 @@ void Assets::loadAnimations(const std::string& path) {
     {
         if (token == "Animation")
         {
-            std::string name, texture;
-            size_t frames, speed;
-            confFile >> name >> texture >> frames >> speed;
-            addAnimation(name, texture, frames, speed);
+            std::string name, texture, repeat;
+            size_t speed;
+            confFile >> name >> texture >> speed >> repeat;
+            //addAnimation(name, texture, frames, speed);
+            Animation a(name,
+                getTexture(texture),
+                m_frameSets[name],
+                sf::seconds(1 / speed),
+                (repeat == "yes"),
+                m_isRotated);
+
+            m_animationMap[name] = a;
+
+            std::cout << "Loaded animation: " << name << a.m_isRotated << std::endl;
         }
         else
         {
@@ -194,11 +209,114 @@ void Assets::loadTextures(const std::string&path) {
     confFile.close();
 }
 
+void Assets::loadSprts(const std::string& path)
+{
+    // Read Config file
+	std::ifstream confFile(path);
+    if (confFile.fail()) {
+		std::cerr << "Open file: " << path << " failed\n";
+		confFile.close();
+		exit(1);
+	}
 
+    std::string token{ "" };
+    confFile >> token;
+    while (confFile) // not eof
+    {
+        if (token == "Sprite")
+        {
+            sf::IntRect rect;
+        std::string spName, txName;
+            confFile >> spName >> txName >> rect.left >> rect.top >> rect.width >> rect.height;
+            addSprt(spName, txName, rect);
+        }
+        else 
+        {
+            // ignore rest of line and continue
+            std::string buffer;
+            std::getline(confFile, buffer);
+        }
+        confFile >> token;
+    }
+    confFile.close();
+}
+
+
+void Assets::loadJson(const std::string& path) {
+    // Read Config file
+    std::ifstream confFile(path);
+    if (confFile.fail())
+    {
+        std::cerr << "Open file: " << path << " failed\n";
+        confFile.close();
+        exit(1);
+    }
+
+    std::string token{ "" };
+    confFile >> token;
+    while (confFile)
+    {
+        if (token == "JSON")
+        {
+            using json = nlohmann::json;
+
+            std::string  path;
+            confFile >> path;
+
+            // read the FrameSets from the json file
+            std::ifstream f(path);
+            json data = json::parse(f)["frames"];
+
+            std::cout << std::setw(4) << data << "\n\n";
+
+            for (auto i : data) {
+
+                
+                // clean up animation name
+                std::string tmp = i["filename"];
+                std::string::size_type n = tmp.find(" (");
+                if (n == std::string::npos)
+                    n = tmp.find(".png");
+
+                sf::IntRect ir;
+                if (!i["rotated"]) 
+                {
+                    // create IntRect for each frame in animation
+                    ir = sf::IntRect(i["frame"]["x"], i["frame"]["y"],
+                        i["frame"]["w"], i["frame"]["h"]);
+                }
+                else 
+                {
+                    ir = sf::IntRect(i["frame"]["x"], i["frame"]["y"],
+                        i["frame"]["h"], i["frame"]["w"]);
+              
+                    // rotated check
+                    m_isRotated = true;
+
+                }
+                
+                m_frameSets[tmp.substr(0, n)].push_back(ir);
+               
+            }
+            f.close();
+        }
+        else
+        {
+            // ignore rest of line and continue
+            std::string buffer;
+            std::getline(confFile, buffer);
+        }
+        confFile >> token;
+    }
+    confFile.close();
+
+}
 
 void Assets::loadFromFile(const std::string path) {
     loadFonts(path);
     loadTextures(path);
+    loadSprts(path);
     loadSounds(path);
-    loadAnimations(path); 
+    loadJson(path);
+    loadAnimations(path); // must be last
 }

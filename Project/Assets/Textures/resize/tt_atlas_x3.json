@@ -1,0 +1,205 @@
+{
+	"frames": [
+		{
+			"filename": "tt_axe (1).png",
+			"frame": {"x":0,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_axe (2).png",
+			"frame": {"x":96,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_fall (1).png",
+			"frame": {"x":192,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_fall (2).png",
+			"frame": {"x":288,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_fire (1).png",
+			"frame": {"x":384,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_fire (2).png",
+			"frame": {"x":480,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_fire (3).png",
+			"frame": {"x":576,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_peace.png",
+			"frame": {"x":672,"y":0,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_run (1).png",
+			"frame": {"x":0,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_run (2).png",
+			"frame": {"x":96,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_run (3).png",
+			"frame": {"x":192,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_run (4).png",
+			"frame": {"x":288,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_axe (1).png",
+			"frame": {"x":384,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_axe (2).png",
+			"frame": {"x":480,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_fall (1).png",
+			"frame": {"x":576,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_run (1).png",
+			"frame": {"x":672,"y":102,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_run (2).png",
+			"frame": {"x":0,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_trip (1).png",
+			"frame": {"x":96,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_skate_trip (2).png",
+			"frame": {"x":192,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_stand (1).png",
+			"frame": {"x":288,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_stand (2).png",
+			"frame": {"x":384,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_trip (1).png",
+			"frame": {"x":480,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_trip (2).png",
+			"frame": {"x":576,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		},
+		{
+			"filename": "tt_win.png",
+			"frame": {"x":672,"y":204,"w":96,"h":102},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":96,"h":102},
+			"sourceSize": {"w":96,"h":102}
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "tt_atlas_x1.png",
+		"format": "RGBA8888",
+		"size": {"w":768,"h":306},
+		"scale": "3",
+		"smartupdate": "$TexturePacker:SmartUpdate:e142cf24c1af3d098cd1f4e6898477a2:124917d32a51c3a407d9f35bf615249e:55f319eb91bb78fff63740b23a0ee774$"
+	}
+}

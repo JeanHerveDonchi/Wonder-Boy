@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "Scene.h"
 #include "GameEngine.h"
+#include "Vec2.h"
 
 
 class Scene_Wonder_Boy : public Scene 
@@ -26,7 +27,7 @@ private:
     bool 		    m_drawTextures{ true };
     bool 		    m_drawColliders{ false };
     bool 		    m_drawGrid{ false };
-    const Vec2      m_gridSize{ 100, 100 };
+    const Vec2      m_gridSize{ 96, 96 };
     sf::Text        m_gridText;
     
 
@@ -34,7 +35,7 @@ private:
     //systems
     void            sMovement(sf::Time dt);
     //void            sCollisions();
-    void            sAnimation();
+    void            sAnimation(sf::Time dt);
 
     // Enemy Systems
 

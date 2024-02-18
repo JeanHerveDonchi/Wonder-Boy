@@ -1,6 +1,4 @@
-#ifndef BREAKOUT_ENTITY_H
-#define BREAKOUT_ENTITY_H
-
+#pragma once
 
 #include <tuple>
 #include <string>
@@ -70,6 +68,3 @@ public:
     }
 };
 
-
-
-#endif //BREAKOUT_ENTITY_H

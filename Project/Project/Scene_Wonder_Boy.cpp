@@ -47,11 +47,11 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	tfm.vel.x = 0.f;
 	if (m_player->getComponent<CInput>().left)
 	{
-		tfm.vel.x -= 3; 
+		tfm.vel.x -= m_playerConfig.SPEED; 
 	}
 	if (m_player->getComponent<CInput>().right)
 	{
-		tfm.vel.x += 3;
+		tfm.vel.x += m_playerConfig.SPEED;
 	}
 
 	// gravity
@@ -73,18 +73,16 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	}
 }
 
-void Scene_Wonder_Boy::sAnimation()
+void Scene_Wonder_Boy::sAnimation(sf::Time dt)
 {
 	for (auto e : m_entityManager.getEntities())
 	{
 		auto &anim = e->getComponent<CAnimation>();
 		if (anim.has) {
-			anim.animation.update(anim.repeat);
+			anim.animation.update(dt);
 			if (anim.animation.hasEnded()) { e->destroy(); }
 		}
 	}
-
-
 }
 
 void Scene_Wonder_Boy::onEnd()
@@ -122,6 +120,10 @@ void Scene_Wonder_Boy::sRender()
 				anim.getSprite().setRotation(tfm.angle);
 				anim.getSprite().setPosition(tfm.pos.x, tfm.pos.y);
 				anim.getSprite().setScale(tfm.scale.x, tfm.scale.y);
+				if (anim.m_isRotated)
+				{
+					anim.getSprite().rotate(270);
+				}
 				m_game->window().draw(anim.getSprite());
 				
 			}
@@ -232,7 +234,7 @@ void Scene_Wonder_Boy::checkPlayerState()
 		if (!state.test(CState::isRuuning)) // wasn't running
 		{
 			// change to running animation
-			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("PlayerRun");
+			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_run");
 			state.set(CState::isRuuning);
 		}
 		else
@@ -255,7 +257,7 @@ Vec2 Scene_Wonder_Boy::gridToMidPixel(float gridX, float gridY, sPtrEntt entity)
 
 	Vec2 spriteSize = entity->getComponent<CAnimation>().animation.getSize();
 
-	return Vec2(x + spriteSize.x, y - spriteSize.y);
+	return Vec2(x + spriteSize.x/ 2.f, y - spriteSize.y / 2.f);
 }
 
 
@@ -268,7 +270,7 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 
 	sMovement(dt);
 
-	sAnimation();
+	sAnimation(dt);
 	checkPlayerState();
 
 
@@ -325,8 +327,8 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 void Scene_Wonder_Boy::spawnPlayer()
 {
 	m_player = m_entityManager.addEntity("player");
-	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("PlayerRun"), true);
-	m_player->addComponent<CTransform>(gridToMidPixel(m_playerConfig.X, m_playerConfig.Y,  m_player), Vec2(0, 0), Vec2(3,3));
+	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("tt_run"), true);
+	m_player->addComponent<CTransform>(gridToMidPixel(m_playerConfig.X, m_playerConfig.Y,  m_player), Vec2(0, 0), Vec2(1,1));
 	m_player->addComponent<CInput>();
 	m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
 	m_player->addComponent<CState>();
@@ -380,11 +382,8 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto e = m_entityManager.addEntity("tile");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
-			tfm.scale = Vec2(3.1f, 3.1f);
-			e->addComponent<CBoundingBox>(Vec2(32 * tfm.scale.x, 32 * tfm.scale.y));
+			e->addComponent<CBoundingBox>();
 			
-
-
 
 		}
 		else if (token == "#") 

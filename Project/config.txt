@@ -10,17 +10,24 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
-Texture TexRun		../Assets/Textures/playerRunEdited.png
-Texture TexGround1	../Assets/Textures/Tiles/common/bottom_common.png
-Texture TexGround2	../Assets/Textures/Tiles/common/grass_common.png
+Texture TomTom		../Assets/Textures/resize/tt_atlas_x3.png
+Texture TexGrassLand	../Assets/Textures/resize/grass_land_atlas_x3.png
 
 
-# Sprites
+JSON			../Assets/Textures/resize/tt_atlas_x3.json
+JSON			../Assets/Textures/resize/grass_land_atlas_x3.json
+
+# Sprite
 
 
 
-#  Animation    Name            Texture     Frame   Speed
-Animation 	PlayerRun 	TexRun 		6 	5
-Animation	Ground1		TexGround1	1	0
-Animation	Ground2		TexGround2	1	0
+
+#  Animation    Name            Texture     1sec/this	repeat
+Animation	tt_run		TomTom		2	true
+
+Animation	grass2		TexGrassLand	1	true
+Animation	grassbottom2	TexGrassLand	1	true
+
+
+
 
