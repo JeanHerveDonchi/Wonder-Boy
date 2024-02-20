@@ -17,6 +17,7 @@ namespace
 	std::mt19937 rng(rd());
 }
 
+const Vec2 BB_SIZE(96, 96);
 
 Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& levelPath)
 	: Scene(gameEngine)
@@ -382,8 +383,44 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto e = m_entityManager.addEntity("tile");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
-			e->addComponent<CBoundingBox>(Vec2(50, 50));
+			e->addComponent<CBoundingBox>(BB_SIZE);
 			
+
+		}
+		else if (token == "Uphill" || token == "Downhill")
+		{
+			std::string name;
+			float gx, gy;
+			size_t sN =4;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("tiles");
+			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+
+			float width = GRID_SIZE * sN;
+			size_t wantDivide = 4;
+			size_t num = wantDivide * sN;
+			size_t unitSize = GRID_SIZE / wantDivide;
+
+			float originX = tfm.pos.x;
+			float originY = tfm.pos.y;
+
+			float startX = originX - (GRID_SIZE * sN / 2);
+			float startY = originY + (GRID_SIZE / 2);
+			float changeX = startX;
+			float changeY = startY;
+			for (int i{ 0 }; i < sN; i++)
+			{
+				for (int j{ 0 }; j < wantDivide; j++)
+				{
+					auto e = m_entityManager.addEntity("tilesBB");
+					changeX += unitSize;
+					e->addComponent<CTransform>(Vec2(changeX, changeY));
+					e->addComponent<CBoundingBox>(Vec2(static_cast<float>(unitSize), static_cast<float>(unitSize)));
+				}
+				changeY -= unitSize;
+			}
 
 		}
 		else if (token == "Deco")

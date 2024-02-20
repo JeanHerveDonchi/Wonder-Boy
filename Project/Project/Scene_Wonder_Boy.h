@@ -9,6 +9,7 @@
 #include "GameEngine.h"
 #include "Vec2.h"
 
+const float GRID_SIZE = 96.f;
 
 class Scene_Wonder_Boy : public Scene 
 {
@@ -27,7 +28,7 @@ private:
     bool 		    m_drawTextures{ true };
     bool 		    m_drawColliders{ false };
     bool 		    m_drawGrid{ false };
-    const Vec2      m_gridSize{ 96, 96 };
+    const Vec2      m_gridSize{ GRID_SIZE, GRID_SIZE };
     sf::Text        m_gridText;
     
 

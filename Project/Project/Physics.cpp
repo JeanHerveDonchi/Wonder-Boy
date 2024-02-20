@@ -1,5 +1,7 @@
 #include "Physics.h"
 #include <cmath>
+#include <vector>
+#include "Vec2.h"
 
 sf::Vector2f Physics::getOverlap(std::shared_ptr<Entity> a, std::shared_ptr<Entity> b)
 {
@@ -41,3 +43,5 @@ sf::Vector2f Physics::getPreviousOverlap(std::shared_ptr<Entity> a, std::shared_
     }
     return overlap;
 }
+
+

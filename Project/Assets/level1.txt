@@ -172,7 +172,7 @@ Tile    grassbottom2    148     0
 Tile    grassbottom2    149     0
 
 
-Tile	uphill3a	150	0
+Tile	uphill3a	150	0	
 Tile	uphill3b	154	0
 
 
@@ -328,42 +328,42 @@ Tile    grass2green     147     1
 Tile    grass2green     148     1
 Tile    grass2green     149     1
 
-Tile	uphillstart	150	1
-Tile	uphill2		151	1
+Uphill	uphillstart	150	1
+Uphill	uphill2		151	1
 Tile	uphill3a	155	1
 Tile	uphill3b	159	1
 
 # Tile Row 2
-Tile	uphill1		150	2
-Tile	uphillcontinue	154	2
+Uphill	uphill1		150	2
+Uphill	uphillcontinue	154	2
 Tile	uphill2		155	2
 Tile	uphill3a	159	2
-Tile    uphill3b        163     2
+Tile   uphill3b        163     2
 
 # Tile Row 3
-Tile    uphill1 	154     3
-Tile    uphillcontinue  158     3
+Uphill   uphill1 	154     3
+Uphill   uphillcontinue  158     3
 Tile    uphill2 	159     3
 Tile    uphill3a        163     3
 Tile    uphill3b        167     3
 
 # Tile Row 4
-Tile    uphill1 	158     4
-Tile    uphillcontinue  162     4
+Uphill   uphill1 	158     4
+Uphill   uphillcontinue  162     4
 Tile    uphill2 	163     4
 Tile    uphill3a        167     4
 Tile    uphill3b        171     4
 
 # Tile Row 5
-Tile    uphill1 	162     5
-Tile    uphillcontinue  166     5
+Uphill    uphill1 	162     5
+Uphill   uphillcontinue  166     5
 Tile    uphill2 	167     5
 Tile    uphill3a        171     5
 Tile    uphill3b        175     5
 
 # Tile Row 6
-Tile    uphill1 	166     6
-Tile    uphillcontinue  170     6
+Uphill   uphill1 	166     6
+Uphill    uphillcontinue  170     6
 Tile    uphill2 	171     6
 Tile    grassbottom2    175     6
 Tile    grassbottom2    176     6
@@ -493,7 +493,7 @@ Tile    grassbottom2    315     6
 Tile    grassbottom2    316     6
 
 # Tile Row 7
-Tile	uphill1		170	7
+Uphill	uphill1		170	7
 Tile	uphillend	174	7
 Tile    grass2  175     7
 Tile    grass2  176     7
