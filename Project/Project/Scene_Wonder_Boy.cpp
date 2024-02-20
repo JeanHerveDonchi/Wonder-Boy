@@ -95,7 +95,7 @@ void Scene_Wonder_Boy::sRender()
 {
 
 	// background changes if paused
-	static const sf::Color backgroundColor(0x23, 0xc7, 0xc9);
+	static const sf::Color backgroundColor(0, 181, 255);
 	static const sf::Color pausedColor(0x7f, 0x7f, 0x7f);
 	m_game->window().clear(m_isPaused? pausedColor : backgroundColor);
 
@@ -382,8 +382,21 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto e = m_entityManager.addEntity("tile");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
-			e->addComponent<CBoundingBox>();
+			e->addComponent<CBoundingBox>(Vec2(50, 50));
 			
+
+		}
+		else if (token == "Deco")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("deco");
+			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			e->addComponent<CBoundingBox>();
+
 
 		}
 		else if (token == "#") 

@@ -73,6 +73,7 @@ struct CBoundingBox : public Component
 {
     Vec2 size{0.f, 0.f};
     Vec2 halfSize{ 0.f, 0.f };
+    std::vector<Vec2> halfsizes{};
 
     CBoundingBox() = default;
     CBoundingBox(const Vec2& s) : size(s), halfSize(0.5f * s)

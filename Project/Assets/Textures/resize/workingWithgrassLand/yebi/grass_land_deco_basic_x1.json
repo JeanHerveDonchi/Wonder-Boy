@@ -1,0 +1,60 @@
+{"frames": [
+
+{
+	"filename": "bush3x1.png",
+	"frame": {"x":0,"y":0,"w":294,"h":98},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":294,"h":98},
+	"sourceSize": {"w":294,"h":98}
+},
+{
+	"filename": "bushend2x1.png",
+	"frame": {"x":294,"y":0,"w":192,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":192,"h":96},
+	"sourceSize": {"w":192,"h":96}
+},
+{
+	"filename": "cloud2x1.png",
+	"frame": {"x":486,"y":0,"w":64,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":32},
+	"sourceSize": {"w":64,"h":32}
+},
+{
+	"filename": "cloud3x2.png",
+	"frame": {"x":550,"y":0,"w":288,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":288,"h":192},
+	"sourceSize": {"w":288,"h":192}
+},
+{
+	"filename": "leavesend1x2.png",
+	"frame": {"x":0,"y":192,"w":32,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":64},
+	"sourceSize": {"w":32,"h":64}
+},
+{
+	"filename": "trees8x4.png",
+	"frame": {"x":32,"y":192,"w":768,"h":384},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":768,"h":384},
+	"sourceSize": {"w":768,"h":384}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "grass_land_deco_basic.png",
+	"format": "RGBA8888",
+	"size": {"w":838,"h":576},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9b0e6927fa3e2fc05e5a0ba2db6ce91e:f4bcac15e451d786415bbb0ff5fe2dec:f413658aa51a0a3d56dc09af707cab5e$"
+}
+}

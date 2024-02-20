@@ -1,0 +1,60 @@
+{"frames": [
+
+{
+	"filename": "bush3 (1).png",
+	"frame": {"x":0,"y":0,"w":288,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":288,"h":96},
+	"sourceSize": {"w":288,"h":96}
+},
+{
+	"filename": "bushEndResize (1).png",
+	"frame": {"x":576,"y":0,"w":534,"h":267},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":534,"h":267},
+	"sourceSize": {"w":534,"h":267}
+},
+{
+	"filename": "cloud2resize (1).png",
+	"frame": {"x":1110,"y":0,"w":576,"h":288},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":576,"h":288},
+	"sourceSize": {"w":576,"h":288}
+},
+{
+	"filename": "cloud3 (1).png",
+	"frame": {"x":288,"y":0,"w":288,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":288,"h":192},
+	"sourceSize": {"w":288,"h":192}
+},
+{
+	"filename": "leavesEndResize.png",
+	"frame": {"x":1686,"y":0,"w":291,"h":534},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":291,"h":534},
+	"sourceSize": {"w":291,"h":534}
+},
+{
+	"filename": "treesResize (1).png",
+	"frame": {"x":0,"y":291,"w":2304,"h":1068},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":2304,"h":1068},
+	"sourceSize": {"w":2304,"h":1068}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "grass_land_deco_resize_maxRect.png",
+	"format": "RGBA8888",
+	"size": {"w":2304,"h":1359},
+	"scale": "3",
+	"smartupdate": "$TexturePacker:SmartUpdate:f6f4027dd13e9c90a16e165376d6f84f:d90c99328811e5a2fbc5dec8a424ea2b:f541a01984b24e58b2d459ec5870c276$"
+}
+}

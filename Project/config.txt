@@ -10,12 +10,14 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
-Texture TomTom		../Assets/Textures/resize/tt_atlas_x3.png
-Texture TexGrassLand	../Assets/Textures/resize/grass_land_atlas_x3.png
+Texture TomTom		../Assets/Textures/resize/tt_atlas.png
+Texture TexGrassLand	../Assets/Textures/resize/grass_land_atlas.png
+Texture	TexGrassDeco	../Assets/Textures/resize/grass_land_deco_resize_basic.png
 
 
-JSON			../Assets/Textures/resize/tt_atlas_x3.json
-JSON			../Assets/Textures/resize/grass_land_atlas_x3.json
+JSON			../Assets/Textures/resize/tt_atlas.json
+JSON			../Assets/Textures/resize/grass_land_atlas.json
+JSON			../Assets/Textures/resize/grass_land_deco_resize_basic.json
 
 # Sprite
 
@@ -23,11 +25,37 @@ JSON			../Assets/Textures/resize/grass_land_atlas_x3.json
 
 
 #  Animation    Name            Texture     1sec/this	repeat
-Animation	tt_run		TomTom		2	true
+Animation	tt_axe		TomTom		2	yes
+Animation	tt_fall		TomTom		2	yes
+Animation	tt_fire		TomTom		2	yes
+Animation	tt_run		TomTom		2	yes
+Animation	tt_skate_axe	TomTom		2	yes
+Animation	tt_skate_fall	TomTom		2	yes
+Animation	tt_skate_run	TomTom		2	yes
+Animation	tt_skate_trip	TomTom		2	yes
+Animation	tt_stand	TomTom		2	yes
+Animation	tt_trip		TomTom		2	yes
 
-Animation	grass2		TexGrassLand	1	true
-Animation	grassbottom2	TexGrassLand	1	true
+Animation	bush3		TexGrassDeco	1	no
+Animation	bushEndResize	TexGrassDeco	1	no
+Animation	cloud2resize	TexGrassDeco	1	no
+Animation	cloud3		TexGrassDeco	1	no
+Animation	leavesEndResize	TexGrassDeco	1	no
+Animation	treesResize	TexGrassDeco	2	yes
 
-
-
-
+Animation	empty		TexGrassLand	1	no
+Animation	emptyblack	TexGrassLand	1	no
+Animation	grass1		TexGrassLand	1	no
+Animation	grass2		TexGrassLand	1	no
+Animation	grass2green	TexGrassLand	1	no
+Animation	grass3		TexGrassLand	1	no
+Animation	grassbottom1	TexGrassLand	1	no
+Animation	grassbottom2	TexGrassLand	1	no
+Animation	grassbottom3	TexGrassLand	1	no
+Animation	uphill1		TexGrassLand	1	no
+Animation	uphill2		TexGrassLand	1	no
+Animation	uphill3a	TexGrassLand	1	no
+Animation	uphill3b	TexGrassLand	1	no
+Animation	uphillcontinue	TexGrassLand	1	no
+Animation	uphillend	TexGrassLand	1	no
+Animation	uphillstart	TexGrassLand	1	no

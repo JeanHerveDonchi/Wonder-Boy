@@ -1,0 +1,180 @@
+{"frames": [
+
+{
+	"filename": "empty (1).png",
+	"frame": {"x":200,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "emptyblack (1).png",
+	"frame": {"x":296,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass1 (1).png",
+	"frame": {"x":392,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass1remove (1).png",
+	"frame": {"x":0,"y":0,"w":50,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":0,"w":50,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass2 (1).png",
+	"frame": {"x":488,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass2green (1).png",
+	"frame": {"x":584,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass3 (1).png",
+	"frame": {"x":680,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grass3remove (1).png",
+	"frame": {"x":50,"y":0,"w":50,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grassbottom1 (1).png",
+	"frame": {"x":776,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grassbottom1remove (1).png",
+	"frame": {"x":100,"y":0,"w":50,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":0,"w":50,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grassbottom2 (1).png",
+	"frame": {"x":872,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grassbottom3 (1).png",
+	"frame": {"x":968,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "grassbottom3remove (1).png",
+	"frame": {"x":150,"y":0,"w":50,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "uphill1 (1).png",
+	"frame": {"x":0,"y":96,"w":384,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":96},
+	"sourceSize": {"w":384,"h":96}
+},
+{
+	"filename": "uphill2 (1).png",
+	"frame": {"x":384,"y":96,"w":384,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":96},
+	"sourceSize": {"w":384,"h":96}
+},
+{
+	"filename": "uphill3a (1).png",
+	"frame": {"x":768,"y":96,"w":384,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":96},
+	"sourceSize": {"w":384,"h":96}
+},
+{
+	"filename": "uphill3b (1).png",
+	"frame": {"x":1152,"y":96,"w":384,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":96},
+	"sourceSize": {"w":384,"h":96}
+},
+{
+	"filename": "uphillcontinue (1).png",
+	"frame": {"x":1064,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "uphillend (1).png",
+	"frame": {"x":1160,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "uphillremove1 (1).png",
+	"frame": {"x":1352,"y":0,"w":335,"h":92},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":49,"y":4,"w":335,"h":92},
+	"sourceSize": {"w":384,"h":96}
+},
+{
+	"filename": "uphillstart (1).png",
+	"frame": {"x":1256,"y":0,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+	"sourceSize": {"w":96,"h":96}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "grass_land_atlas2.png",
+	"format": "RGBA8888",
+	"size": {"w":1687,"h":192},
+	"scale": "3",
+	"smartupdate": "$TexturePacker:SmartUpdate:3afa47969414c6902fe6d81e8a2f900d:531ee48434cad0267d65587991f39e10:c65aaaf1defee3d153bdb677d2b71e29$"
+}
+}
