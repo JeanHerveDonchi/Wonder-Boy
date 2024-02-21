@@ -43,35 +43,96 @@ void Scene_Wonder_Boy::init(const std::string& levelPath)
 
 void Scene_Wonder_Boy::sMovement(sf::Time dt)
 {
-	//player movement
-	auto &tfm = m_player->getComponent<CTransform>();
-	tfm.vel.x = 0.f;
+	// player movement
+	auto &pTfm = m_player->getComponent<CTransform>();
+	pTfm.vel.x = 0.f;
+	auto &pState = m_player->getComponent<CState>();
 	if (m_player->getComponent<CInput>().left)
-	{
-		tfm.vel.x -= m_playerConfig.SPEED; 
-	}
+		pTfm.vel.x -= 1;
 	if (m_player->getComponent<CInput>().right)
-	{
-		tfm.vel.x += m_playerConfig.SPEED;
+		pTfm.vel.x += 1;
+	// setting a running state should be rocated in checkPlayerState, not here	
+
+	if (m_player->getComponent<CInput>().jump) {
 	}
+
 
 	// gravity
-	//tfm.vel.y += m_playerConfig.GRAVITY * dt.asSeconds();
-	//tfm.vel.x *= m_playerConfig.SPEED;
+	pTfm.vel.y += m_playerConfig.GRAVITY;
+	pTfm.vel.x = pTfm.vel.x * m_playerConfig.SPEED;
 
-	// facing direction
-	if (tfm.vel.x < -0.1)
-		m_player->getComponent<CState>().set(CState::isFacingLeft);
-	if (tfm.vel.x > 0.1)
-		m_player->getComponent<CState>().unSet(CState::isFacingLeft);
-
-
+	pTfm.pos += pTfm.vel;
 	// move all entities
-	for (auto e : m_entityManager.getEntities()) {
-		auto& tfm = e->getComponent<CTransform>();
-		tfm.prevPos = tfm.pos;
-		tfm.pos += tfm.vel;
+	/*for (auto e : m_entityManager.getEntities()) {
+		auto& tx = e->getComponent<CTransform>();
+		tx.prevPos = tx.pos;
+		tx.pos += tx.vel;
+	}*/
+}
+
+void Scene_Wonder_Boy::sCollisions()
+{
+	auto &entities = m_entityManager.getEntities();
+	auto &tiles = m_entityManager.getEntities("tile");
+	auto &tilesBB = m_entityManager.getEntities("tilesBB");
+
+	auto& playerTfm = m_player->getComponent<CTransform>();
+	auto& playerState = m_player->getComponent<CState>();
+	auto& playerPhysics = m_player->getComponent<CPhysics>();
+
+
+	if (m_player->hasComponent<CBoundingBox>())
+	{
+
+		for (auto &e : tiles)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
+
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+
+			if (e->hasComponent<CBoundingBox>())
+			{
+				
+				if (overlap.x > 0 && overlap.y > 0) {
+					if (preoverlap.y > 0) {
+						playerTfm.pos.y -= overlap.y; // move up
+						playerTfm.vel.y = 0; // stop falling
+						playerState.set(CState::isGrounded); // set grounded state
+					}
+				}
+			}
+		}
+		for (auto &e: tilesBB)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
+
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+			
+			if (e->hasComponent<CBoundingBox>())
+			{
+
+				if (overlap.x > 0 && overlap.y > 0) {
+					std::cout << "*******************************************************\n";
+					std::cout << "overlap.x: " << overlap.x << " overlap.y: " << overlap.y << "\n";
+					std::cout << "preoverlap.x: " << preoverlap.x << " preoverlap.y: " << preoverlap.y << "\n";
+					if (preoverlap.y > 0) {
+						playerTfm.pos.y -= overlap.y; // move up
+						playerTfm.vel.y = 0; // stop falling
+						playerState.set(CState::isGrounded); // set grounded state
+					}
+					std::cout << "*******************************************************\n";
+					std::cout << "overlap.x: " << overlap.x << " overlap.y: " << overlap.y << "\n";
+					std::cout << "preoverlap.x: " << preoverlap.x << " preoverlap.y: " << preoverlap.y << "\n";
+				}
+			}
+		}
+
 	}
+
 }
 
 void Scene_Wonder_Boy::sAnimation(sf::Time dt)
@@ -215,33 +276,32 @@ void Scene_Wonder_Boy::sRender()
 	//m_game->window().display();
 }
 
-void Scene_Wonder_Boy::checkPlayerState()
+void Scene_Wonder_Boy::checkPlayerState() // check player state and change animation accordingly
 {
-	auto &tfm = m_player->getComponent<CTransform>();
-	auto &state = m_player->getComponent<CState>();
+	auto &pTfm = m_player->getComponent<CTransform>();
+	auto &pState = m_player->getComponent<CState>();
 
-	// face the rightway
-	if (std::abs(tfm.vel.x) > 0.1f)
-	{
-		tfm.scale.x = (tfm.vel.x > 0) ? abs(tfm.scale.x) : -abs(tfm.scale.x);
-	}
+	if (abs(pTfm.vel.x) > 0)
+		pTfm.scale.x = (pTfm.vel.x) > 0 ? 1 : -1;
+		(pTfm.scale.x > 0) ? pState.unSet(CState::isFacingLeft) : pState.set(CState::isFacingLeft);
 
-	if (!state.test(CState::isGrounded))
-	{
-		//m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("PlayerJump");
-	}
-	else
-	{
-		if (!state.test(CState::isRuuning)) // wasn't running
-		{
-			// change to running animation
-			m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_run");
-			state.set(CState::isRuuning);
+	if (pState.test(CState::isGrounded)) {
+		// if grounded
+		if (std::abs(pTfm.vel.x) > 0.1f) {
+			if (!pState.test(CState::isRunning)) // wasn't running
+			{
+				// change to running animation
+				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_run");
+				pState.set(CState::isRunning);
+			}
 		}
-		else
-		{
-			
-			state.unSet(CState::isRuuning);
+		else {
+			if (pState.test(CState::isRunning)) // was running
+			{
+				// change to standing animation
+				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_stand");
+				pState.unSet(CState::isRunning);
+			}
 		}
 	}
 }
@@ -269,11 +329,12 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 	SoundPlayer::getInstance().removeStoppedSounds();
 	m_entityManager.update();
 
+
 	sMovement(dt);
-
+	sCollisions();
 	sAnimation(dt);
-	checkPlayerState();
 
+	checkPlayerState();
 
 }
 
@@ -328,11 +389,13 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 void Scene_Wonder_Boy::spawnPlayer()
 {
 	m_player = m_entityManager.addEntity("player");
-	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("tt_run"), true);
+	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("tt_stand"), true);
 	m_player->addComponent<CTransform>(gridToMidPixel(m_playerConfig.X, m_playerConfig.Y,  m_player), Vec2(0, 0), Vec2(1,1));
+	m_player->addComponent<CState>().unSet(CState::isRunning);
 	m_player->addComponent<CInput>();
 	m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
-	m_player->addComponent<CState>();
+	m_player->addComponent<CState>().set(CState::isAlive);
+	m_player->addComponent<CPhysics>(m_playerConfig.GRAVITY, m_playerConfig.MAXSPEED, m_playerConfig.SPEED, m_playerConfig.JUMP);
 
 }
 
@@ -394,7 +457,7 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			size_t sN =4;
 			confFile >> name >> gx >> gy;
 
-			auto e = m_entityManager.addEntity("tiles");
+			auto e = m_entityManager.addEntity("tilesAnim");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 
@@ -408,7 +471,7 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 
 			float startX = originX - (GRID_SIZE * sN / 2);
 			float startY = originY + (GRID_SIZE / 2);
-			float changeX = startX;
+			float changeX = startX - (unitSize / 2);
 			float changeY = startY;
 			for (int i{ 0 }; i < sN; i++)
 			{

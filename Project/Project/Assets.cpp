@@ -128,7 +128,7 @@ void Assets::loadAnimations(const std::string& path) {
         if (token == "Animation")
         {
             std::string name, texture, repeat;
-            size_t speed;
+            float speed;
             confFile >> name >> texture >> speed >> repeat;
             //addAnimation(name, texture, frames, speed);
             Animation a(name,

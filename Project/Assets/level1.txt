@@ -3,7 +3,7 @@
 World 1280 720
 
 #     gX, gY, cW, cH, sX, sY,  sM,  g,   bullet 
-Player 2   2  40  60   40  20  20  0.75   axe
+Player 2   10  80  96   40  20  20   3   axe
 
 # Decoration
 Deco	treesResize	0	2
@@ -420,9 +420,9 @@ Tile    grassbottom2    226     6
 Tile    grassbottom2    227     6
 Tile    grassbottom2    228     6
 Tile    grassbottom2    229     6
-Tile    grassbottom3    230     6
+Halftile    grassbottom3    230     6
 # emptyLine2
-Tile    grassbottom1    233     6
+Halftile    grassbottom1    233     6
 Tile    grassbottom2    234     6
 Tile    grassbottom2    235     6
 Tile    grassbottom2    236     6
@@ -434,7 +434,7 @@ Tile    grassbottom2    241     6
 Tile    grassbottom2    242     6
 Tile    grassbottom2    243     6
 Tile    grassbottom2    244     6
-Tile    grassbottom3    245     6
+Halftile    grassbottom3    245     6
 # emptyLine3
 Tile    grassbottom1    249     6
 Tile    grassbottom2    250     6

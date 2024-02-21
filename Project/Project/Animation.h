@@ -9,7 +9,7 @@ class Animation
 private:
 	std::string                 m_name{ "none" };
 	std::vector<sf::IntRect>    m_frames;
-	sf::Time                    m_timePerFrame;
+	sf::Time	                m_timePerFrame;
 	size_t                      m_currentFrame{ 0 };
 	sf::Time                    m_countDown{ sf::Time::Zero };
 	bool                        m_isRepeating{ true };

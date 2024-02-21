@@ -28,12 +28,12 @@ JSON			../Assets/Textures/resize/grass_land_deco_resize_basic.json
 Animation	tt_axe		TomTom		2	yes
 Animation	tt_fall		TomTom		2	yes
 Animation	tt_fire		TomTom		2	yes
-Animation	tt_run		TomTom		2	yes
+Animation	tt_run		TomTom		8	yes
 Animation	tt_skate_axe	TomTom		2	yes
 Animation	tt_skate_fall	TomTom		2	yes
 Animation	tt_skate_run	TomTom		2	yes
 Animation	tt_skate_trip	TomTom		2	yes
-Animation	tt_stand	TomTom		2	yes
+Animation	tt_stand	TomTom		6	yes
 Animation	tt_trip		TomTom		2	yes
 
 Animation	bush3		TexGrassDeco	1	no

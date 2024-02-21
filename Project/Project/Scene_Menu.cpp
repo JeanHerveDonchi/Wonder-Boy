@@ -52,10 +52,10 @@ void Scene_Menu::update(sf::Time dt)
 void Scene_Menu::sRender()
 {
 	 
-	static const sf::Color selectedColor(255, 255, 255);
-	static const sf::Color normalColor(0, 0, 0);
+	static const sf::Color selectedColor(242, 104, 74);
+	static const sf::Color normalColor(255, 255, 255);
 
-	static const sf::Color backgroundColor(100, 100, 255);
+	static const sf::Color backgroundColor(sf::Color::Black);
 
 	sf::Text footer("UP: W    DOWN: S   PLAY:D    QUIT: ESC", 
 		Assets::getInstance().getFont("main"), 20);

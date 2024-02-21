@@ -35,7 +35,7 @@ private:
 
     //systems
     void            sMovement(sf::Time dt);
-    //void            sCollisions();
+    void            sCollisions();
     void            sAnimation(sf::Time dt);
 
     // Enemy Systems

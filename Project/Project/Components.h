@@ -92,17 +92,18 @@ struct CBoundingBoxes : public Component
 struct CState : public Component {
 
     enum playerState {
-        isGrounded      = 1,        // 1
-        isFacingLeft    = 1 << 1,   // 2
-        isRuuning	    = 1 << 2,   // 4
-        onSkate         = 1 << 3,   // 8
+        isGrounded      = 1,        // 1 set: grounded,  unset: in the air
+        isFacingLeft    = 1 << 1,   // 2 set: facing left,  unset: facing right
+        isRunning	    = 1 << 2,   // 4 set: running,  unset: not running, stand
+        onSkate         = 1 << 3,   // 8 set: on skate,  unset: not on skate
+        isAlive         = 1 << 4,   // 16 set: alive,  unset: dead
     };
-    unsigned int state{ 0 };
+    unsigned int state{ 0 }; // to set 0 to compare with each bit state
 
     CState() = default;
     CState(unsigned int s) : state(s) {}
     // using bitset to test, set and unset state
-    bool test(unsigned int x) { return (state & x); }
+    bool test(unsigned int x) { return (state & x); }  // test if bit is set, & is bitwise AND, 
     void set(unsigned int x) { state |= x; }
     void unSet(unsigned int x) { state &= ~x; }
 
@@ -121,5 +122,17 @@ struct CInput : public Component
     CInput() = default;
 };
 
+struct CPhysics : public Component
+{
+    float		gravity{ 0.f };
+    float		maxSpeed{ 0.f };
+    float		speed{ 0.f };
+    float		jump{ 0.f };
+
+    CPhysics() = default;
+    CPhysics(float g) : gravity(g) {}
+    CPhysics(float g, float m, float s, float j)
+			: gravity(g), maxSpeed(m), speed(s), jump(j) {}
+};
 
 #endif //BREAKOUT_COMPONENTS_H
