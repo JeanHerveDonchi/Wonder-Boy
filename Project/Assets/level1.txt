@@ -3,7 +3,7 @@
 World 1280 720
 
 #     gX, gY, cW, cH, sX, sY,  sM,  g,   bullet 
-Player 2   10  80  96   40  20  20   3   axe
+Player 2   10  80  96   40  40  20   3   axe
 
 # Decoration
 Deco	treesResize	0	2
@@ -420,9 +420,9 @@ Tile    grassbottom2    226     6
 Tile    grassbottom2    227     6
 Tile    grassbottom2    228     6
 Tile    grassbottom2    229     6
-Halftile    grassbottom3    230     6
+HalftileE    grassbottom3    230     6
 # emptyLine2
-Halftile    grassbottom1    233     6
+HalftileS    grassbottom1    233     6
 Tile    grassbottom2    234     6
 Tile    grassbottom2    235     6
 Tile    grassbottom2    236     6
@@ -434,9 +434,9 @@ Tile    grassbottom2    241     6
 Tile    grassbottom2    242     6
 Tile    grassbottom2    243     6
 Tile    grassbottom2    244     6
-Halftile    grassbottom3    245     6
+HalftileE    grassbottom3    245     6
 # emptyLine3
-Tile    grassbottom1    249     6
+HalftileS     grassbottom1    249     6
 Tile    grassbottom2    250     6
 Tile    grassbottom2    251     6
 Tile    grassbottom2    252     6
@@ -449,9 +449,9 @@ Tile    grassbottom2    258     6
 Tile    grassbottom2    259     6
 Tile    grassbottom2    260     6
 Tile    grassbottom2    261     6
-Tile    grassbottom3    262     6
+HalftileE     grassbottom3    262     6
 # emptyLine4
-Tile    grassbottom1    267     6
+HalftileS     grassbottom1    267     6
 Tile    grassbottom2    268     6
 Tile    grassbottom2    269     6
 Tile    grassbottom2    270     6
@@ -464,9 +464,9 @@ Tile    grassbottom2    276     6
 Tile    grassbottom2    277     6
 Tile    grassbottom2    278     6
 Tile    grassbottom2    279     6
-Tile    grassbottom3    280     6
+HalftileE    grassbottom3    280     6
 # emptyLine11
-Tile    grassbottom1    292     6
+HalftileS    grassbottom1    292     6
 Tile    grassbottom2    293     6
 Tile    grassbottom2    294     6
 Tile    grassbottom2    295     6
@@ -490,7 +490,7 @@ Tile    grassbottom2    312     6
 Tile    grassbottom2    313     6
 Tile    grassbottom2    314     6
 Tile    grassbottom2    315     6
-Tile    grassbottom2    316     6
+Tile	grassbottom2    316     6
 
 # Tile Row 7
 Uphill	uphill1		170	7
@@ -550,9 +550,9 @@ Tile    grass2  226     7
 Tile    grass2  227     7
 Tile    grass2  228     7
 Tile    grass2  229     7
-Tile	grass3	230	7
+HalftileE 	grass3	230	7
 #EmptyLine2
-Tile    grass1	233     7
+HalftileS     grass1	233     7
 Tile    grass2  234     7
 Tile    grass2  235     7
 Tile    grass2  236     7
@@ -564,9 +564,9 @@ Tile    grass2  241     7
 Tile    grass2  242     7
 Tile    grass2  243     7
 Tile    grass2  244     7
-Tile	grass3	245	7
+HalftileE 	grass3	245	7
 #EmptyLine3
-Tile    grass1  249     7
+HalftileS     grass1  249     7
 Tile    grass2  250     7
 Tile    grass2  251     7
 Tile    grass2  252     7
@@ -579,9 +579,9 @@ Tile    grass2  258     7
 Tile    grass2  259     7
 Tile    grass2  260     7
 Tile    grass2  261     7
-Tile    grass3  262     7
+HalftileE    grass3  262     7
 #emptyLine4
-Tile    grass1  267     7
+HalftileS     grass1  267     7
 Tile    grass2  268     7
 Tile    grass2  269     7
 Tile    grass2  270     7
@@ -594,9 +594,9 @@ Tile    grass2  276     7
 Tile    grass2  277     7
 Tile    grass2  278     7
 Tile    grass2  279     7
-Tile    grass3  280     7
+HalftileE    grass3  280     7
 #emptyLine11
-Tile    grass1  292     7
+HalftileS     grass1  292     7
 Tile    grass2  293     7
 Tile    grass2  294     7
 Tile    grass2  295     7

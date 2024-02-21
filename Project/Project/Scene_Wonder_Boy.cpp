@@ -47,13 +47,26 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	auto &pTfm = m_player->getComponent<CTransform>();
 	pTfm.vel.x = 0.f;
 	auto &pState = m_player->getComponent<CState>();
-	if (m_player->getComponent<CInput>().left)
+	if (m_player->getComponent<CInput>().left) 
 		pTfm.vel.x -= 1;
-	if (m_player->getComponent<CInput>().right)
+	if (m_player->getComponent<CInput>().right) 
 		pTfm.vel.x += 1;
+	// to set the running state, abs(vel.x) should bigger than 0
+	// so not setting the left or light to false, if set them to false, abs(vel.x) will be 0. 
+	// it means the state will be set to not running in checkPlaterState()
+
 	// setting a running state should be rocated in checkPlayerState, not here	
 
-	if (m_player->getComponent<CInput>().jump) {
+	if (m_player->getComponent<CInput>().jump) 
+	{
+		m_player->getComponent<CInput>().jump = false;
+		// set the jump state to false after getting the jump input, 
+		// it prevents keep jumping when the jump key is pressed
+		if (pState.test(CState::isGrounded))
+		{
+			pTfm.vel.y -= m_playerConfig.JUMP;
+			pState.unSet(CState::isGrounded);
+		}
 	}
 
 
@@ -95,8 +108,10 @@ void Scene_Wonder_Boy::sCollisions()
 			if (e->hasComponent<CBoundingBox>())
 			{
 				
-				if (overlap.x > 0 && overlap.y > 0) {
-					if (preoverlap.y > 0) {
+				if (overlap.x > 0 && overlap.y > 0) 
+				{
+					if (preoverlap.y > 0) 
+					{
 						playerTfm.pos.y -= overlap.y; // move up
 						playerTfm.vel.y = 0; // stop falling
 						playerState.set(CState::isGrounded); // set grounded state
@@ -114,19 +129,20 @@ void Scene_Wonder_Boy::sCollisions()
 			
 			if (e->hasComponent<CBoundingBox>())
 			{
-
-				if (overlap.x > 0 && overlap.y > 0) {
-					std::cout << "*******************************************************\n";
-					std::cout << "overlap.x: " << overlap.x << " overlap.y: " << overlap.y << "\n";
-					std::cout << "preoverlap.x: " << preoverlap.x << " preoverlap.y: " << preoverlap.y << "\n";
-					if (preoverlap.y > 0) {
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					if (preoverlap.y > 0)
+					{ // if was above
 						playerTfm.pos.y -= overlap.y; // move up
 						playerTfm.vel.y = 0; // stop falling
 						playerState.set(CState::isGrounded); // set grounded state
 					}
-					std::cout << "*******************************************************\n";
-					std::cout << "overlap.x: " << overlap.x << " overlap.y: " << overlap.y << "\n";
-					std::cout << "preoverlap.x: " << preoverlap.x << " preoverlap.y: " << preoverlap.y << "\n";
+					if (preoverlap.y < 0)
+					{ // if was below
+						playerTfm.pos.y -= overlap.y; // move up
+						playerTfm.vel.y = 0; // stop falling
+						playerState.set(CState::isGrounded); // set grounded state
+					}
 				}
 			}
 		}
@@ -285,7 +301,8 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		pTfm.scale.x = (pTfm.vel.x) > 0 ? 1 : -1;
 		(pTfm.scale.x > 0) ? pState.unSet(CState::isFacingLeft) : pState.set(CState::isFacingLeft);
 
-	if (pState.test(CState::isGrounded)) {
+	if (pState.test(CState::isGrounded)) 
+	{
 		// if grounded
 		if (std::abs(pTfm.vel.x) > 0.1f) {
 			if (!pState.test(CState::isRunning)) // wasn't running
@@ -304,6 +321,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 			}
 		}
 	}
+	
 }
 
 Vec2 Scene_Wonder_Boy::gridToMidPixel(float gridX, float gridY, sPtrEntt entity)
@@ -357,7 +375,7 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 		}
 		else if (command.name() == "JUMP")
 		{
-
+			m_player->getComponent<CInput>().jump = true;
 		}
 		else if (command.name() == "SHOOT")
 		{
@@ -485,6 +503,44 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 				changeY -= unitSize;
 			}
 
+		}
+		else if (token == "HalftileE") // add 1 half tile with 2 half BBs on vertically in the left side
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("halftileE1");
+			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+
+
+			auto halfNGrid = GRID_SIZE / 2;
+			auto eb1 = m_entityManager.addEntity("halftileBB");
+			auto &tfm1 = eb1->addComponent<CTransform>(gridToMidPixel(gx - 0.25, gy + 0.25, e));
+			eb1->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
+			auto eb2 = m_entityManager.addEntity("halftileBB");
+			auto& tfm2 = eb2->addComponent<CTransform>(gridToMidPixel(gx - 0.25, gy - 0.25, e));
+			eb2->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
+		}
+		else if (token == "HalftileS") // add 1 half tile with 2 half BBs on vertically in the right side
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("halftileE1");
+			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+
+
+			auto halfNGrid = GRID_SIZE / 2;
+			auto eb1 = m_entityManager.addEntity("halftileBB");
+			auto& tfm1 = eb1->addComponent<CTransform>(gridToMidPixel(gx + 0.25, gy + 0.25, e));
+			eb1->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
+			auto eb2 = m_entityManager.addEntity("halftileBB");
+			auto& tfm2 = eb2->addComponent<CTransform>(gridToMidPixel(gx + 0.25, gy - 0.25, e));
+			eb2->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
 		}
 		else if (token == "Deco")
 		{
