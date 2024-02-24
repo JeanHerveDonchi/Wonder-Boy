@@ -10,14 +10,16 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
-Texture TomTom		../Assets/Textures/resize/tt_atlas.png
+Texture TomTom		../Assets/Textures/resize/tt_atlasx4.png
 Texture TexGrassLand	../Assets/Textures/resize/grass_land_atlas.png
 Texture	TexGrassDeco	../Assets/Textures/resize/grass_land_deco_resize_basic.png
+Texture	TexItems	../Assets/Textures/resize/itemsBx2h.png
 
 
-JSON			../Assets/Textures/resize/tt_atlas.json
+JSON			../Assets/Textures/resize/tt_atlasx4.json
 JSON			../Assets/Textures/resize/grass_land_atlas.json
 JSON			../Assets/Textures/resize/grass_land_deco_resize_basic.json
+JSON			../Assets/Textures/resize/itemsBx2h.json
 
 # Sprite
 
@@ -25,37 +27,67 @@ JSON			../Assets/Textures/resize/grass_land_deco_resize_basic.json
 
 
 #  Animation    Name            Texture     1sec/this	repeat
-Animation	tt_axe		TomTom		2	yes
-Animation	tt_fall		TomTom		2	yes
-Animation	tt_fire		TomTom		2	yes
+Animation	tt_axe		TomTom		4	no
+Animation	tt_fall		TomTom		2	no
+Animation	tt_fire		TomTom		2	no
 Animation	tt_run		TomTom		8	yes
-Animation	tt_skate_axe	TomTom		2	yes
-Animation	tt_skate_fall	TomTom		2	yes
+Animation	tt_skate_axe	TomTom		2	no
+Animation	tt_skate_fall	TomTom		2	no
 Animation	tt_skate_run	TomTom		2	yes
-Animation	tt_skate_trip	TomTom		2	yes
+Animation	tt_skate_trip	TomTom		2	no
 Animation	tt_stand	TomTom		6	yes
-Animation	tt_trip		TomTom		2	yes
+Animation	tt_trip		TomTom		2	no
 
-Animation	bush3		TexGrassDeco	1	no
-Animation	bushEndResize	TexGrassDeco	1	no
-Animation	cloud2resize	TexGrassDeco	1	no
-Animation	cloud3		TexGrassDeco	1	no
-Animation	leavesEndResize	TexGrassDeco	1	no
+Animation	bush3		TexGrassDeco	1	yes
+Animation	bushEndResize	TexGrassDeco	1	yes
+Animation	cloud2resize	TexGrassDeco	1	yes
+Animation	cloud3		TexGrassDeco	1	yes
+Animation	leavesEndResize	TexGrassDeco	1	yes
 Animation	treesResize	TexGrassDeco	2	yes
 
-Animation	empty		TexGrassLand	1	no
-Animation	emptyblack	TexGrassLand	1	no
-Animation	grass1		TexGrassLand	1	no
-Animation	grass2		TexGrassLand	1	no
-Animation	grass2green	TexGrassLand	1	no
-Animation	grass3		TexGrassLand	1	no
-Animation	grassbottom1	TexGrassLand	1	no
-Animation	grassbottom2	TexGrassLand	1	no
-Animation	grassbottom3	TexGrassLand	1	no
-Animation	uphill1		TexGrassLand	1	no
-Animation	uphill2		TexGrassLand	1	no
-Animation	uphill3a	TexGrassLand	1	no
-Animation	uphill3b	TexGrassLand	1	no
-Animation	uphillcontinue	TexGrassLand	1	no
-Animation	uphillend	TexGrassLand	1	no
-Animation	uphillstart	TexGrassLand	1	no
+Animation	empty		TexGrassLand	1	yes
+Animation	emptyblack	TexGrassLand	1	yes
+Animation	grass1		TexGrassLand	1	yes
+Animation	grass2		TexGrassLand	1	yes
+Animation	grass2green	TexGrassLand	1	yes
+Animation	grass3		TexGrassLand	1	yes
+Animation	grassbottom1	TexGrassLand	1	yes
+Animation	grassbottom2	TexGrassLand	1	yes
+Animation	grassbottom3	TexGrassLand	1	yes
+Animation	uphill1		TexGrassLand	1	yes
+Animation	uphill2		TexGrassLand	1	yes
+Animation	uphill3a	TexGrassLand	1	yes
+Animation	uphill3b	TexGrassLand	1	yes
+Animation	uphillcontinue	TexGrassLand	1	yes
+Animation	uphillend	TexGrassLand	1	yes
+Animation	uphillstart	TexGrassLand	1	yes
+
+Animation 	apple 		TexItems 	2 	yes
+Animation	axe 		TexItems 	5 	yes
+Animation 	axeBlank 	TexItems 	1 	yes
+Animation 	axeGet 		TexItems 	1 	yes
+Animation 	banana 		TexItems 	2	yes 
+Animation 	bee 		TexItems 	3 	yes
+Animation	blueSkull 	TexItems 	5	yes
+Animation	candy 		TexItems 	2 	yes
+Animation 	egg 		TexItems 	2 	yes
+Animation 	fire 		TexItems	2 	yes
+Animation 	frog 		TexItems	4 	yes
+Animation 	goldenAxe 	TexItems	4 	yes
+Animation 	goldenEgg 	TexItems	2 	yes
+Animation 	iceBreak 	TexItems 	1 	yes
+Animation 	life 		TexItems 	1 	yes
+Animation 	milk 		TexItems 	2 	yes
+Animation 	skateBoard 	TexItems 	1 	yes
+Animation 	snail 		TexItems 	4 	yes
+Animation 	snake 		TexItems 	4 	yes
+Animation 	spider 		TexItems 	2 	yes
+Animation 	spiderY 	TexItems 	1 	yes
+Animation 	TinaTanyaRun 	TexItems 	2 	yes
+Animation 	TinaTaynaResue 	TexItems 	3 	yes
+Animation 	tomato 		TexItems 	2 	yes
+Animation 	50		TexItems 	2 	yes
+Animation 	100 		TexItems 	2 	yes
+Animation 	200 		TexItems 	2 	yes
+Animation 	500 		TexItems 	2 	yes
+Animation 	1000		TexItems 	2 	yes

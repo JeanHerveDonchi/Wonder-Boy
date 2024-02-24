@@ -2,8 +2,8 @@
 
 World 1280 720
 
-#     gX, gY, cW, cH, sX, sY,  sM,  g,   bullet 
-Player 2   10  80  96   40  40  20   3   axe
+#     	gX, 	gY, 	cW,  	cH,   	sX,  	sY, 	 sM, 	 g,   	bullet 
+Player 	2   	10  	80  	120   	30  	40  	 20   	 3   	axe
 
 # Decoration
 Deco	treesResize	0	2

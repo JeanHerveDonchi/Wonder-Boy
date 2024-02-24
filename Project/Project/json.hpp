@@ -6867,7 +6867,7 @@ namespace detail
         bool start_object(std::size_t len)
         {
             ref_stack.push_back(handle_value(BasicJsonType::value_t::object));
-
+            
             if (JSON_HEDLEY_UNLIKELY(len != static_cast<std::size_t>(-1) && len > ref_stack.back()->max_size()))
             {
                 JSON_THROW(out_of_range::create(408, concat("excessive object size: ", std::to_string(len)), ref_stack.back()));

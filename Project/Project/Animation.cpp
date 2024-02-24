@@ -5,7 +5,7 @@ Animation::Animation()
 {}
 
 Animation::Animation(const std::string & name, const sf::Texture & t)
-    : Animation(name, t, {}, sf::Time::Zero, true, false)
+    : Animation(name, t, {}, sf::Time::Zero, true)
 {
     m_frames = std::vector<sf::IntRect>{ sf::IntRect(0, 0, t.getSize().x, t.getSize().y) };
 }
@@ -14,20 +14,16 @@ Animation::Animation(const std::string& name,
                     const sf::Texture& t, 
                     std::vector<sf::IntRect> frames, 
                     sf::Time tpf, 
-                    bool repeats, 
-                    bool isRotated)
+                    bool repeats)
         : m_name(name)
         , m_frames(frames)
         , m_timePerFrame(tpf)
         , m_isRepeating(repeats)
         , m_countDown(tpf)
         , m_sprite(t, m_frames[0])
-        , m_isRotated(isRotated)
 {
     centerOrigin(m_sprite);
-    if (isRotated) {
-		m_sprite.setRotation(90);
-	}
+   
 
     std::cout << name << " tpf: " << m_timePerFrame.asMilliseconds() << "ms\n";
 }
@@ -52,7 +48,10 @@ void Animation::update(sf::Time dt)
 
 
 bool Animation::hasEnded() const {
-    return m_hasEnded;
+    if (m_isRepeating)
+		return false;
+	else
+		return m_currentFrame == m_frames.size();
 }
 
 

@@ -24,10 +24,10 @@ public:
 	Animation();
 	Animation(const std::string& name, const sf::Texture& t);
 	Animation(const std::string& name, const sf::Texture& t,
-		std::vector<sf::IntRect> frames, sf::Time tpf, bool repeats = true, bool isRotated = false);
+		std::vector<sf::IntRect> frames, sf::Time tpf, bool repeats = true);
 
 	void				update(sf::Time dt);
-	bool				hasEnded() const;
+	bool				hasEnded()	const;
 	sf::Sprite&			getSprite();
 	const std::string&	getName() const;
 	const Vec2			getSize() const;

@@ -47,19 +47,23 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	auto &pTfm = m_player->getComponent<CTransform>();
 	pTfm.vel.x = 0.f;
 	auto &pState = m_player->getComponent<CState>();
-	if (m_player->getComponent<CInput>().left) 
+	auto &pInput = m_player->getComponent<CInput>();
+	auto &pAnim = m_player->getComponent<CAnimation>();
+	// set canJump property with isGrounded state
+	pInput.canJump = pState.test(CState::isGrounded);
+
+	if (pInput.left) 
 		pTfm.vel.x -= 1;
-	if (m_player->getComponent<CInput>().right) 
-		pTfm.vel.x += 1;
-	// to set the running state, abs(vel.x) should bigger than 0
-	// so not setting the left or light to false, if set them to false, abs(vel.x) will be 0. 
-	// it means the state will be set to not running in checkPlaterState()
+	if (pInput.right) 
+		pTfm.vel.x += 1; 
+	if (abs(pTfm.vel.x) > 0)
+		pTfm.scale.x = (pTfm.vel.x) > 0 ? 1.f : -1.f;
 
 	// setting a running state should be rocated in checkPlayerState, not here	
 
-	if (m_player->getComponent<CInput>().jump) 
+	if (pInput.jump) 
 	{
-		m_player->getComponent<CInput>().jump = false;
+		pInput.jump = false;
 		// set the jump state to false after getting the jump input, 
 		// it prevents keep jumping when the jump key is pressed
 		if (pState.test(CState::isGrounded))
@@ -69,18 +73,40 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 		}
 	}
 
+	if (pInput.canShoot)
+	{
+		if (pInput.shoot)
+		{
+			if (!(pState.test(CState::isThrowing))) {
+ 				pInput.shoot = false;
+				pState.set(CState::isThrowing);
+			}
+ 			else if (pState.test(CState::isThrowing))
+			{
+				pInput.shoot = false;
+				// nothing happens
+			}
+		}
+	}
+
 
 	// gravity
 	pTfm.vel.y += m_playerConfig.GRAVITY;
 	pTfm.vel.x = pTfm.vel.x * m_playerConfig.SPEED;
 
 	pTfm.pos += pTfm.vel;
+	
 	// move all entities
-	/*for (auto e : m_entityManager.getEntities()) {
-		auto& tx = e->getComponent<CTransform>();
-		tx.prevPos = tx.pos;
-		tx.pos += tx.vel;
-	}*/
+	for (auto e : m_entityManager.getEntities()) {
+		auto& tfm = e->getComponent<CTransform>();
+		tfm.prevPos = tfm.pos;
+		if (e->hasComponent<CPhysics>()) {
+			tfm.vel.y += e->getComponent<CPhysics>().gravity;
+		}
+		tfm.pos += tfm.vel;
+	}
+
+	(pTfm.vel.x == 0) ? pState.unSet(CState::isRunning) : pState.set(CState::isRunning);
 }
 
 void Scene_Wonder_Boy::sCollisions()
@@ -88,11 +114,47 @@ void Scene_Wonder_Boy::sCollisions()
 	auto &entities = m_entityManager.getEntities();
 	auto &tiles = m_entityManager.getEntities("tile");
 	auto &tilesBB = m_entityManager.getEntities("tilesBB");
+	auto &halftileEBB = m_entityManager.getEntities("halftileEBB");
+	auto &halftileSBB = m_entityManager.getEntities("halftileSBB");
+	auto &weapons = m_entityManager.getEntities("weapon");
 
-	auto& playerTfm = m_player->getComponent<CTransform>();
-	auto& playerState = m_player->getComponent<CState>();
-	auto& playerPhysics = m_player->getComponent<CPhysics>();
+	auto &playerTfm = m_player->getComponent<CTransform>();
+	auto &playerState = m_player->getComponent<CState>();
+	auto &playerPhysics = m_player->getComponent<CPhysics>();
 
+	for (auto& e : weapons)
+	{
+		// check if weapon is out of bounds
+		auto& tfm = e->getComponent<CTransform>();
+		if (tfm.pos.x < 0 || tfm.pos.y < 0 || tfm.pos.y > 1080)
+		{
+			e->destroy();
+		}
+		// check if weapon collides with tiles
+		for (auto& t : tiles)
+		{
+			auto& tfm = t->getComponent<CTransform>();
+			auto& box = t->getComponent<CBoundingBox>();
+			auto overlap = Physics::getOverlap(e, t);
+			if (overlap.x > 0 && overlap.y > 0)
+			{
+				e->destroy();
+			}
+		}
+		// check if weapon collides with tilesBB
+		for (auto& t : tilesBB)
+		{
+			auto& tfm = t->getComponent<CTransform>();
+			auto& box = t->getComponent<CBoundingBox>();
+			auto overlap = Physics::getOverlap(e, t);
+			if (overlap.x > 0 && overlap.y > 0)
+			{
+				e->destroy();
+			}
+		}
+		// check if weapon collides with enmemies
+		// Todo* 
+	}
 
 	if (m_player->hasComponent<CBoundingBox>())
 	{
@@ -146,6 +208,14 @@ void Scene_Wonder_Boy::sCollisions()
 				}
 			}
 		}
+		for (auto& e : halftileEBB)
+		{
+
+		}
+		for (auto& e : halftileSBB)
+		{
+
+		}
 
 	}
 
@@ -158,7 +228,8 @@ void Scene_Wonder_Boy::sAnimation(sf::Time dt)
 		auto &anim = e->getComponent<CAnimation>();
 		if (anim.has) {
 			anim.animation.update(dt);
-			if (anim.animation.hasEnded()) { e->destroy(); }
+			/*if (e->getTag() != "player")
+				if (anim.animation.hasEnded()) { e->destroy(); }*/
 		}
 	}
 }
@@ -198,10 +269,6 @@ void Scene_Wonder_Boy::sRender()
 				anim.getSprite().setRotation(tfm.angle);
 				anim.getSprite().setPosition(tfm.pos.x, tfm.pos.y);
 				anim.getSprite().setScale(tfm.scale.x, tfm.scale.y);
-				if (anim.m_isRotated)
-				{
-					anim.getSprite().rotate(270);
-				}
 				m_game->window().draw(anim.getSprite());
 				
 			}
@@ -296,32 +363,57 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 {
 	auto &pTfm = m_player->getComponent<CTransform>();
 	auto &pState = m_player->getComponent<CState>();
-
-	if (abs(pTfm.vel.x) > 0)
-		pTfm.scale.x = (pTfm.vel.x) > 0 ? 1 : -1;
-		(pTfm.scale.x > 0) ? pState.unSet(CState::isFacingLeft) : pState.set(CState::isFacingLeft);
-
-	if (pState.test(CState::isGrounded)) 
-	{
-		// if grounded
-		if (std::abs(pTfm.vel.x) > 0.1f) {
-			if (!pState.test(CState::isRunning)) // wasn't running
-			{
-				// change to running animation
-				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_run");
-				pState.set(CState::isRunning);
-			}
-		}
-		else {
-			if (pState.test(CState::isRunning)) // was running
-			{
-				// change to standing animation
-				m_player->getComponent<CAnimation>().animation = Assets::getInstance().getAnimation("tt_stand");
-				pState.unSet(CState::isRunning);
-			}
-		}
-	}
+	auto &pAnim = m_player->getComponent<CAnimation>().animation;
+	auto &pInput = m_player->getComponent<CInput>();
 	
+		/*
+		isGrounded = 1,        
+		isFacingLeft = 1 << 1,   
+		isRunning = 1 << 2,   
+		onSkate = 1 << 3,   
+		isAlive = 1 << 4,   
+		isThrowing = 1 << 5,  
+		*/
+	
+	if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && !pAnim.hasEnded())
+	{
+		if (pAnim.getName() != "tt_axe") {
+			pAnim = Assets::getInstance().getAnimation("tt_axe");
+		}	
+	}
+	else if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && pAnim.hasEnded())
+	{
+		pState.unSet(CState::isThrowing);
+	}
+	else if (pState.test(CState::isAlive) && !pState.test(CState::isThrowing) && pState.test(CState::isRunning))
+	{
+		if (pAnim.getName() != "tt_run")
+			pAnim = Assets::getInstance().getAnimation("tt_run");
+	}
+	else if (pState.test(CState::isAlive) && !pState.test(CState::isThrowing) && !pState.test(CState::isRunning))
+	{
+		if (pAnim.getName() != "tt_stand")
+			pAnim = Assets::getInstance().getAnimation("tt_stand");
+	}
+	else if (!pState.test(CState::isAlive))
+	{
+		pAnim = Assets::getInstance().getAnimation("tt_fall");
+	}
+
+}
+
+void Scene_Wonder_Boy::spawnBullet(std::shared_ptr<Entity> e) {
+	auto tfm = e->getComponent<CTransform>();
+
+	if (tfm.has) {
+		auto bullet = m_entityManager.addEntity("bullet");
+		bullet->addComponent<CAnimation>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON), true);
+		bullet->addComponent<CTransform>(tfm.pos);
+		bullet->addComponent<CBoundingBox>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON).getSize());
+		bullet->addComponent<CLifespan>(50);
+		bullet->getComponent<CTransform>().vel.x = 40 * (e->getComponent<CState>().test(CState::isFacingLeft) ? -1 : 1);
+		bullet->getComponent<CTransform>().vel.y = 40;
+	}
 }
 
 Vec2 Scene_Wonder_Boy::gridToMidPixel(float gridX, float gridY, sPtrEntt entity)
@@ -339,6 +431,23 @@ Vec2 Scene_Wonder_Boy::gridToMidPixel(float gridX, float gridY, sPtrEntt entity)
 	return Vec2(x + spriteSize.x/ 2.f, y - spriteSize.y / 2.f);
 }
 
+void Scene_Wonder_Boy::sLifeSpan()
+{
+	for (auto e : m_entityManager.getEntities("bullet"))
+	{
+		auto &lifespan = e->getComponent<CLifespan>();
+		if (lifespan.has)
+		{
+			lifespan.remainingTime -= 1;
+			if (lifespan.remainingTime < 0)
+			{
+				e->getComponent<CLifespan>().has = false;
+				e->getComponent<CTransform>().vel.x *= 0.1f;
+			}
+		}
+	}
+}
+
 
 void Scene_Wonder_Boy::update(sf::Time dt)
 {
@@ -350,6 +459,7 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 
 	sMovement(dt);
 	sCollisions();
+
 	sAnimation(dt);
 
 	checkPlayerState();
@@ -380,6 +490,7 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 		else if (command.name() == "SHOOT")
 		{
 			//throwWeapon();
+			m_player->getComponent<CInput>().shoot = true;
 		}
 	}
 
@@ -510,16 +621,16 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			float gx, gy;
 			confFile >> name >> gx >> gy;
 
-			auto e = m_entityManager.addEntity("halftileE1");
+			auto e = m_entityManager.addEntity("halftileE");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 
 
 			auto halfNGrid = GRID_SIZE / 2;
-			auto eb1 = m_entityManager.addEntity("halftileBB");
+			auto eb1 = m_entityManager.addEntity("halftileEBB");
 			auto &tfm1 = eb1->addComponent<CTransform>(gridToMidPixel(gx - 0.25, gy + 0.25, e));
 			eb1->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
-			auto eb2 = m_entityManager.addEntity("halftileBB");
+			auto eb2 = m_entityManager.addEntity("halftileEBB");
 			auto& tfm2 = eb2->addComponent<CTransform>(gridToMidPixel(gx - 0.25, gy - 0.25, e));
 			eb2->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
 		}
@@ -529,16 +640,16 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			float gx, gy;
 			confFile >> name >> gx >> gy;
 
-			auto e = m_entityManager.addEntity("halftileE1");
+			auto e = m_entityManager.addEntity("halftileS");
 			e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 
 
 			auto halfNGrid = GRID_SIZE / 2;
-			auto eb1 = m_entityManager.addEntity("halftileBB");
+			auto eb1 = m_entityManager.addEntity("halftileSBB");
 			auto& tfm1 = eb1->addComponent<CTransform>(gridToMidPixel(gx + 0.25, gy + 0.25, e));
 			eb1->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
-			auto eb2 = m_entityManager.addEntity("halftileBB");
+			auto eb2 = m_entityManager.addEntity("halftileSBB");
 			auto& tfm2 = eb2->addComponent<CTransform>(gridToMidPixel(gx + 0.25, gy - 0.25, e));
 			eb2->addComponent<CBoundingBox>(Vec2(GRID_SIZE, GRID_SIZE) * 0.5);
 		}

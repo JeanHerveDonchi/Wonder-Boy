@@ -135,8 +135,7 @@ void Assets::loadAnimations(const std::string& path) {
                 getTexture(texture),
                 m_frameSets[name],
                 sf::seconds(1 / speed),
-                (repeat == "yes"),
-                m_isRotated);
+                (repeat == "yes"));
 
             m_animationMap[name] = a;
 

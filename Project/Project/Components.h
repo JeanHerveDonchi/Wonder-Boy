@@ -97,6 +97,7 @@ struct CState : public Component {
         isRunning	    = 1 << 2,   // 4 set: running,  unset: not running, stand
         onSkate         = 1 << 3,   // 8 set: on skate,  unset: not on skate
         isAlive         = 1 << 4,   // 16 set: alive,  unset: dead
+        isThrowing	    = 1 << 5,   // 32 set: throwing,  unset: not throwing
     };
     unsigned int state{ 0 }; // to set 0 to compare with each bit state
 
@@ -116,7 +117,7 @@ struct CInput : public Component
     bool left{ false };
     bool right{ false };
     bool shoot{ false };
-    bool canShoot{ false };
+    bool canShoot{ true };
     bool canJump{ true };
 
     CInput() = default;
@@ -135,4 +136,12 @@ struct CPhysics : public Component
 			: gravity(g), maxSpeed(m), speed(s), jump(j) {}
 };
 
+struct CLifespan : public Component
+{
+	int    lifeTime;
+	int    remainingTime;
+
+	CLifespan() = default;
+	CLifespan(int t) : lifeTime(t), remainingTime(t) {}
+};
 #endif //BREAKOUT_COMPONENTS_H

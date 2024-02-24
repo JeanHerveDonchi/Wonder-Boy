@@ -1,0 +1,204 @@
+{"frames": [
+
+{
+	"filename": "tt_axe (1).png",
+	"frame": {"x":321,"y":829,"w":153,"h":170},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":170},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_axe (2).png",
+	"frame": {"x":161,"y":293,"w":121,"h":148},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":22,"w":121,"h":148},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_fall (1).png",
+	"frame": {"x":309,"y":303,"w":121,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":7,"w":121,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_fall (2).png",
+	"frame": {"x":328,"y":424,"w":131,"h":161},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":7,"w":131,"h":161},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_fire (1).png",
+	"frame": {"x":158,"y":686,"w":141,"h":170},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":0,"w":141,"h":170},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_fire (2).png",
+	"frame": {"x":321,"y":192,"w":111,"h":158},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":12,"w":111,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_fire (3).png",
+	"frame": {"x":322,"y":91,"w":101,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":37,"y":7,"w":101,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_peace.png",
+	"frame": {"x":158,"y":550,"w":131,"h":161},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":7,"w":131,"h":161},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_run (1).png",
+	"frame": {"x":0,"y":0,"w":86,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":7,"w":86,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_run (2).png",
+	"frame": {"x":166,"y":86,"w":101,"h":156},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":7,"w":101,"h":156},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_run (3).png",
+	"frame": {"x":163,"y":0,"w":86,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":7,"w":86,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_run (4).png",
+	"frame": {"x":0,"y":293,"w":111,"h":161},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":7,"w":111,"h":161},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_axe (1).png",
+	"frame": {"x":0,"y":811,"w":158,"h":158},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":12,"w":158,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_axe (2).png",
+	"frame": {"x":0,"y":525,"w":143,"h":158},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":12,"w":143,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_fall (1).png",
+	"frame": {"x":0,"y":668,"w":143,"h":158},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":12,"w":143,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_run (1).png",
+	"frame": {"x":328,"y":686,"w":143,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":7,"w":143,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_run (2).png",
+	"frame": {"x":158,"y":827,"w":143,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":7,"w":143,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_trip (1).png",
+	"frame": {"x":319,"y":555,"w":131,"h":170},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":0,"w":131,"h":170},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_skate_trip (2).png",
+	"frame": {"x":158,"y":424,"w":126,"h":170},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":0,"w":126,"h":170},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_stand (1).png",
+	"frame": {"x":0,"y":86,"w":92,"h":166},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":4,"w":92,"h":166},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_stand (2).png",
+	"frame": {"x":326,"y":0,"w":91,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":7,"w":91,"h":163},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_trip (1).png",
+	"frame": {"x":0,"y":178,"w":106,"h":158},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":12,"w":106,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_trip (2).png",
+	"frame": {"x":0,"y":404,"w":121,"h":158},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":37,"y":12,"w":121,"h":158},
+	"sourceSize": {"w":160,"h":170}
+},
+{
+	"filename": "tt_win.png",
+	"frame": {"x":158,"y":187,"w":106,"h":163},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":7,"w":106,"h":163},
+	"sourceSize": {"w":160,"h":170}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "tt_atlasx4M.png",
+	"format": "RGBA8888",
+	"size": {"w":491,"h":982},
+	"scale": "5",
+	"smartupdate": "$TexturePacker:SmartUpdate:9d333657c63f1334fe7d4772dfec78ee:124917d32a51c3a407d9f35bf615249e:b04e37cab2b1d522b99250b52c41ed81$"
+}
+}

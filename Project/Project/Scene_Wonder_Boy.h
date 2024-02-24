@@ -19,10 +19,15 @@ class Scene_Wonder_Boy : public Scene
         float SPEED{ 0.f }, MAXSPEED{ 0.f }, JUMP{ 0.f }, GRAVITY{ 0.f };
         std::string WEAPON;
     };
+    struct WeaponConfig
+    {
+        float W{ 0.f }, H{ 0.f }, SPEED{ 0.f }, YVEL{ 0.f };
+    };
 private:
     sPtrEntt        m_player{nullptr};
     std::string	    m_levelPath;
     PlayerConfig	m_playerConfig;
+    WeaponConfig	m_weaponConfig;
     sf::View        m_worldView;
     sf::FloatRect   m_worldBounds;
     bool 		    m_drawTextures{ true };
@@ -61,7 +66,9 @@ public:
     void		  sDoAction(const Command& command) override;
     void		  sRender() override;
     void          checkPlayerState();
+    void          spawnBullet(std::shared_ptr<Entity> e);
     Vec2          gridToMidPixel(float gridX, float gridY, sPtrEntt entity);
+    void          sLifeSpan();
 
 };
 
