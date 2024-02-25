@@ -18,6 +18,8 @@ namespace
 }
 
 const Vec2 BB_SIZE(96, 96);
+const Vec2 WEAPON_SPEED(30.f, -30.f);
+const sf::Time THROW_TIMEPERFRAME = sf::seconds(0.1f);
 
 Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& levelPath)
 	: Scene(gameEngine)
@@ -45,12 +47,13 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 {
 	// player movement
 	auto &pTfm = m_player->getComponent<CTransform>();
-	pTfm.vel.x = 0.f;
 	auto &pState = m_player->getComponent<CState>();
 	auto &pInput = m_player->getComponent<CInput>();
 	auto &pAnim = m_player->getComponent<CAnimation>();
 	// set canJump property with isGrounded state
 	pInput.canJump = pState.test(CState::isGrounded);
+
+	pTfm.vel.x = 0.f;
 
 	if (pInput.left) 
 		pTfm.vel.x -= 1;
@@ -107,6 +110,24 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	}
 
 	(pTfm.vel.x == 0) ? pState.unSet(CState::isRunning) : pState.set(CState::isRunning);
+	if (pState.test(CState::isFacingLeft))
+	{
+		if (pTfm.vel.x == 0)
+			pState.set(CState::isFacingLeft);
+		else
+		{
+			(pTfm.vel.x < 0) ? pState.set(CState::isFacingLeft) : pState.unSet(CState::isFacingLeft);
+		}
+	}
+	else if (!pState.test(CState::isFacingLeft))
+	{
+		if (pTfm.vel.x == 0)
+			pState.unSet(CState::isFacingLeft);
+		else
+		{
+			(pTfm.vel.x < 0) ? pState.set(CState::isFacingLeft) : pState.unSet(CState::isFacingLeft);
+		}
+	}
 }
 
 void Scene_Wonder_Boy::sCollisions()
@@ -379,6 +400,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 	{
 		if (pAnim.getName() != "tt_axe") {
 			pAnim = Assets::getInstance().getAnimation("tt_axe");
+			pAnim.setTFM(THROW_TIMEPERFRAME);
 		}	
 	}
 	else if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && pAnim.hasEnded())
@@ -403,16 +425,19 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 }
 
 void Scene_Wonder_Boy::spawnBullet(std::shared_ptr<Entity> e) {
-	auto tfm = e->getComponent<CTransform>();
+	auto pTfm = e->getComponent<CTransform>();
+	auto pState = e->getComponent<CState>();
 
-	if (tfm.has) {
+	if (pTfm.has) {
 		auto bullet = m_entityManager.addEntity("bullet");
 		bullet->addComponent<CAnimation>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON), true);
-		bullet->addComponent<CTransform>(tfm.pos);
+		std::cout << bullet->getComponent<CAnimation>().animation.getTFM().asSeconds() << std::endl;
+		bullet->addComponent<CTransform>(pTfm.pos);
 		bullet->addComponent<CBoundingBox>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON).getSize());
 		bullet->addComponent<CLifespan>(50);
-		bullet->getComponent<CTransform>().vel.x = 40 * (e->getComponent<CState>().test(CState::isFacingLeft) ? -1 : 1);
-		bullet->getComponent<CTransform>().vel.y = 40;
+		bullet->getComponent<CTransform>().vel.x = WEAPON_SPEED.x * (e->getComponent<CState>().test(CState::isFacingLeft) ? -1 : 1);
+		bullet->getComponent<CTransform>().vel.y = WEAPON_SPEED.y;
+		bullet->addComponent<CPhysics>(3, 0, 0, 0);
 	}
 }
 
@@ -490,7 +515,10 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 		else if (command.name() == "SHOOT")
 		{
 			//throwWeapon();
-			m_player->getComponent<CInput>().shoot = true;
+			if (m_player->getComponent<CInput>().canShoot) {
+				spawnBullet(m_player);
+				m_player->getComponent<CInput>().shoot = true;
+			}
 		}
 	}
 
@@ -665,6 +693,18 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			e->addComponent<CBoundingBox>();
 
 
+		}
+		else if (token == "Item")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("item");
+			auto IAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			e->addComponent<CBoundingBox>();
 		}
 		else if (token == "#") 
 		{

@@ -63,6 +63,17 @@ const Vec2 Animation::getSize() const {
     return Vec2(static_cast<sf::Vector2f>(m_frames[m_currentFrame].getSize()).x, static_cast<sf::Vector2f>(m_frames[m_currentFrame].getSize()).y);
 }
 
+void Animation::setTFM(sf::Time t)
+{
+    m_timePerFrame = t;
+}
+
+sf::Time Animation::getTFM() const
+{
+    return sf::Time();
+}
+
+
 sf::Sprite &Animation::getSprite() {
     return m_sprite;
 }

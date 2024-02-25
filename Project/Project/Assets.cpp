@@ -138,8 +138,6 @@ void Assets::loadAnimations(const std::string& path) {
                 (repeat == "yes"));
 
             m_animationMap[name] = a;
-
-            std::cout << "Loaded animation: " << name << a.m_isRotated << std::endl;
         }
         else
         {

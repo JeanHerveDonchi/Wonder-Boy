@@ -3,7 +3,7 @@
 World 1280 720
 
 #     	gX, 	gY, 	cW,  	cH,   	sX,  	sY, 	 sM, 	 g,   	bullet 
-Player 	2   	10  	80  	120   	30  	40  	 20   	 3   	axe
+Player 	2   	10  	80  	120   	12  	60  	 20   	 3   	axe
 
 # Decoration
 Deco	treesResize	0	2
@@ -16,6 +16,16 @@ Deco	bushEndResize	120	2
 Deco	cloud3		130	8
 Deco	cloud2resize	136	9
 Deco 	bush3		130	2
+
+#Item 
+Item	apple		12	4
+Item	banana		20	7
+
+
+#Sprite
+Item	egg		30	2
+Item	axe		30	3
+	
 
 
 

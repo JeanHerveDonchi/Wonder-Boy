@@ -19,8 +19,6 @@ private:
 
 public:
 
-	bool						m_isRotated{ false };
-
 	Animation();
 	Animation(const std::string& name, const sf::Texture& t);
 	Animation(const std::string& name, const sf::Texture& t,
@@ -31,6 +29,8 @@ public:
 	sf::Sprite&			getSprite();
 	const std::string&	getName() const;
 	const Vec2			getSize() const;
+	void				setTFM(sf::Time t);
+	sf::Time            getTFM() const;
 
 	template<typename T>
 	inline void centerOrigin(T& t) {

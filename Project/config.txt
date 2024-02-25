@@ -63,7 +63,7 @@ Animation	uphillend	TexGrassLand	1	yes
 Animation	uphillstart	TexGrassLand	1	yes
 
 Animation 	apple 		TexItems 	2 	yes
-Animation	axe 		TexItems 	5 	yes
+Animation	axe 		TexItems 	4 	yes
 Animation 	axeBlank 	TexItems 	1 	yes
 Animation 	axeGet 		TexItems 	1 	yes
 Animation 	banana 		TexItems 	2	yes 
