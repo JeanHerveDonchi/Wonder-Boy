@@ -14,12 +14,15 @@ Texture TomTom		../Assets/Textures/resize/tt_atlasx4.png
 Texture TexGrassLand	../Assets/Textures/resize/grass_land_atlas.png
 Texture	TexGrassDeco	../Assets/Textures/resize/grass_land_deco_resize_basic.png
 Texture	TexItems	../Assets/Textures/resize/itemsBx2h.png
+Texture	TexItems2	../Assets/Textures/resize/items2_B.png
 
 
 JSON			../Assets/Textures/resize/tt_atlasx4.json
 JSON			../Assets/Textures/resize/grass_land_atlas.json
 JSON			../Assets/Textures/resize/grass_land_deco_resize_basic.json
 JSON			../Assets/Textures/resize/itemsBx2h.json
+JSON			../Assets/Textures/resize/items2_B.json
+
 
 # Sprite
 
@@ -28,7 +31,7 @@ JSON			../Assets/Textures/resize/itemsBx2h.json
 
 #  Animation    Name            Texture     1sec/this	repeat
 Animation	tt_axe		TomTom		4	no
-Animation	tt_fall		TomTom		2	no
+Animation	tt_fall		TomTom		8	yes
 Animation	tt_fire		TomTom		2	no
 Animation	tt_run		TomTom		8	yes
 Animation	tt_skate_axe	TomTom		2	no
@@ -91,3 +94,16 @@ Animation 	100 		TexItems 	2 	yes
 Animation 	200 		TexItems 	2 	yes
 Animation 	500 		TexItems 	2 	yes
 Animation 	1000		TexItems 	2 	yes
+Animation	angel		TexItems2	2	yes
+Animation	flyingGrass	TexItems2	1	yes
+Animation	goalWood	TexItems2	1 	yes
+Animation	rock		TexItems2	1	yes
+Animation	rollingRock	TexItems2	4	yes
+Animation	spring		TexItems2	2	yes
+Animation	springO		TexItems2	2	yes
+Animation	springBefore	TexItems2	1	yes
+Animation	springOBefore	TexItems2	1	yes
+Animation	start1Wood	TexItems2	1	yes
+Animation	start2Wood	TexItems2	1	yes
+Animation	start3Wood	TexItems2	1	yes
+Animation	start4Wood	TexItems2	1	yes

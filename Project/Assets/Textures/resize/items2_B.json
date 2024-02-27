@@ -1,0 +1,164 @@
+{"frames": [
+
+{
+	"filename": "angel (1).png",
+	"frame": {"x":53,"y":0,"w":45,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":32,"w":45,"h":48},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "angel (2).png",
+	"frame": {"x":98,"y":0,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":45,"y":20,"w":48,"h":48},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "flyingGrass (1).png",
+	"frame": {"x":0,"y":500,"w":216,"h":49},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":35,"y":47,"w":216,"h":49},
+	"sourceSize": {"w":288,"h":96}
+},
+{
+	"filename": "goalWood (1).png",
+	"frame": {"x":93,"y":165,"w":94,"h":56},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":40,"w":94,"h":56},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "rock (1).png",
+	"frame": {"x":0,"y":221,"w":84,"h":82},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":14,"w":84,"h":82},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "rollingRock (1).png",
+	"frame": {"x":0,"y":310,"w":93,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":5,"w":93,"h":91},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "rollingRock (2).png",
+	"frame": {"x":93,"y":310,"w":95,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":5,"w":95,"h":91},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "rollingRock (3).png",
+	"frame": {"x":84,"y":221,"w":93,"h":89},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":7,"w":93,"h":89},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "rollingRock (4).png",
+	"frame": {"x":0,"y":401,"w":95,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":95,"h":91},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "spring (1).png",
+	"frame": {"x":0,"y":0,"w":53,"h":29},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":67,"w":53,"h":29},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "spring (2).png",
+	"frame": {"x":146,"y":0,"w":52,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":32,"w":52,"h":64},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "springBefore (1).png",
+	"frame": {"x":0,"y":0,"w":53,"h":29},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":67,"w":53,"h":29},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "springO (1).png",
+	"frame": {"x":89,"y":64,"w":90,"h":51},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":141,"w":90,"h":51},
+	"sourceSize": {"w":96,"h":192}
+},
+{
+	"filename": "springO (2).png",
+	"frame": {"x":95,"y":401,"w":90,"h":99},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":93,"w":90,"h":99},
+	"sourceSize": {"w":96,"h":192}
+},
+{
+	"filename": "springOBefore (1).png",
+	"frame": {"x":89,"y":64,"w":90,"h":51},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":141,"w":90,"h":51},
+	"sourceSize": {"w":96,"h":192}
+},
+{
+	"filename": "start1Wood (1).png",
+	"frame": {"x":0,"y":115,"w":92,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":46,"w":92,"h":50},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "start2Wood (1).png",
+	"frame": {"x":92,"y":115,"w":92,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":46,"w":92,"h":50},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "start3Wood (1).png",
+	"frame": {"x":0,"y":64,"w":89,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":46,"w":89,"h":50},
+	"sourceSize": {"w":96,"h":96}
+},
+{
+	"filename": "start4Wood (1).png",
+	"frame": {"x":0,"y":165,"w":93,"h":51},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":45,"w":93,"h":51},
+	"sourceSize": {"w":96,"h":96}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "items2_B.png",
+	"format": "RGBA8888",
+	"size": {"w":216,"h":549},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ede4db8dbe762de63cdf63228f307c61:1d0b01fd94236bd28715466da5fc7c7a:289030fa5c6be3f80be6c97c83e36204$"
+}
+}

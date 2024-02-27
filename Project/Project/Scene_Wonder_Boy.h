@@ -50,7 +50,7 @@ private:
 
 
     // helper functions
-    void            spawnPlayer();
+    void            spawnPlayer(Vec2 spawnPos = Vec2(2, 10));
 
     void            init(const std::string& levelPath);
     void            loadLevel(const std::string &path);

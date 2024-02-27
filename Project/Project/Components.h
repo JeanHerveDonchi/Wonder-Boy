@@ -98,6 +98,7 @@ struct CState : public Component {
         onSkate         = 1 << 3,   // 8 set: on skate,  unset: not on skate
         isAlive         = 1 << 4,   // 16 set: alive,  unset: dead
         isThrowing	    = 1 << 5,   // 32 set: throwing,  unset: not throwing
+        isBurned        = 1 << 6,   // 64 set: burned,  unset: not burned
     };
     unsigned int state{ 0 }; // to set 0 to compare with each bit state
 

@@ -20,6 +20,7 @@ namespace
 const Vec2 BB_SIZE(96, 96);
 const Vec2 WEAPON_SPEED(30.f, -30.f);
 const sf::Time THROW_TIMEPERFRAME = sf::seconds(0.1f);
+const float RESPAWN_DEPTH = 1700.f;
 
 Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& levelPath)
 	: Scene(gameEngine)
@@ -53,51 +54,56 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	// set canJump property with isGrounded state
 	pInput.canJump = pState.test(CState::isGrounded);
 
-	pTfm.vel.x = 0.f;
-
-	if (pInput.left) 
-		pTfm.vel.x -= 1;
-	if (pInput.right) 
-		pTfm.vel.x += 1; 
-	if (abs(pTfm.vel.x) > 0)
-		pTfm.scale.x = (pTfm.vel.x) > 0 ? 1.f : -1.f;
-
-	// setting a running state should be rocated in checkPlayerState, not here	
-
-	if (pInput.jump) 
+	if (pInput.has)
 	{
-		pInput.jump = false;
-		// set the jump state to false after getting the jump input, 
-		// it prevents keep jumping when the jump key is pressed
-		if (pState.test(CState::isGrounded))
-		{
-			pTfm.vel.y -= m_playerConfig.JUMP;
-			pState.unSet(CState::isGrounded);
-		}
-	}
+		pTfm.vel.x = 0;
 
-	if (pInput.canShoot)
-	{
-		if (pInput.shoot)
+		if (pInput.left)
+			pTfm.vel.x = -m_playerConfig.SPEED;
+		if (pInput.right)
+			pTfm.vel.x = m_playerConfig.SPEED;
+		if (abs(pTfm.vel.x) > 0)
+			pTfm.scale.x = (pTfm.vel.x) > 0 ? 1.f : -1.f;
+
+		// setting a running state should be rocated in checkPlayerState, not here	
+
+		if (pInput.jump)
 		{
-			if (!(pState.test(CState::isThrowing))) {
- 				pInput.shoot = false;
-				pState.set(CState::isThrowing);
-			}
- 			else if (pState.test(CState::isThrowing))
+			pInput.jump = false;
+			// set the jump state to false after getting the jump input, 
+			// it prevents keep jumping when the jump key is pressed
+			if (pState.test(CState::isGrounded))
 			{
-				pInput.shoot = false;
-				// nothing happens
+				pTfm.vel.y -= m_playerConfig.JUMP;
+				pState.unSet(CState::isGrounded);
+			}
+		}
+
+		if (pInput.canShoot)
+		{
+			if (pInput.shoot)
+			{
+				if (!(pState.test(CState::isThrowing))) {
+					pInput.shoot = false;
+					pState.set(CState::isThrowing);
+					spawnBullet(m_player);
+				}
+				else if (pState.test(CState::isThrowing))
+				{
+					pInput.shoot = false;
+					// nothing happens
+				}
 			}
 		}
 	}
 
+	
 
 	// gravity
-	pTfm.vel.y += m_playerConfig.GRAVITY;
+	/*pTfm.vel.y += m_playerConfig.GRAVITY;
 	pTfm.vel.x = pTfm.vel.x * m_playerConfig.SPEED;
 
-	pTfm.pos += pTfm.vel;
+	pTfm.pos += pTfm.vel;*/
 	
 	// move all entities
 	for (auto e : m_entityManager.getEntities()) {
@@ -137,13 +143,16 @@ void Scene_Wonder_Boy::sCollisions()
 	auto &tilesBB = m_entityManager.getEntities("tilesBB");
 	auto &halftileEBB = m_entityManager.getEntities("halftileEBB");
 	auto &halftileSBB = m_entityManager.getEntities("halftileSBB");
-	auto &weapons = m_entityManager.getEntities("weapon");
+	auto &bullets = m_entityManager.getEntities("bullet");
+	auto &items = m_entityManager.getEntities("item");
+	auto &enemies = m_entityManager.getEntities("enemy");
+	auto &obstacles = m_entityManager.getEntities("obstacle");
 
-	auto &playerTfm = m_player->getComponent<CTransform>();
-	auto &playerState = m_player->getComponent<CState>();
-	auto &playerPhysics = m_player->getComponent<CPhysics>();
+	auto &pTfm = m_player->getComponent<CTransform>();
+	auto &pState = m_player->getComponent<CState>();
+	auto &pPhysics = m_player->getComponent<CPhysics>();
 
-	for (auto& e : weapons)
+	for (auto& e : bullets)
 	{
 		// check if weapon is out of bounds
 		auto& tfm = e->getComponent<CTransform>();
@@ -174,7 +183,17 @@ void Scene_Wonder_Boy::sCollisions()
 			}
 		}
 		// check if weapon collides with enmemies
-		// Todo* 
+		for (auto& enemy : enemies)
+		{
+			auto& tfm = enemy->getComponent<CTransform>();
+			auto& box = enemy->getComponent<CBoundingBox>();
+			auto overlap = Physics::getOverlap(e, enemy);
+			if (overlap.x > 0 && overlap.y > 0)
+			{
+				e->destroy();
+				enemy->destroy();
+			}
+		}
 	}
 
 	if (m_player->hasComponent<CBoundingBox>())
@@ -195,9 +214,9 @@ void Scene_Wonder_Boy::sCollisions()
 				{
 					if (preoverlap.y > 0) 
 					{
-						playerTfm.pos.y -= overlap.y; // move up
-						playerTfm.vel.y = 0; // stop falling
-						playerState.set(CState::isGrounded); // set grounded state
+						pTfm.pos.y -= overlap.y; // move up
+						pTfm.vel.y = 0; // stop falling
+						pState.set(CState::isGrounded); // set grounded state
 					}
 				}
 			}
@@ -216,15 +235,15 @@ void Scene_Wonder_Boy::sCollisions()
 				{
 					if (preoverlap.y > 0)
 					{ // if was above
-						playerTfm.pos.y -= overlap.y; // move up
-						playerTfm.vel.y = 0; // stop falling
-						playerState.set(CState::isGrounded); // set grounded state
+						pTfm.pos.y -= overlap.y; // move up
+						pTfm.vel.y = 0; // stop falling
+						pState.set(CState::isGrounded); // set grounded state
 					}
 					if (preoverlap.y < 0)
 					{ // if was below
-						playerTfm.pos.y -= overlap.y; // move up
-						playerTfm.vel.y = 0; // stop falling
-						playerState.set(CState::isGrounded); // set grounded state
+						pTfm.pos.y -= overlap.y; // move up
+						pTfm.vel.y = 0; // stop falling
+						pState.set(CState::isGrounded); // set grounded state
 					}
 				}
 			}
@@ -236,6 +255,45 @@ void Scene_Wonder_Boy::sCollisions()
 		for (auto& e : halftileSBB)
 		{
 
+		}
+		for (auto& e : items)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
+
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+
+			if (e->hasComponent<CBoundingBox>())
+			{
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					e->destroy();
+				}
+			}
+		}
+		for (auto& e : enemies)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
+
+
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+
+			if (box.has)
+			{
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					pState.unSet(CState::isAlive);
+					pTfm.vel.y = -35;
+				}
+			}
+
+			if (box.has)
+			{
+
+			}
 		}
 
 	}
@@ -386,6 +444,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 	auto &pState = m_player->getComponent<CState>();
 	auto &pAnim = m_player->getComponent<CAnimation>().animation;
 	auto &pInput = m_player->getComponent<CInput>();
+	auto &pBB = m_player->getComponent<CBoundingBox>();
 	
 		/*
 		isGrounded = 1,        
@@ -396,6 +455,9 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		isThrowing = 1 << 5,  
 		*/
 	
+	
+
+
 	if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && !pAnim.hasEnded())
 	{
 		if (pAnim.getName() != "tt_axe") {
@@ -419,7 +481,23 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 	}
 	else if (!pState.test(CState::isAlive))
 	{
-		pAnim = Assets::getInstance().getAnimation("tt_fall");
+		pBB.has = false;
+		pInput.has = false;
+		pTfm.vel.x = 0;
+
+		if (!pState.test(CState::isBurned) && pAnim.getName() != "tt_fall")
+		{
+			pAnim = Assets::getInstance().getAnimation("tt_fall");
+		}
+		else if (pState.test(CState::isBurned) && pAnim.getName() != "tt_fire")
+		{
+			pAnim = Assets::getInstance().getAnimation("tt_fire");
+		}
+
+		if (pTfm.pos.y > RESPAWN_DEPTH) 
+		{
+			spawnPlayer(Vec2(5, 10));
+		}
 	}
 
 }
@@ -431,7 +509,6 @@ void Scene_Wonder_Boy::spawnBullet(std::shared_ptr<Entity> e) {
 	if (pTfm.has) {
 		auto bullet = m_entityManager.addEntity("bullet");
 		bullet->addComponent<CAnimation>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON), true);
-		std::cout << bullet->getComponent<CAnimation>().animation.getTFM().asSeconds() << std::endl;
 		bullet->addComponent<CTransform>(pTfm.pos);
 		bullet->addComponent<CBoundingBox>(Assets::getInstance().getAnimation(m_playerConfig.WEAPON).getSize());
 		bullet->addComponent<CLifespan>(50);
@@ -516,7 +593,6 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 		{
 			//throwWeapon();
 			if (m_player->getComponent<CInput>().canShoot) {
-				spawnBullet(m_player);
 				m_player->getComponent<CInput>().shoot = true;
 			}
 		}
@@ -543,11 +619,16 @@ void Scene_Wonder_Boy::sDoAction(const Command& command)
 	}
 }
 
-void Scene_Wonder_Boy::spawnPlayer()
+void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 {
+	auto& pInput = m_player->getComponent<CInput>();
+	auto& pBB = m_player->getComponent<CBoundingBox>();
+
+	
+	
 	m_player = m_entityManager.addEntity("player");
 	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("tt_stand"), true);
-	m_player->addComponent<CTransform>(gridToMidPixel(m_playerConfig.X, m_playerConfig.Y,  m_player), Vec2(0, 0), Vec2(1,1));
+	m_player->addComponent<CTransform>(gridToMidPixel(spawnPos.x, spawnPos.y,  m_player), Vec2(0, 0), Vec2(1,1));
 	m_player->addComponent<CState>().unSet(CState::isRunning);
 	m_player->addComponent<CInput>();
 	m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
@@ -692,7 +773,11 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 			e->addComponent<CBoundingBox>();
 
-
+			if (name == "start1Wood" || name == "start2Wood" || name == "start3Wood" || name == "start4Wood" || name == "goalWood")
+			{
+				tfm.scale = Vec2(2, 2);
+				tfm.pos.y -= 25.f;
+			}
 		}
 		else if (token == "Item")
 		{
@@ -704,7 +789,32 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto IAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
-			e->addComponent<CBoundingBox>();
+			e->addComponent<CBoundingBox>(IAnim.animation.getSize());
+			
+		}
+		else if (token == "Enemy")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("enemy");
+			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			tfm.scale = Vec2(2, 2);
+			tfm.pos.y -= 15.f;
+			e->addComponent<CBoundingBox>(EAnim.animation.getSize() * 1.2f);
+		}
+		else if (token == "Obst")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("obstacle");
+			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			e->addComponent<CBoundingBox>(Vec2(EAnim.animation.getSize().x * 0.7f, EAnim.animation.getSize().x * 0.8f));
 		}
 		else if (token == "#") 
 		{
