@@ -25,6 +25,7 @@ const Vec2 SPAWN_POS2(2, 10);
 const Vec2 SPAWN_POS3(8, 10);
 const Vec2 SPAWN_POS4(11, 10);
 const Vec2 GOAL_POS(14, 10);
+const float ENEMY_D_RANGE = 750.f;
 
 Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& levelPath)
 	: Scene(gameEngine)
@@ -114,6 +115,19 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 		tfm.prevPos = tfm.pos;
 		if (e->hasComponent<CPhysics>()) {
 			tfm.vel.y += e->getComponent<CPhysics>().gravity;
+		}
+		if (e->hasComponent<CAI>() && e->getComponent<CAI>().detectPlayer)
+		{
+			auto &ai = e->getComponent<CAI>();
+
+			if (!e->getComponent<CAI>().moveVertically)
+				tfm.vel = Vec2(-ai.velX, tfm.vel.y);
+			else
+			{
+				if (tfm.pos.y > ai.maxY || tfm.pos.y < ai.minY)
+					ai.velY = -ai.velY;
+				tfm.vel = Vec2(-ai.velX, ai.velY);
+			}
 		}
 		tfm.pos += tfm.vel;
 	}
@@ -546,7 +560,14 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 
 		if (pTfm.pos.y > RESPAWN_DEPTH)
 		{
+			auto& enemies = m_entityManager.getEntities("enemy");
+			auto& items = m_entityManager.getEntities("item");
+
+			for (auto& e : m_entityManager.getEntities())
+				e->destroy();
+			loadLevel("../Assets/level1.txt");
 			spawnPlayer(Vec2(5, 10)); // replace this parameter to designated respawn points
+			
 		}
 	}
 
@@ -646,11 +667,15 @@ void Scene_Wonder_Boy::sEnemyAI()
 {
 	auto enemies = m_entityManager.getEntities("enemy");
 	auto pState = m_player->getComponent<CState>();
+	auto pTfm = m_player->getComponent<CTransform>();
 	for (auto e : enemies)
 	{
-		if (pState.test(CState::isAlive) )
+		if (pState.test(CState::isAlive) && e->getComponent<CAI>().has)
 		{
-
+			if (e->getComponent<CTransform>().pos.x - pTfm.pos.x < ENEMY_D_RANGE)
+			{
+				e->getComponent<CAI>().detectPlayer = true;
+			}
 		}
 	}
 }
@@ -665,6 +690,7 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 
 
 	sMovement(dt);
+	sEnemyAI();
 	sCollisions();
 
 	sAnimation(dt);
@@ -736,7 +762,7 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 	m_player->addComponent<CTransform>(gridToMidPixel(spawnPos.x, spawnPos.y,  m_player), Vec2(0, 0), Vec2(1,1));
 	m_player->addComponent<CState>().unSet(CState::isRunning);
 	m_player->addComponent<CInput>();
-	m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
+	//m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
 	m_player->addComponent<CState>().set(CState::isAlive);
 	m_player->addComponent<CPhysics>(m_playerConfig.GRAVITY, m_playerConfig.MAXSPEED, m_playerConfig.SPEED, m_playerConfig.JUMP);
 
@@ -910,6 +936,19 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			tfm.scale = Vec2(2, 2);
 			tfm.pos.y -= 15.f;
 			e->addComponent<CBoundingBox>(EAnim.animation.getSize() * 1.2f);
+			
+			if (name == "bee")
+			{
+				auto& ai = e->addComponent<CAI>(10, true, 5, 850, 650);
+			}
+			else if (name == "snake")
+			{
+				tfm.pos.y -= 15.f;
+			}
+			else if (name == "rollingRock")
+			{
+				e->getComponent<CBoundingBox>().size = Vec2(e->getComponent<CBoundingBox>().size.x, e->getComponent<CBoundingBox>().size.y * 1.2);
+			}
 		}
 		else if (token == "Obst")
 		{

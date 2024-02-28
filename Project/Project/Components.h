@@ -147,5 +147,18 @@ struct CLifespan : public Component
 	CLifespan(int t) : lifeTime(t), remainingTime(t) {}
 };
 
+struct CAI : public Component
+{
+    bool detectPlayer{ false };
+    float velX{ 0.f };
+    bool moveVertically{ false };
+    float velY{ 0.f };
+    float maxY{ 0.f };
+    float minY{ 0.f };
 
+    CAI() = default;
+    CAI(float vx)	: detectPlayer(false), velX(vx), moveVertically(false), maxY(0.f), minY(0.f) {}
+    CAI(float vx, bool mv, float vy, float max, float min)
+		: detectPlayer(false), velX(vx), moveVertically(mv), velY(vy), maxY(max), minY(min) {}
+};
 #endif //BREAKOUT_COMPONENTS_H
