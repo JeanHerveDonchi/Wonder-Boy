@@ -92,13 +92,14 @@ struct CBoundingBoxes : public Component
 struct CState : public Component {
 
     enum playerState {
-        isGrounded      = 1,        // 1 set: grounded,  unset: in the air
+        isAlive         = 1,        // 1 set: alive,  unset: dead
         isFacingLeft    = 1 << 1,   // 2 set: facing left,  unset: facing right
         isRunning	    = 1 << 2,   // 4 set: running,  unset: not running, stand
         onSkate         = 1 << 3,   // 8 set: on skate,  unset: not on skate
-        isAlive         = 1 << 4,   // 16 set: alive,  unset: dead
+        isGrounded      = 1 << 4,   // 16 set: grounded,  unset: not grounded
         isThrowing	    = 1 << 5,   // 32 set: throwing,  unset: not throwing
         isBurned        = 1 << 6,   // 64 set: burned,  unset: not burned
+        isTripping      = 1 << 7,   // 128 set: tripping,  unset: not tripping
     };
     unsigned int state{ 0 }; // to set 0 to compare with each bit state
 
@@ -145,4 +146,6 @@ struct CLifespan : public Component
 	CLifespan() = default;
 	CLifespan(int t) : lifeTime(t), remainingTime(t) {}
 };
+
+
 #endif //BREAKOUT_COMPONENTS_H

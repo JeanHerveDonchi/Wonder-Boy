@@ -69,6 +69,7 @@ public:
     void          spawnBullet(std::shared_ptr<Entity> e);
     Vec2          gridToMidPixel(float gridX, float gridY, sPtrEntt entity);
     void          sLifeSpan();
+    void          sEnemyAI();
 
 };
 

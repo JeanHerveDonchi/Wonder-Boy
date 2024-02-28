@@ -18,7 +18,7 @@ Deco	cloud2resize	136	9
 Deco 	bush3		130	2
 
 Deco	start1Wood	1	2
-Deco	start2Wood	3	2
+Deco	start2Wood	100	2
 Deco	start3Wood	5	2
 Deco	start4Wood	7	2
 Deco	goalWood	9	2
@@ -41,6 +41,7 @@ Item	banana		92	7
 Obst	rock		63	2
 Obst	rock		70	2
 Obst	rock		72	2
+
 
 	
 # Enemy

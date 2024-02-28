@@ -19,8 +19,12 @@ namespace
 
 const Vec2 BB_SIZE(96, 96);
 const Vec2 WEAPON_SPEED(30.f, -30.f);
-const sf::Time THROW_TIMEPERFRAME = sf::seconds(0.1f);
 const float RESPAWN_DEPTH = 1700.f;
+const Vec2 SPAWN_POS1(2, 10);
+const Vec2 SPAWN_POS2(2, 10);
+const Vec2 SPAWN_POS3(8, 10);
+const Vec2 SPAWN_POS4(11, 10);
+const Vec2 GOAL_POS(14, 10);
 
 Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& levelPath)
 	: Scene(gameEngine)
@@ -97,14 +101,13 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 		}
 	}
 
-	
+	// tripping
+	if (pState.test(CState::isTripping))
+	{	
+			pTfm.pos.y -= 20;
+			pTfm.vel.x *= 0.3;
+	}
 
-	// gravity
-	/*pTfm.vel.y += m_playerConfig.GRAVITY;
-	pTfm.vel.x = pTfm.vel.x * m_playerConfig.SPEED;
-
-	pTfm.pos += pTfm.vel;*/
-	
 	// move all entities
 	for (auto e : m_entityManager.getEntities()) {
 		auto& tfm = e->getComponent<CTransform>();
@@ -115,6 +118,7 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 		tfm.pos += tfm.vel;
 	}
 
+	// setting isRunning and isFacingLeft states
 	(pTfm.vel.x == 0) ? pState.unSet(CState::isRunning) : pState.set(CState::isRunning);
 	if (pState.test(CState::isFacingLeft))
 	{
@@ -134,6 +138,7 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 			(pTfm.vel.x < 0) ? pState.set(CState::isFacingLeft) : pState.unSet(CState::isFacingLeft);
 		}
 	}
+	
 }
 
 void Scene_Wonder_Boy::sCollisions()
@@ -286,13 +291,39 @@ void Scene_Wonder_Boy::sCollisions()
 				if (overlap.x > 0 && overlap.y > 0)
 				{
 					pState.unSet(CState::isAlive);
-					pTfm.vel.y = -35;
+					pTfm.vel.y = -12;
 				}
 			}
 
+		}
+		for (auto& e : obstacles)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
+			auto& anim = e->getComponent<CAnimation>().animation;
+
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+
 			if (box.has)
 			{
-
+				if (anim.getName() == "rock")
+				{
+					if (overlap.x > 0 && overlap.y > 0)
+					{
+						if (!pState.test(CState::isTripping))
+							pState.set(CState::isTripping);
+					}
+				}
+				else if(anim.getName() == "fire")
+				{
+					if (overlap.x > 0 && overlap.y > 0)
+					{
+						pState.unSet(CState::isAlive);
+						pState.set(CState::isBurned);
+						pTfm.vel.y = -12;
+					}
+				}
 			}
 		}
 
@@ -455,10 +486,71 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		isThrowing = 1 << 5,  
 		*/
 	
-	
+	if (pState.test(CState::isAlive))
+	{
+		if (pState.test(CState::isTripping))
+		{
+			if (!pAnim.hasEnded())
+			{
+				if (pAnim.getName() != "tt_trip") {
+					pAnim = Assets::getInstance().getAnimation("tt_trip");
+				}
+			}
+			else
+			{
+				pState.unSet(CState::isTripping);
+			}
+		}
+		else if (pState.test(CState::isThrowing))
+		{
+			if (!pAnim.hasEnded())
+			{
+				if (pAnim.getName() != "tt_axe") {
+					pAnim = Assets::getInstance().getAnimation("tt_axe");
+				}
+			}
+			else
+			{
+				pState.unSet(CState::isThrowing);
+			}
+		}
+		else 
+		{
+			if (pState.test(CState::isRunning))
+			{
+				if (pAnim.getName() != "tt_run")
+					pAnim = Assets::getInstance().getAnimation("tt_run");
+			}
+			else
+			{
+				if (pAnim.getName() != "tt_stand")
+					pAnim = Assets::getInstance().getAnimation("tt_stand");
+			}
+		}
+	}
+	else if (!pState.test(CState::isAlive)) // == else
+	{
+		pBB.has = false;
+		pInput.has = false;
+		pTfm.vel.x = 0;
+		m_player->getComponent<CPhysics>().gravity = 0.3;
 
+		if (!pState.test(CState::isBurned) && pAnim.getName() != "tt_fall")
+		{
+			pAnim = Assets::getInstance().getAnimation("tt_fall");
+		}
+		else if (pState.test(CState::isBurned) && pAnim.getName() != "tt_fire")
+		{
+			pAnim = Assets::getInstance().getAnimation("tt_fire");
+		}
 
-	if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && !pAnim.hasEnded())
+		if (pTfm.pos.y > RESPAWN_DEPTH)
+		{
+			spawnPlayer(Vec2(5, 10)); // replace this parameter to designated respawn points
+		}
+	}
+
+	/*if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && !pAnim.hasEnded())
 	{
 		if (pAnim.getName() != "tt_axe") {
 			pAnim = Assets::getInstance().getAnimation("tt_axe");
@@ -498,7 +590,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		{
 			spawnPlayer(Vec2(5, 10));
 		}
-	}
+	}*/
 
 }
 
@@ -546,6 +638,19 @@ void Scene_Wonder_Boy::sLifeSpan()
 				e->getComponent<CLifespan>().has = false;
 				e->getComponent<CTransform>().vel.x *= 0.1f;
 			}
+		}
+	}
+}
+
+void Scene_Wonder_Boy::sEnemyAI()
+{
+	auto enemies = m_entityManager.getEntities("enemy");
+	auto pState = m_player->getComponent<CState>();
+	for (auto e : enemies)
+	{
+		if (pState.test(CState::isAlive) )
+		{
+
 		}
 	}
 }
@@ -774,10 +879,11 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			e->addComponent<CBoundingBox>();
 
 			if (name == "start1Wood" || name == "start2Wood" || name == "start3Wood" || name == "start4Wood" || name == "goalWood")
-			{
+			{				
 				tfm.scale = Vec2(2, 2);
 				tfm.pos.y -= 25.f;
 			}
+			
 		}
 		else if (token == "Item")
 		{

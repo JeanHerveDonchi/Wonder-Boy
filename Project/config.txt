@@ -39,7 +39,7 @@ Animation	tt_skate_fall	TomTom		2	no
 Animation	tt_skate_run	TomTom		2	yes
 Animation	tt_skate_trip	TomTom		2	no
 Animation	tt_stand	TomTom		6	yes
-Animation	tt_trip		TomTom		2	no
+Animation	tt_trip		TomTom		4	no
 
 Animation	bush3		TexGrassDeco	1	yes
 Animation	bushEndResize	TexGrassDeco	1	yes
