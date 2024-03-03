@@ -119,7 +119,7 @@ struct CInput : public Component
     bool left{ false };
     bool right{ false };
     bool shoot{ false };
-    bool canShoot{ true };
+    bool canShoot{ false };
     bool canJump{ true };
 
     CInput() = default;

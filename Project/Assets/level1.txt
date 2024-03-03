@@ -5,7 +5,6 @@ World 1280 720
 #     	gX, 	gY, 	cW,  	cH,   	sX,  	sY, 	 sM, 	 g,   	bullet 
 Player 	2   	10  	80  	120   	30  	40  	 20   	 2   	axe
 
-
 # Tile Row 0
 Tile	grassbottom2	0	0
 Tile	grassbottom2	1	0
@@ -653,15 +652,7 @@ Tile    grassbottom2    378     6
 Tile    grassbottom2    379     6
 HalftileE    grassbottom3    380     6
 # emptyLine11
-HalftileS    grassbottom1    392     6
-Tile    grassbottom2    393     6
-Tile    grassbottom2    394     6
-Tile    grassbottom2    395     6
-Tile    grassbottom2    396     6
-Tile    grassbottom2    397     6
-Tile    grassbottom2    398     6
-Tile    grassbottom2    399     6
-Tile    grassbottom2    400     6
+HalftileS    grassbottom1    400     6
 Tile    grassbottom2    401     6
 Tile    grassbottom2    402     6
 Tile    grassbottom2    403     6
@@ -783,15 +774,7 @@ Tile    grass2  378     7
 Tile    grass2  379     7
 HalftileE    grass3  380     7
 #emptyLine11
-HalftileS     grass1  392     7
-Tile    grass2  393     7
-Tile    grass2  394     7
-Tile    grass2  395     7
-Tile    grass2  396     7
-Tile    grass2  397     7
-Tile    grass2  398     7
-Tile    grass2  399     7
-Tile    grass2  400     7
+HalftileS     grass1  400     7
 Tile    grass2  401     7
 Tile    grass2  402     7
 Tile    grass2  403     7
@@ -828,13 +811,18 @@ Deco    bush3   	200	2
 Deco    bush3   	210	2
 Deco    bush3   	225	2
 Deco    bush3   	238	2
-
+Deco	cloud3		300	14
+Deco	cloud3		330	15
+Deco	cloud2resize	340	15
+Deco	cloud3		350	14
+Deco	cloud2resize	380	16
+Deco	cloud3		395	15
 
 Deco	start1Wood	1	2
 Deco	start2Wood	100	2
 Deco	start3Wood	182	2
 Deco	start4Wood	290	8
-Deco	goalWood	397	8
+Deco	goalWood	407	8
 
 # Item 
 Item	apple		12	4
@@ -865,15 +853,24 @@ Item	apple		185	3
 Item	axe		187	3
 Item	banana		194	7
 Item	milk		197	7
-Item	tomato		201	2
-Item	apple		205	5
+Item	tomato		203	2
+Item	apple		206	5
 Item	milk		232	7
 Item	banana		245	7
 Item	tomato		255	7
 Item	apple		257	6
 Item	banana		265	9
-Item	apple		282	8
-Item	apple		283	8
+Item	egg		273 	8
+Item	apple		282	9
+Item	apple		283	9
+Item	axe		294	9
+Item	tomato		330	12
+Item	apple		332	9
+Item	banana		337	9
+Item	candy		365	13
+Item	candy		392	13
+Item	apple		401	8
+
 
 
 # Obstacle
@@ -884,7 +881,20 @@ Obst	rock		165	2
 Obst	rock		175	2
 Obst	rock 		192	2
 Obst	rock		194	2
-Obst	fire		197	2
+Obst	fire		200	2
+Obst	fire		287	8
+Obst	fire		318	8
+Obst	fire		319	8
+Obst	fire		320	8
+Obst	rock		342	8
+
+#Helper
+Helper	flyingGrass	345	8
+Helper	springO		364	7
+Helper	flyingGrass	383	8
+Helper	flyingGrass	387	7
+Helper	flyingGrass	392	9
+Helper	flyingGrass	397	10
 
 
 	
@@ -899,13 +909,18 @@ Enemy	snail		94	2
 Enemy	bee		148	4
 Enemy 	bee		158	4
 Enemy	bee 		170	4
-Enemy	snake		205	2
+Enemy	snake		210	2
 Enemy	snake		220	2
 Enemy	bee 		230	4
 Enemy	snake		245	2
 Enemy	rollingRock	260	5
 Enemy	rollingRock	268	7
-Enemy	rollingRock	273	8
 Enemy	snake		276	8
-Enemy	snake		279	8	
+Enemy	snake		279	8
+Enemy	snail		300	8
+Enemy	bee		310	9
+Enemy	snail		337	8
+Enemy	frog		375	8
+
+	
 

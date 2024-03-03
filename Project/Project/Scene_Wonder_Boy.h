@@ -35,6 +35,12 @@ private:
     bool 		    m_drawGrid{ false };
     const Vec2      m_gridSize{ GRID_SIZE, GRID_SIZE };
     sf::Text        m_gridText;
+
+    int             m_lifeCount{ 3 };
+    int 		    m_score{ 0 };
+    int             m_timeCount{ 32 };
+    int             m_remainingTime{ 0 };
+    sf::Clock       m_clock;
     
 
 

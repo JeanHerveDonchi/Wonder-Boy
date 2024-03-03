@@ -52,7 +52,6 @@ public:
     void addFont(const std::string &fontName, const std::string &path);
     void addSound(const std::string &soundEffectName, const std::string &path);
     void addTexture(const std::string& textureName, const std::string& path, bool smooth = true);
-    void addAnimation(const std::string& animationName, const std::string& textureName, size_t frameCount, size_t speed);
     void addSprt(const std::string& sprtName, const std::string& textureName, const sf::IntRect& textureRect);
 
     const sf::Font&             getFont(const std::string &fontName) const;

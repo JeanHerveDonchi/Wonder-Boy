@@ -45,6 +45,8 @@ void Scene_Wonder_Boy::init(const std::string& levelPath)
 
 	MusicPlayer::getInstance().play("level01");
 	MusicPlayer::getInstance().setVolume(50);
+
+	m_clock.restart();
 }
 
 
@@ -287,8 +289,55 @@ void Scene_Wonder_Boy::sCollisions()
 			{
 				if (overlap.x > 0 && overlap.y > 0)
 				{
-					e->destroy();
-				}
+					e->removeComponent<CBoundingBox>();
+					std::string aName = e->getComponent<CAnimation>().animation.getName();
+					auto& anim = e->getComponent<CAnimation>().animation;
+					auto& aTfm = e->getComponent<CTransform>();
+					if (aName == "apple")
+					{
+						anim = Assets::getInstance().getAnimation("50");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 50;
+					}
+					else if (aName == "tomato")
+					{
+						anim = Assets::getInstance().getAnimation("100");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 100;
+					}
+					else if (aName == "banana")
+					{
+						anim = Assets::getInstance().getAnimation("200");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 200;
+					}
+					else if (aName == "milk")
+					{
+						anim = Assets::getInstance().getAnimation("500");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 500;
+					}
+					else if (aName == "candy")
+					{
+						anim = Assets::getInstance().getAnimation("1000");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 1000;
+					}
+					else if (aName == "axe")
+					{
+						m_player->getComponent<CInput>().canShoot = true;
+						e->destroy();
+					}
+					else if (aName == "skate")
+					{
+						m_player->getComponent<CState>().set(CState::onSkate);
+						e->destroy();
+					}
+					else
+					{
+						e->destroy();
+					}
+				}			
 			}
 		}
 		for (auto& e : enemies)
@@ -340,7 +389,42 @@ void Scene_Wonder_Boy::sCollisions()
 				}
 			}
 		}
+		auto& rRocks = m_entityManager.getEntities("rollingRocks");
+		for (auto& e : rRocks)
+		{
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
 
+			auto& tiles = m_entityManager.getEntities("tile");
+			auto& tilesBB = m_entityManager.getEntities("tilesBB");
+
+			for (auto& t : tiles)
+			{
+				auto overlap = Physics::getOverlap(e, t);
+				auto preoverlap = Physics::getPreviousOverlap(e, t);
+
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					if (preoverlap.y > 0)
+					{
+						tfm.pos.y -= overlap.y; // move up
+					}
+				}
+			}
+			for (auto& t : tilesBB)
+			{
+				auto overlap = Physics::getOverlap(e, t);
+				auto preoverlap = Physics::getPreviousOverlap(e, t);
+
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					if (preoverlap.y > 0)
+					{
+						tfm.pos.y -= overlap.y; // move up
+					}
+				}
+			}
+		}
 	}
 
 }
@@ -352,8 +436,8 @@ void Scene_Wonder_Boy::sAnimation(sf::Time dt)
 		auto &anim = e->getComponent<CAnimation>();
 		if (anim.has) {
 			anim.animation.update(dt);
-			/*if (e->getTag() != "player")
-				if (anim.animation.hasEnded()) { e->destroy(); }*/
+			if (e->getTag() != "player")
+				if (anim.animation.hasEnded()) { e->destroy(); }
 		}
 	}
 }
@@ -377,7 +461,8 @@ void Scene_Wonder_Boy::sRender()
 	auto &playerPos = m_player->getComponent<CTransform>().pos;
 	float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
 	sf::View view = m_game->window().getView();
-	view.setCenter(centerX, m_game->window().getSize().y - view.getCenter().y); // keep view at bottom
+	float height = m_game->window().getSize().y - view.getCenter().y;
+	view.setCenter(centerX, height); // keep view at bottom
 	m_game->window().setView(view);
 
 	// draw all entities
@@ -434,7 +519,7 @@ void Scene_Wonder_Boy::sRender()
 
 		// align grid to grud size
 		int nCols = static_cast<int>(view.getSize().x) / m_gridSize.x;
-		int nRows = static_cast<int>(view.getSize().y) / m_gridSize.y;
+		int nRows = static_cast<int>(view.getSize().y) / m_gridSize.y + 5;
 
 		// row and col # of bot left
 		const int ROW0 = 1080;
@@ -480,11 +565,97 @@ void Scene_Wonder_Boy::sRender()
 		m_game->window().draw(lines);
 	}
 
+	float scoreX = std::max(m_game->window().getSize().x / 2.f - 450.f, playerPos.x - 450.f);
+	float scoreY = 30.f;
+	float hScoreX = std::max(m_game->window().getSize().x / 2.f - 200.f, playerPos.x - 200.f);
+	float hScoreY = 30.f;
+	float timerX = std::max(m_game->window().getSize().x / 2.f + 200.f, playerPos.x + 200.f);
+	float timerY = 30.f;
+	float lifeX = std::max(m_game->window().getSize().x / 2.f - 800.f, playerPos.x - 800.f);
+	float lifeY = 30.f;
+
+	// Draw Score
+	sf::Text lblScore("Score", Assets::getInstance().getFont("Arial"), 40);
+	lblScore.setPosition(scoreX, scoreY);
+	sf::Text score(std::to_string(m_score), Assets::getInstance().getFont("Arial"), 40);
+	score.setPosition(scoreX, scoreY + 50.f);
+	score.setFillColor(sf::Color::Magenta);
+
+	// Draw High Score
+	sf::Text lblHighScore("High Score", Assets::getInstance().getFont("Arial"), 40);
+	lblHighScore.setPosition(hScoreX, hScoreY);
+	lblHighScore.setFillColor(sf::Color::Yellow);
+	sf::Text highScore(std::to_string(m_highScore), Assets::getInstance().getFont("Arial"), 40);
+	highScore.setPosition(hScoreX, hScoreY + 50.f);
+	highScore.setFillColor(sf::Color::Yellow);
+
+	// Draw Time Bar
+	int numBars = m_timeCount;
+	int elapsed = m_clock.getElapsedTime().asSeconds() / 2.f;
+	m_remainingTime = numBars - elapsed;
+	std::vector<sf::RectangleShape> timeBars(numBars);
+	for (int i = 0; i < numBars; ++i) {
+		if (i < 9) 
+			timeBars[i].setFillColor(sf::Color::Red);
+		else 
+			timeBars[i].setFillColor(sf::Color::Yellow);
+
+		timeBars[i].setSize(sf::Vector2f(15, 48)); 
+		timeBars[i].setOutlineColor(sf::Color::Black); 
+		timeBars[i].setOutlineThickness(2);
+		timeBars[i].setPosition(timerX + i * 20, timerY); 
+	}
+
+	// Draw Life
+	auto& lives = m_entityManager.getEntities("life");
+	for (auto& e : lives)
+	{
+		e->destroy();
+	}
+	for (int i = 0; i < m_lifeCount; i++)
+	{
+		auto life = m_entityManager.addEntity("life");
+		life->addComponent<CAnimation>(Assets::getInstance().getAnimation("life"), true);
+		life->addComponent<CTransform>(Vec2(lifeX + i * 70, lifeY), Vec2(0, 0), Vec2(1.5f, 1.5f));
+	}
+
+	auto& axeS = m_entityManager.getEntities("axeStatus");
+	for (auto& e : axeS)
+	{
+		e->destroy();
+	}
+	std::string equipped = (m_player->getComponent<CInput>().canShoot) ? "axeGet" : "axeBlank";
+	auto axeStatus = m_entityManager.addEntity("axeStatus");
+	axeStatus->addComponent<CAnimation>(Assets::getInstance().getAnimation(equipped), true);
+	axeStatus->addComponent<CTransform>(Vec2(lifeX + 15, lifeY + 70), Vec2(0, 0), Vec2(1.5f, 1.5f));
+
+	m_game->window().draw(lblScore);
+	m_game->window().draw(score);
+	m_game->window().draw(lblHighScore);
+	m_game->window().draw(highScore);
+	for (int i = 0; i < numBars; ++i) {
+		if (i < m_remainingTime)
+			m_game->window().draw(timeBars[i]);
+		else
+		{
+			auto color = sf::Color::Black;
+			color.a = 150;
+			timeBars[i].setFillColor(color);
+			m_game->window().draw(timeBars[i]);
+		}
+	}
+
+
 	//m_game->window().display();
 }
 
 void Scene_Wonder_Boy::checkPlayerState() // check player state and change animation accordingly
 {
+	if (m_lifeCount <= 0)
+	{
+		onEnd();
+	}
+
 	auto &pTfm = m_player->getComponent<CTransform>();
 	auto &pState = m_player->getComponent<CState>();
 	auto &pAnim = m_player->getComponent<CAnimation>().animation;
@@ -499,6 +670,11 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		isAlive = 1 << 4,   
 		isThrowing = 1 << 5,  
 		*/
+
+	if (m_remainingTime < 0.f)
+	{
+		m_player->getComponent<CState>().unSet(CState::isAlive);
+	}
 	
 	if (pState.test(CState::isAlive))
 	{
@@ -566,6 +742,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 			for (auto& e : m_entityManager.getEntities())
 				e->destroy();
 			loadLevel("../Assets/level1.txt");
+			m_lifeCount--;
 			spawnPlayer(Vec2(5, 10)); // replace this parameter to designated respawn points
 			
 		}
@@ -697,6 +874,11 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 
 	checkPlayerState();
 
+	if (m_score > m_highScore)
+	{
+		m_highScore = m_score;
+	}
+
 }
 
 void Scene_Wonder_Boy::sDoAction(const Command& command)
@@ -762,10 +944,11 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 	m_player->addComponent<CTransform>(gridToMidPixel(spawnPos.x, spawnPos.y,  m_player), Vec2(0, 0), Vec2(1,1));
 	m_player->addComponent<CState>().unSet(CState::isRunning);
 	m_player->addComponent<CInput>();
-	//m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
+	m_player->addComponent<CBoundingBox>(Vec2(m_playerConfig.CW, m_playerConfig.CH));
 	m_player->addComponent<CState>().set(CState::isAlive);
 	m_player->addComponent<CPhysics>(m_playerConfig.GRAVITY, m_playerConfig.MAXSPEED, m_playerConfig.SPEED, m_playerConfig.JUMP);
 
+	m_clock.restart();
 }
 
 
@@ -948,6 +1131,8 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			else if (name == "rollingRock")
 			{
 				e->getComponent<CBoundingBox>().size = Vec2(e->getComponent<CBoundingBox>().size.x, e->getComponent<CBoundingBox>().size.y * 1.2);
+				e->addComponent<CAI>(5);
+				e->addComponent<CPhysics>(3, 0, 0, 0);
 			}
 		}
 		else if (token == "Obst")
@@ -960,6 +1145,17 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 			e->addComponent<CBoundingBox>(Vec2(EAnim.animation.getSize().x * 0.7f, EAnim.animation.getSize().x * 0.8f));
+		}
+		else if (token == "Helper")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("helper");
+			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			e->addComponent<CBoundingBox>(EAnim.animation.getSize());
 		}
 		else if (token == "#") 
 		{

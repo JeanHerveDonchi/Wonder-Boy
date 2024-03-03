@@ -25,7 +25,7 @@ JSON			../Assets/Textures/resize/items2_B.json
 
 
 # Sprite
-
+Sprite	life TexItems	155	64	47	45
 
 
 
@@ -89,11 +89,11 @@ Animation 	spiderY 	TexItems 	1 	yes
 Animation 	TinaTanyaRun 	TexItems 	2 	yes
 Animation 	TinaTaynaResue 	TexItems 	3 	yes
 Animation 	tomato 		TexItems 	2 	yes
-Animation 	50		TexItems 	2 	yes
-Animation 	100 		TexItems 	2 	yes
-Animation 	200 		TexItems 	2 	yes
-Animation 	500 		TexItems 	2 	yes
-Animation 	1000		TexItems 	2 	yes
+Animation 	50		TexItems 	2 	no
+Animation 	100 		TexItems 	2 	no
+Animation 	200 		TexItems 	2 	no
+Animation 	500 		TexItems 	2 	no
+Animation 	1000		TexItems 	2	no
 Animation	angel		TexItems2	2	yes
 Animation	flyingGrass	TexItems2	1	yes
 Animation	goalWood	TexItems2	1 	yes

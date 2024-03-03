@@ -50,7 +50,6 @@ void Assets::addTexture(const std::string&textureName, const std::string&path, b
 }
 
 
-
 void Assets::addSprt(const std::string& sprtName, const std::string& textureName, const sf::IntRect& textureRect)
 {
     m_spriteMap[sprtName] = { textureName, textureRect };
