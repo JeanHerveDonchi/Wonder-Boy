@@ -107,8 +107,14 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	// tripping
 	if (pState.test(CState::isTripping))
 	{	
-			pTfm.pos.y -= 20;
-			pTfm.vel.x *= 0.3;
+			pInput.canJump = false;
+			const float TRIPPING_SPEED = 5.f;
+			pTfm.vel.x = (pTfm.prevPos.x - pTfm.pos.x) < 0 ? TRIPPING_SPEED : -TRIPPING_SPEED;
+			pTfm.vel.y = -3;
+	}
+	else if (!pState.test(CState::isTripping))
+	{
+		pInput.canJump = true;
 	}
 
 	// move all entities
@@ -177,32 +183,12 @@ void Scene_Wonder_Boy::sCollisions()
 	{
 		// check if weapon is out of bounds
 		auto& tfm = e->getComponent<CTransform>();
-		if (tfm.pos.x < 0 || tfm.pos.y < 0 || tfm.pos.y > 1080)
+		if (tfm.pos.x < 0 || tfm.pos.y > 1080)
 		{
 			e->destroy();
 		}
 		// check if weapon collides with tiles
-		for (auto& t : tiles)
-		{
-			auto& tfm = t->getComponent<CTransform>();
-			auto& box = t->getComponent<CBoundingBox>();
-			auto overlap = Physics::getOverlap(e, t);
-			if (overlap.x > 0 && overlap.y > 0)
-			{
-				e->destroy();
-			}
-		}
-		// check if weapon collides with tilesBB
-		for (auto& t : tilesBB)
-		{
-			auto& tfm = t->getComponent<CTransform>();
-			auto& box = t->getComponent<CBoundingBox>();
-			auto overlap = Physics::getOverlap(e, t);
-			if (overlap.x > 0 && overlap.y > 0)
-			{
-				e->destroy();
-			}
-		}
+		
 		// check if weapon collides with enmemies
 		for (auto& enemy : enemies)
 		{
@@ -298,30 +284,35 @@ void Scene_Wonder_Boy::sCollisions()
 						anim = Assets::getInstance().getAnimation("50");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 50;
+						m_earnedTime += 2;
 					}
 					else if (aName == "tomato")
 					{
 						anim = Assets::getInstance().getAnimation("100");
 						aTfm.scale = Vec2(2.f, 2.f);
-						m_score += 100;
+						m_score += 100; 
+						m_earnedTime += 3;
 					}
 					else if (aName == "banana")
 					{
 						anim = Assets::getInstance().getAnimation("200");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 200;
+						m_earnedTime += 4;
 					}
 					else if (aName == "milk")
 					{
 						anim = Assets::getInstance().getAnimation("500");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 500;
+						m_earnedTime += 5;
 					}
 					else if (aName == "candy")
 					{
 						anim = Assets::getInstance().getAnimation("1000");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 1000;
+						m_earnedTime += 6;
 					}
 					else if (aName == "axe")
 					{
@@ -375,7 +366,12 @@ void Scene_Wonder_Boy::sCollisions()
 					if (overlap.x > 0 && overlap.y > 0)
 					{
 						if (!pState.test(CState::isTripping))
+						{
+
 							pState.set(CState::isTripping);
+
+							m_earnedTime -= 3;
+						}
 					}
 				}
 				else if(anim.getName() == "fire")
@@ -590,11 +586,9 @@ void Scene_Wonder_Boy::sRender()
 	highScore.setFillColor(sf::Color::Yellow);
 
 	// Draw Time Bar
-	int numBars = m_timeCount;
-	int elapsed = m_clock.getElapsedTime().asSeconds() / 2.f;
-	m_remainingTime = numBars - elapsed;
-	std::vector<sf::RectangleShape> timeBars(numBars);
-	for (int i = 0; i < numBars; ++i) {
+	
+	std::vector<sf::RectangleShape> timeBars(m_timeCount);
+	for (int i = 0; i < m_timeCount; ++i) {
 		if (i < 9) 
 			timeBars[i].setFillColor(sf::Color::Red);
 		else 
@@ -633,7 +627,7 @@ void Scene_Wonder_Boy::sRender()
 	m_game->window().draw(score);
 	m_game->window().draw(lblHighScore);
 	m_game->window().draw(highScore);
-	for (int i = 0; i < numBars; ++i) {
+	for (int i = 0; i < m_timeCount; ++i) {
 		if (i < m_remainingTime)
 			m_game->window().draw(timeBars[i]);
 		else
@@ -671,13 +665,15 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		isThrowing = 1 << 5,  
 		*/
 
-	if (m_remainingTime < 0.f)
-	{
-		m_player->getComponent<CState>().unSet(CState::isAlive);
-	}
+	
 	
 	if (pState.test(CState::isAlive))
 	{
+		if (m_remainingTime < 0.f)
+		{
+			m_player->getComponent<CState>().unSet(CState::isAlive);
+			pTfm.vel.y = -12;
+		}
 		if (pState.test(CState::isTripping))
 		{
 			if (!pAnim.hasEnded())
@@ -725,6 +721,13 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		pTfm.vel.x = 0;
 		m_player->getComponent<CPhysics>().gravity = 0.3;
 
+
+		if (pState.test(CState::isTripping))
+		{
+			pState.unSet(CState::isTripping);
+			pTfm.vel.y = -12;
+		}
+
 		if (!pState.test(CState::isBurned) && pAnim.getName() != "tt_fall")
 		{
 			pAnim = Assets::getInstance().getAnimation("tt_fall");
@@ -748,47 +751,6 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		}
 	}
 
-	/*if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && !pAnim.hasEnded())
-	{
-		if (pAnim.getName() != "tt_axe") {
-			pAnim = Assets::getInstance().getAnimation("tt_axe");
-			pAnim.setTFM(THROW_TIMEPERFRAME);
-		}	
-	}
-	else if (pState.test(CState::isAlive) && pState.test(CState::isThrowing) && pAnim.hasEnded())
-	{
-		pState.unSet(CState::isThrowing);
-	}
-	else if (pState.test(CState::isAlive) && !pState.test(CState::isThrowing) && pState.test(CState::isRunning))
-	{
-		if (pAnim.getName() != "tt_run")
-			pAnim = Assets::getInstance().getAnimation("tt_run");
-	}
-	else if (pState.test(CState::isAlive) && !pState.test(CState::isThrowing) && !pState.test(CState::isRunning))
-	{
-		if (pAnim.getName() != "tt_stand")
-			pAnim = Assets::getInstance().getAnimation("tt_stand");
-	}
-	else if (!pState.test(CState::isAlive))
-	{
-		pBB.has = false;
-		pInput.has = false;
-		pTfm.vel.x = 0;
-
-		if (!pState.test(CState::isBurned) && pAnim.getName() != "tt_fall")
-		{
-			pAnim = Assets::getInstance().getAnimation("tt_fall");
-		}
-		else if (pState.test(CState::isBurned) && pAnim.getName() != "tt_fire")
-		{
-			pAnim = Assets::getInstance().getAnimation("tt_fire");
-		}
-
-		if (pTfm.pos.y > RESPAWN_DEPTH) 
-		{
-			spawnPlayer(Vec2(5, 10));
-		}
-	}*/
 
 }
 
@@ -879,6 +841,9 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 		m_highScore = m_score;
 	}
 
+	int elapsed = m_clock.getElapsedTime().asSeconds();
+	m_remainingTime = (m_timeCount - elapsed + m_earnedTime) > m_timeCount ? m_timeCount : m_timeCount - elapsed + m_earnedTime; // if calculated time is more than max time, set it to max time, or else set it to calculated time
+	
 }
 
 void Scene_Wonder_Boy::sDoAction(const Command& command)
@@ -948,6 +913,7 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 	m_player->addComponent<CState>().set(CState::isAlive);
 	m_player->addComponent<CPhysics>(m_playerConfig.GRAVITY, m_playerConfig.MAXSPEED, m_playerConfig.SPEED, m_playerConfig.JUMP);
 
+	m_earnedTime = 0;
 	m_clock.restart();
 }
 

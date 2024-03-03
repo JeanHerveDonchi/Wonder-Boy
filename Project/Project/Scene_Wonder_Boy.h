@@ -40,6 +40,7 @@ private:
     int 		    m_score{ 0 };
     int             m_timeCount{ 32 };
     int             m_remainingTime{ 0 };
+    int             m_earnedTime{ 0 };
     sf::Clock       m_clock;
     
 
