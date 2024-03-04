@@ -889,8 +889,8 @@ Obst	fire		320	8
 Obst	rock		342	8
 
 #Helper
-Helper	flyingGrass	345	8
-Helper	springO		364	7
+Helper	flyingGrass	347	6
+Helper	springOBefore	364	7
 Helper	flyingGrass	383	8
 Helper	flyingGrass	387	7
 Helper	flyingGrass	392	9
@@ -921,6 +921,6 @@ Enemy	snail		300	8
 Enemy	bee		310	9
 Enemy	snail		337	8
 Enemy	frog		375	8
-
+Enemy	rollingRock	10	9
 	
 

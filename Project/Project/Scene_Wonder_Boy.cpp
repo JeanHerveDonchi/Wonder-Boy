@@ -129,7 +129,7 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 			auto &ai = e->getComponent<CAI>();
 
 			if (!e->getComponent<CAI>().moveVertically)
-				tfm.vel = Vec2(-ai.velX, tfm.vel.y);
+				tfm.vel = Vec2(-ai.velX, 0.f);
 			else
 			{
 				if (tfm.pos.y > ai.maxY || tfm.pos.y < ai.minY)
@@ -174,6 +174,7 @@ void Scene_Wonder_Boy::sCollisions()
 	auto &items = m_entityManager.getEntities("item");
 	auto &enemies = m_entityManager.getEntities("enemy");
 	auto &obstacles = m_entityManager.getEntities("obstacle");
+	auto &helpers = m_entityManager.getEntities("helper");
 
 	auto &pTfm = m_player->getComponent<CTransform>();
 	auto &pState = m_player->getComponent<CState>();
@@ -187,8 +188,6 @@ void Scene_Wonder_Boy::sCollisions()
 		{
 			e->destroy();
 		}
-		// check if weapon collides with tiles
-		
 		// check if weapon collides with enmemies
 		for (auto& enemy : enemies)
 		{
@@ -385,44 +384,31 @@ void Scene_Wonder_Boy::sCollisions()
 				}
 			}
 		}
-		auto& rRocks = m_entityManager.getEntities("rollingRocks");
-		for (auto& e : rRocks)
+		
+		for (auto& h : helpers)
 		{
-			auto& tfm = e->getComponent<CTransform>();
-			auto& box = e->getComponent<CBoundingBox>();
+			auto overlap = Physics::getOverlap(m_player, h);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, h);
 
-			auto& tiles = m_entityManager.getEntities("tile");
-			auto& tilesBB = m_entityManager.getEntities("tilesBB");
-
-			for (auto& t : tiles)
+			if (overlap.x > 0 && overlap.y > 0)
 			{
-				auto overlap = Physics::getOverlap(e, t);
-				auto preoverlap = Physics::getPreviousOverlap(e, t);
 
-				if (overlap.x > 0 && overlap.y > 0)
+				if (h->getComponent<CAnimation>().animation.getName() == "springOBefore" || h->getComponent<CAnimation>().animation.getName() == "springO")
 				{
-					if (preoverlap.y > 0)
-					{
-						tfm.pos.y -= overlap.y; // move up
-					}
+					auto& hAnim = h->getComponent<CAnimation>().animation;
+					hAnim = Assets::getInstance().getAnimation("springO");
+					pTfm.vel.y = -50;
+				}
+				else if (preoverlap.y > 0) // if was above
+				{
+					pTfm.pos.y -= overlap.y; // move up
+					pTfm.vel.y = 0; // stop falling
+					pState.set(CState::isGrounded); // set grounded state
+					
 				}
 			}
-			for (auto& t : tilesBB)
-			{
-				auto overlap = Physics::getOverlap(e, t);
-				auto preoverlap = Physics::getPreviousOverlap(e, t);
-
-				if (overlap.x > 0 && overlap.y > 0)
-				{
-					if (preoverlap.y > 0)
-					{
-						tfm.pos.y -= overlap.y; // move up
-					}
-				}
-			}
-		}
+		}	
 	}
-
 }
 
 void Scene_Wonder_Boy::sAnimation(sf::Time dt)
@@ -713,6 +699,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 					pAnim = Assets::getInstance().getAnimation("tt_stand");
 			}
 		}
+
 	}
 	else if (!pState.test(CState::isAlive)) // == else
 	{
@@ -736,22 +723,18 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		{
 			pAnim = Assets::getInstance().getAnimation("tt_fire");
 		}
-
-		if (pTfm.pos.y > RESPAWN_DEPTH)
-		{
-			auto& enemies = m_entityManager.getEntities("enemy");
-			auto& items = m_entityManager.getEntities("item");
-
-			for (auto& e : m_entityManager.getEntities())
-				e->destroy();
-			loadLevel("../Assets/level1.txt");
-			m_lifeCount--;
-			spawnPlayer(Vec2(5, 10)); // replace this parameter to designated respawn points
-			
-		}
 	}
+	if (pTfm.pos.y > RESPAWN_DEPTH)
+	{
+		auto& enemies = m_entityManager.getEntities("enemy");
+		auto& items = m_entityManager.getEntities("item");
 
-
+		for (auto& e : m_entityManager.getEntities())
+			e->destroy();
+		loadLevel("../Assets/level1.txt");
+		m_lifeCount--;
+		spawnPlayer(Vec2(5, 10)); // replace this parameter to designated respawn points
+	}
 }
 
 void Scene_Wonder_Boy::spawnBullet(std::shared_ptr<Entity> e) {
@@ -1094,11 +1077,9 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			{
 				tfm.pos.y -= 15.f;
 			}
-			else if (name == "rollingRock")
+			else if (token == "RollingRock")
 			{
-				e->getComponent<CBoundingBox>().size = Vec2(e->getComponent<CBoundingBox>().size.x, e->getComponent<CBoundingBox>().size.y * 1.2);
-				e->addComponent<CAI>(5);
-				e->addComponent<CPhysics>(3, 0, 0, 0);
+				e->addComponent<CAI>(10, 2);
 			}
 		}
 		else if (token == "Obst")
@@ -1121,7 +1102,13 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			auto e = m_entityManager.addEntity("helper");
 			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
-			e->addComponent<CBoundingBox>(EAnim.animation.getSize());
+			if (EAnim.animation.getName() == "springOBefore")
+			{
+				tfm.scale = Vec2(1.5f, 1.5f);
+				e->addComponent<CBoundingBox>(EAnim.animation.getSize() * 1.5f);
+			}
+			else
+				e->addComponent<CBoundingBox>(EAnim.animation.getSize());
 		}
 		else if (token == "#") 
 		{

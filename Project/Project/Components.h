@@ -158,6 +158,8 @@ struct CAI : public Component
 
     CAI() = default;
     CAI(float vx)	: detectPlayer(false), velX(vx), moveVertically(false), maxY(0.f), minY(0.f) {}
+    CAI(float vx, float vy)
+        : detectPlayer(false), velX(vx), moveVertically(true), velY(vy), maxY(0.f), minY(0.f) {}
     CAI(float vx, bool mv, float vy, float max, float min)
 		: detectPlayer(false), velX(vx), moveVertically(mv), velY(vy), maxY(max), minY(min) {}
 };
