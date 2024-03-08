@@ -1,0 +1,48 @@
+<mxfile host="Electron" modified="2024-03-08T13:33:15.190Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="clSPLvPTNPy_jVQwaxGX" version="23.1.5" type="device">
+  <diagram name="Page-1" id="GBYwtZjIxROxx-ds7_NS">
+    <mxGraphModel dx="1038" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eNse97ly4DQJdMiyFBRF-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-9" target="eNse97ly4DQJdMiyFBRF-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-9" value="&lt;p class=&quot;MsoNormal&quot;&gt;Managing&lt;br&gt;Entities:&amp;nbsp;&lt;/p&gt;&lt;p class=&quot;MsoNormal&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Remove dead entities, add entities.&lt;/span&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-10" value="&lt;p class=&quot;MsoNormal&quot;&gt;sMovement:&amp;nbsp;&lt;/p&gt;&lt;p class=&quot;MsoNormal&quot;&gt;Moving&lt;br/&gt;all entities.&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="85" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-11" target="eNse97ly4DQJdMiyFBRF-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-11" value="&lt;p class=&quot;MsoNormal&quot;&gt;sEnemyAI:&lt;/p&gt;&lt;p class=&quot;MsoNormal&quot;&gt;Moving enemy which moves toward the player after detecting him.&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="70" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-12" target="eNse97ly4DQJdMiyFBRF-9">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-12" value="&lt;p class=&quot;MsoNormal&quot;&gt;Check remaining&lt;br/&gt;time.&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-13" target="eNse97ly4DQJdMiyFBRF-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-13" value="&lt;p class=&quot;MsoNormal&quot;&gt;checkPlayerState&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-14" value="&lt;p class=&quot;MsoNormal&quot;&gt;sCollisions:&amp;nbsp;&lt;/p&gt;&lt;p class=&quot;MsoNormal&quot;&gt;Check collisions&amp;nbsp;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.043;entryY=0.402;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-10" target="eNse97ly4DQJdMiyFBRF-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNse97ly4DQJdMiyFBRF-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.023;entryY=0.383;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="eNse97ly4DQJdMiyFBRF-14" target="eNse97ly4DQJdMiyFBRF-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
