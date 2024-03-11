@@ -607,10 +607,8 @@ Tile    grassbottom2    327     6
 Tile    grassbottom2    328     6
 Tile    grassbottom2    329     6
 HalftileE    grassbottom3    330     6
-# emptyLine2
-HalftileS    grassbottom1    333     6
-Tile    grassbottom2    334     6
-Tile    grassbottom2    335     6
+# emptyLine4
+HalftileS    grassbottom1    335     6
 Tile    grassbottom2    336     6
 Tile    grassbottom2    337     6
 Tile    grassbottom2    338     6
@@ -621,10 +619,8 @@ Tile    grassbottom2    342     6
 Tile    grassbottom2    343     6
 Tile    grassbottom2    344     6
 HalftileE    grassbottom3    345     6
-# emptyLine3
-HalftileS     grassbottom1    349     6
-Tile    grassbottom2    350     6
-Tile    grassbottom2    351     6
+# emptyLine5
+HalftileS     grassbottom1    351     6
 Tile    grassbottom2    352     6
 Tile    grassbottom2    353     6
 Tile    grassbottom2    354     6
@@ -634,13 +630,9 @@ Tile    grassbottom2    357     6
 Tile    grassbottom2    358     6
 Tile    grassbottom2    359     6
 Tile    grassbottom2    360     6
-Tile    grassbottom2    361     6
-HalftileE     grassbottom3    362     6
-# emptyLine4
-HalftileS     grassbottom1    367     6
-Tile    grassbottom2    368     6
-Tile    grassbottom2    369     6
-Tile    grassbottom2    370     6
+HalftileE     grassbottom3    361     6
+# emptyLine8
+HalftileS     grassbottom1    370     6
 Tile    grassbottom2    371     6
 Tile    grassbottom2    372     6
 Tile    grassbottom2    373     6
@@ -729,10 +721,8 @@ Tile    grass2  327     7
 Tile    grass2  328     7
 Tile    grass2  329     7
 HalftileE 	grass3	330	7
-#EmptyLine2
-HalftileS     grass1	333     7
-Tile    grass2  334     7
-Tile    grass2  335     7
+#EmptyLine4
+HalftileS     grass1	335     7
 Tile    grass2  336     7
 Tile    grass2  337     7
 Tile    grass2  338     7
@@ -743,10 +733,8 @@ Tile    grass2  342     7
 Tile    grass2  343     7
 Tile    grass2  344     7
 HalftileE 	grass3	345	7
-#EmptyLine3
-HalftileS     grass1  349     7
-Tile    grass2  350     7
-Tile    grass2  351     7
+#EmptyLine5
+HalftileS     grass1  351     7
 Tile    grass2  352     7
 Tile    grass2  353     7
 Tile    grass2  354     7
@@ -756,13 +744,9 @@ Tile    grass2  357     7
 Tile    grass2  358     7
 Tile    grass2  359     7
 Tile    grass2  360     7
-Tile    grass2  361     7
-HalftileE    grass3  362     7
-#emptyLine4
-HalftileS     grass1  367     7
-Tile    grass2  368     7
-Tile    grass2  369     7
-Tile    grass2  370     7
+HalftileE    grass3  361     7
+#emptyLine8
+HalftileS     grass1  370     7
 Tile    grass2  371     7
 Tile    grass2  372     7
 Tile    grass2  373     7
@@ -823,6 +807,7 @@ Deco	start2Wood	100	2
 Deco	start3Wood	182	2
 Deco	start4Wood	290	8
 Deco	goalWood	407	8
+Tina	TinaTaynaResue	411	8
 
 # Item 
 Item	apple		12	4
@@ -889,13 +874,12 @@ Obst	fire		320	8
 Obst	rock		342	8
 
 #Helper
-Helper	flyingGrass	347	6
+Helper	flyingGrass	348	8
 Helper	springOBefore	364	7
 Helper	flyingGrass	383	8
-Helper	flyingGrass	387	7
+Helper	flyingGrass	388	8
 Helper	flyingGrass	392	9
 Helper	flyingGrass	397	10
-
 
 	
 # Enemy
@@ -913,14 +897,12 @@ Enemy	snake		210	2
 Enemy	snake		220	2
 Enemy	bee 		230	4
 Enemy	snake		245	2
-Enemy	rollingRock	260	5
-Enemy	rollingRock	268	7
 Enemy	snake		276	8
 Enemy	snake		279	8
 Enemy	snail		300	8
 Enemy	bee		310	9
 Enemy	snail		337	8
 Enemy	frog		375	8
-Enemy	rollingRock	10	9
+
 	
 

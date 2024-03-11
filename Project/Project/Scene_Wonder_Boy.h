@@ -42,7 +42,8 @@ private:
     int             m_remainingTime{ 0 };
     int             m_earnedTime{ 0 };
     sf::Clock       m_clock;
-    
+
+    Vec2			m_playerSpawnPos{ 2.f, 7.f };
 
 
     //systems
@@ -57,7 +58,7 @@ private:
 
 
     // helper functions
-    void            spawnPlayer(Vec2 spawnPos = Vec2(2, 10));
+    void            spawnPlayer(Vec2 spawnPos = Vec2(2, 7));
 
     void            init(const std::string& levelPath);
     void            loadLevel(const std::string &path);

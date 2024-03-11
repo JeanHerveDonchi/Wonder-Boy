@@ -33,7 +33,7 @@ void Scene_Menu:: init()
 
 	m_title = "Wonder Boy Project";
 	m_menuStrings.push_back("Start");
-	m_menuStrings.push_back("High Scores");
+	//m_menuStrings.push_back("High Scores");
 	m_menuStrings.push_back("Quit");
 
 	m_menuText.setFont(Assets::getInstance().getFont("main"));

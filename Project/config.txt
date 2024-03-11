@@ -100,7 +100,7 @@ Animation	goalWood	TexItems2	1 	yes
 Animation	rock		TexItems2	1	yes
 Animation	rollingRock	TexItems2	4	yes
 Animation	spring		TexItems2	2	yes
-Animation	springO		TexItems2	2	yes
+Animation	springO		TexItems2	2	no
 Animation	springBefore	TexItems2	1	yes
 Animation	springOBefore	TexItems2	1	yes
 Animation	start1Wood	TexItems2	1	yes
