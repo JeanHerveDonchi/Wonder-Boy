@@ -805,7 +805,7 @@ Deco	cloud3		395	15
 Deco	start1Wood	1	2
 Deco	start2Wood	100	2
 Deco	start3Wood	182	2
-Deco	start4Wood	290	8
+Deco	start4Wood	274	8
 Deco	goalWood	407	8
 Tina	TinaTaynaResue	411	8
 

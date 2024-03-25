@@ -32,10 +32,12 @@ public:
 public:
     void			    play(String effect);
     void			    play(String effect, sf::Vector2f position);
+    void			    stop();
     void			    removeStoppedSounds();
     void			    setListnerPosition(sf::Vector2f position);
     void			    setListnerDirection(sf::Vector2f position);
     sf::Vector2f	    getListnerPosition() const;
+    
 
     bool                isEmpty() const;
 };

@@ -29,6 +29,7 @@ private:
     PlayerConfig	m_playerConfig;
     WeaponConfig	m_weaponConfig;
     sf::View        m_worldView;
+    sf::View		m_hudView;
     sf::FloatRect   m_worldBounds;
     bool 		    m_drawTextures{ true };
     bool 		    m_drawColliders{ false };
@@ -38,7 +39,7 @@ private:
 
     int             m_lifeCount{ 3 };
     int 		    m_score{ 0 };
-    int             m_timeCount{ 32 };
+    const int             m_timeCount{ 32 };
     int             m_remainingTime{ 0 };
     int             m_earnedTime{ 0 };
     sf::Clock       m_clock;
@@ -63,6 +64,8 @@ private:
     void            init(const std::string& levelPath);
     void            loadLevel(const std::string &path);
     void			registerActions();
+
+    void            drawHUD();
 
     sf::FloatRect   getViewBounds();
 

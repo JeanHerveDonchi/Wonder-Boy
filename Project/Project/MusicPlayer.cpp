@@ -5,7 +5,7 @@
 MusicPlayer::MusicPlayer() 
 {
     m_filenames["menuTheme"] = "../Assets/Music/01_main_screen_trailer.wav";
-    m_filenames["level01"] = "../Assets/Music/02_level_grass.wav";
+    m_filenames["level01"] = "../Assets/Music/02LevelTheme.mp3";
 }
 
 void MusicPlayer::addSong(const std::string&name, const std::string&path) 

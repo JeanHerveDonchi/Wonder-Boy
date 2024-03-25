@@ -54,6 +54,12 @@ void SoundPlayer::play(String effect, sf::Vector2f position)
     sound.play();
 }
 
+void SoundPlayer::stop()
+{
+    	for (auto &s : m_sounds)
+		s.stop();
+}
+
 
 void SoundPlayer::removeStoppedSounds() 
 {

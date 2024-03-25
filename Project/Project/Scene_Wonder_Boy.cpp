@@ -37,6 +37,7 @@ Scene_Wonder_Boy::Scene_Wonder_Boy(GameEngine* gameEngine, const std::string& le
 void Scene_Wonder_Boy::init(const std::string& levelPath)
 {
 	m_game->window().setView(m_game->window().getDefaultView());
+	m_worldView = m_game->window().getDefaultView();
 
 	loadLevel(levelPath);
 	registerActions();
@@ -297,35 +298,35 @@ void Scene_Wonder_Boy::sCollisions()
 						anim = Assets::getInstance().getAnimation("50");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 50;
-						m_earnedTime += 2;
+						m_earnedTime += 1;
 					}
 					else if (aName == "tomato")
 					{
 						anim = Assets::getInstance().getAnimation("100");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 100; 
-						m_earnedTime += 3;
+						m_earnedTime += 2;
 					}
 					else if (aName == "banana")
 					{
 						anim = Assets::getInstance().getAnimation("200");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 200;
-						m_earnedTime += 4;
+						m_earnedTime += 2;
 					}
 					else if (aName == "milk")
 					{
 						anim = Assets::getInstance().getAnimation("500");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 500;
-						m_earnedTime += 5;
+						m_earnedTime += 3;
 					}
 					else if (aName == "candy")
 					{
 						anim = Assets::getInstance().getAnimation("1000");
 						aTfm.scale = Vec2(2.f, 2.f);
 						m_score += 1000;
-						m_earnedTime += 6;
+						m_earnedTime += 4;
 					}
 					else if (aName == "axe")
 					{
@@ -341,6 +342,7 @@ void Scene_Wonder_Boy::sCollisions()
 					{
 						e->destroy();
 					}
+					
 				}			
 			}
 		}
@@ -359,6 +361,9 @@ void Scene_Wonder_Boy::sCollisions()
 				{
 					pState.unSet(CState::isAlive);
 					pTfm.vel.y = -12;
+					MusicPlayer::getInstance().stop();
+					SoundPlayer::getInstance().stop();
+					SoundPlayer::getInstance().play("die");
 				}
 			}
 
@@ -384,6 +389,8 @@ void Scene_Wonder_Boy::sCollisions()
 							pState.set(CState::isTripping);
 
 							m_earnedTime -= 3;
+
+							SoundPlayer::getInstance().play("trip");
 						}
 					}
 				}
@@ -394,6 +401,9 @@ void Scene_Wonder_Boy::sCollisions()
 						pState.unSet(CState::isAlive);
 						pState.set(CState::isBurned);
 						pTfm.vel.y = -12;
+						MusicPlayer::getInstance().stop();
+						SoundPlayer::getInstance().stop();
+						SoundPlayer::getInstance().play("die");
 					}
 				}
 			}
@@ -462,22 +472,31 @@ void Scene_Wonder_Boy::sRender()
 
 	// background changes if paused
 	static const sf::Color backgroundColor(0, 181, 255);
-	static const sf::Color pausedColor(0x7f, 0x7f, 0x7f);
-	m_game->window().clear(m_isPaused? pausedColor : backgroundColor);
+	m_game->window().clear(backgroundColor);
+	//static const sf::Color pausedColor(0x7f, 0x7f, 0x7f);
+	//m_game->window().clear(m_isPaused? pausedColor : backgroundColor);
 
 	// set the view to center on the player
 	// this is a side scroller so only worry about the x axis
 	auto &playerPos = m_player->getComponent<CTransform>().pos;
 	float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
-	sf::View view = m_game->window().getView();
+	/*sf::View view = m_game->window().getView();*/
 	float centerY = m_game->window().getSize().y / 2.f;
-	if (playerPos.x > 26400)
+	// 250 - 275
+	/*if (playerPos.x > 26400)
 	{
 		centerY = 100.f;
+	}*/
+	if (playerPos.x > 250 * 96 && playerPos.x < 273 * 96)
+	{
+		centerY -= (playerPos.x - 250 * 96) * 0.26 + 6;
+		m_worldView.setCenter(centerX, centerY);
 	}
+	else
+		m_worldView.setCenter(centerX, m_worldView.getCenter().y);
 	
-	view.setCenter(centerX, centerY); // keep view at bottom
-	m_game->window().setView(view);
+	m_game->window().setView(m_worldView);
+	
 
 	// draw all entities
 	if (m_drawTextures)
@@ -526,14 +545,14 @@ void Scene_Wonder_Boy::sRender()
 
 	if (m_drawGrid)
 	{
-		float left = view.getCenter().x - view.getSize().x / 2.f;
-		float right = left + view.getSize().x;
-		float top = view.getCenter().y - view.getSize().y / 2.f;
-		float bottom = top + view.getSize().y;
+		float left = m_worldView.getCenter().x - m_worldView.getSize().x / 2.f;
+		float right = left + m_worldView.getSize().x;
+		float top = m_worldView.getCenter().y - m_worldView.getSize().y / 2.f;
+		float bottom = top + m_worldView.getSize().y;
 
 		// align grid to grud size
-		int nCols = static_cast<int>(view.getSize().x) / m_gridSize.x;
-		int nRows = static_cast<int>(view.getSize().y) / m_gridSize.y + 5;
+		int nCols = static_cast<int>(m_worldView.getSize().x) / m_gridSize.x;
+		int nRows = static_cast<int>(m_worldView.getSize().y) / m_gridSize.y + 5;
 
 		// row and col # of bot left
 		const int ROW0 = 1080;
@@ -579,86 +598,12 @@ void Scene_Wonder_Boy::sRender()
 		m_game->window().draw(lines);
 	}
 
-	float scoreX = std::max(m_game->window().getSize().x / 2.f - 450.f, playerPos.x - 450.f);
-	float scoreY = centerY - 500.f;
-	float hScoreX = std::max(m_game->window().getSize().x / 2.f - 200.f, playerPos.x - 200.f);
-	float hScoreY = centerY - 500.f;
-	float timerX = std::max(m_game->window().getSize().x / 2.f + 200.f, playerPos.x + 200.f);
-	float timerY = centerY - 500.f;
-	float lifeX = std::max(m_game->window().getSize().x / 2.f - 800.f, playerPos.x - 800.f);
-	float lifeY = centerY - 500.f;
 
-	// Draw Score
-	sf::Text lblScore("Score", Assets::getInstance().getFont("Arial"), 40);
-	lblScore.setPosition(scoreX, scoreY);
-	sf::Text score(std::to_string(m_score), Assets::getInstance().getFont("Arial"), 40);
-	score.setPosition(scoreX, scoreY + 50.f);
-	score.setFillColor(sf::Color::Magenta);
-
-	// Draw High Score
-	sf::Text lblHighScore("High Score", Assets::getInstance().getFont("Arial"), 40);
-	lblHighScore.setPosition(hScoreX, hScoreY);
-	lblHighScore.setFillColor(sf::Color::Yellow);
-	sf::Text highScore(std::to_string(m_highScore), Assets::getInstance().getFont("Arial"), 40);
-	highScore.setPosition(hScoreX, hScoreY + 50.f);
-	highScore.setFillColor(sf::Color::Yellow);
-
-	// Draw Time Bar
-	
-	std::vector<sf::RectangleShape> timeBars(m_timeCount);
-	for (int i = 0; i < m_timeCount; ++i) {
-		if (i < 9) 
-			timeBars[i].setFillColor(sf::Color::Red);
-		else 
-			timeBars[i].setFillColor(sf::Color::Yellow);
-
-		timeBars[i].setSize(sf::Vector2f(15, 48)); 
-		timeBars[i].setOutlineColor(sf::Color::Black); 
-		timeBars[i].setOutlineThickness(2);
-		timeBars[i].setPosition(timerX + i * 20, timerY); 
-	}
-
-	// Draw Life
-	auto& lives = m_entityManager.getEntities("life");
-	for (auto& e : lives)
-	{
-		e->destroy();
-	}
-	for (int i = 0; i < m_lifeCount; i++)
-	{
-		auto life = m_entityManager.addEntity("life");
-		life->addComponent<CAnimation>(Assets::getInstance().getAnimation("life"), true);
-		life->addComponent<CTransform>(Vec2(lifeX + i * 70, lifeY), Vec2(0, 0), Vec2(1.5f, 1.5f));
-	}
-
-	auto& axeS = m_entityManager.getEntities("axeStatus");
-	for (auto& e : axeS)
-	{
-		e->destroy();
-	}
-	std::string equipped = (m_player->getComponent<CInput>().canShoot) ? "axeGet" : "axeBlank";
-	auto axeStatus = m_entityManager.addEntity("axeStatus");
-	axeStatus->addComponent<CAnimation>(Assets::getInstance().getAnimation(equipped), true);
-	axeStatus->addComponent<CTransform>(Vec2(lifeX + 15, lifeY + 70), Vec2(0, 0), Vec2(1.5f, 1.5f));
-
-	m_game->window().draw(lblScore);
-	m_game->window().draw(score);
-	m_game->window().draw(lblHighScore);
-	m_game->window().draw(highScore);
-	for (int i = 0; i < m_timeCount; ++i) {
-		if (i < m_remainingTime)
-			m_game->window().draw(timeBars[i]);
-		else
-		{
-			auto color = sf::Color::Black;
-			color.a = 150;
-			timeBars[i].setFillColor(color);
-			m_game->window().draw(timeBars[i]);
-		}
-	}
-
+	drawHUD();
 
 	//m_game->window().display();
+
+	// * set HUD related to m_worldView, not entire window.
 }
 
 void Scene_Wonder_Boy::checkPlayerState() // check player state and change animation accordingly
@@ -691,6 +636,10 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		{
 			m_player->getComponent<CState>().unSet(CState::isAlive);
 			pTfm.vel.y = -12;
+
+			MusicPlayer::getInstance().stop();
+			SoundPlayer::getInstance().stop();
+			SoundPlayer::getInstance().play("die");
 		}
 		if (pState.test(CState::isTripping))
 		{
@@ -735,10 +684,12 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 	}
 	else if (!pState.test(CState::isAlive)) // == else
 	{
+
 		pBB.has = false;
 		pInput.has = false;
 		pTfm.vel.x = 0;
 		m_player->getComponent<CPhysics>().gravity = 0.3;
+		m_player->getComponent<CState>().unSet(CState::isGrounded);
 
 
 		if (pState.test(CState::isTripping))
@@ -765,7 +716,21 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 			e->destroy();
 		loadLevel("../Assets/level1.txt");
 		m_lifeCount--;
-		spawnPlayer(Vec2(5, 7)); // replace this parameter to designated respawn points
+		Vec2 checkedSpawnPos = Vec2(5, 7);
+		if (pTfm.pos.x > 274 * 96)
+		{
+			checkedSpawnPos = Vec2(274, 7);
+		}
+		else if (pTfm.pos.x > 182 * 96)
+		{
+			checkedSpawnPos = Vec2(182, 7);
+		}
+		else if (pTfm.pos.x > 100 * 96)
+		{
+			checkedSpawnPos = Vec2(100, 7);
+		}
+		spawnPlayer(checkedSpawnPos); // replace this parameter to designated respawn points
+		MusicPlayer::getInstance().play("level01");
 	}
 }
 
@@ -842,6 +807,8 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 	SoundPlayer::getInstance().removeStoppedSounds();
 	m_entityManager.update();
 
+	if (m_isPaused)
+		return;
 
 	sMovement(dt);
 	sEnemyAI();
@@ -856,9 +823,18 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 		m_highScore = m_score;
 	}
 
-	int elapsed = m_clock.getElapsedTime().asSeconds();
-	m_remainingTime = (m_timeCount - elapsed + m_earnedTime) > m_timeCount ? m_timeCount : m_timeCount - elapsed + m_earnedTime; // if calculated time is more than max time, set it to max time, or else set it to calculated time
+	int elapsed = m_clock.getElapsedTime().asSeconds() /2.f;
 	
+	m_remainingTime = m_timeCount + m_earnedTime - elapsed;
+	if (m_remainingTime > m_timeCount)
+	{
+		m_earnedTime -= (m_remainingTime - m_timeCount);
+		m_remainingTime = m_timeCount;
+	}
+	else
+	{
+		m_remainingTime = m_timeCount - elapsed + m_earnedTime;
+	}
 }
 
 void Scene_Wonder_Boy::sDoAction(const Command& command)
@@ -916,8 +892,7 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 {
 	auto& pInput = m_player->getComponent<CInput>();
 	auto& pBB = m_player->getComponent<CBoundingBox>();
-
-	
+	auto& pTfm = m_player->getComponent<CTransform>();
 	
 	m_player = m_entityManager.addEntity("player");
 	m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("tt_stand"), true);
@@ -930,6 +905,8 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 
 	m_earnedTime = 0;
 	m_clock.restart();
+
+	
 }
 
 
@@ -1013,7 +990,7 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			float startX = originX - (GRID_SIZE * sN / 2);
 			float startY = originY + (GRID_SIZE / 2);
 			float changeX = startX - (unitSize / 2);
-			float changeY = startY;
+			float changeY = startY - 13;
 			for (int i{ 0 }; i < sN; i++)
 			{
 				for (int j{ 0 }; j < wantDivide; j++)
@@ -1194,4 +1171,91 @@ void Scene_Wonder_Boy::registerActions()
 	registerAction(sf::Keyboard::T, "TOGGLE_TEXTURE");
 	registerAction(sf::Keyboard::C, "TOGGLE_COLLIDER");
 	registerAction(sf::Keyboard::G, "TOGGLE_GRID");
+}
+
+void Scene_Wonder_Boy::drawHUD()
+{
+	auto& playerPos = m_player->getComponent<CTransform>().pos;
+	float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
+	float centerY = m_game->window().getSize().y / 2.f;
+
+	float scoreX = std::max(m_worldView.getSize().x / 2.f - 450.f, playerPos.x - 450.f);
+	float scoreY = m_worldView.getCenter().y - 530.f;
+	float hScoreX = std::max(m_worldView.getSize().x / 2.f - 200.f, playerPos.x - 200.f);
+	float hScoreY = m_worldView.getCenter().y - 530.f;
+	float timerX = std::max(m_worldView.getSize().x / 2.f + 200.f, playerPos.x + 200.f);
+	float timerY = m_worldView.getCenter().y - 530.f;
+	float lifeX = std::max(m_worldView.getSize().x / 2.f - 800.f, playerPos.x - 800.f);
+	float lifeY = m_worldView.getCenter().y - 510.f;
+
+	// Draw Score
+	sf::Text lblScore("Score", Assets::getInstance().getFont("Arial"), 40);
+	lblScore.setPosition(scoreX, scoreY);
+	sf::Text score(std::to_string(m_score), Assets::getInstance().getFont("Arial"), 40);
+	score.setPosition(scoreX, scoreY + 50.f);
+	score.setFillColor(sf::Color::Magenta);
+
+	// Draw High Score
+	sf::Text lblHighScore("High Score", Assets::getInstance().getFont("Arial"), 40);
+	lblHighScore.setPosition(hScoreX, hScoreY);
+	lblHighScore.setFillColor(sf::Color::Yellow);
+	sf::Text highScore(std::to_string(m_highScore), Assets::getInstance().getFont("Arial"), 40);
+	highScore.setPosition(hScoreX, hScoreY + 50.f);
+	highScore.setFillColor(sf::Color::Yellow);
+
+	// Draw Time Bar
+
+	std::vector<sf::RectangleShape> timeBars(m_timeCount);
+	for (int i = 0; i < m_timeCount; ++i) {
+		if (i < 9)
+			timeBars[i].setFillColor(sf::Color::Red);
+		else
+			timeBars[i].setFillColor(sf::Color::Yellow);
+
+		timeBars[i].setSize(sf::Vector2f(15, 48));
+		timeBars[i].setOutlineColor(sf::Color::Black);
+		timeBars[i].setOutlineThickness(2);
+		timeBars[i].setPosition(timerX + i * 20, timerY);
+	}
+
+	// Draw Life
+	auto& lives = m_entityManager.getEntities("life");
+	for (auto& e : lives)
+	{
+		e->destroy();
+	}
+	for (int i = 0; i < m_lifeCount; i++)
+	{
+		auto life = m_entityManager.addEntity("life");
+		life->addComponent<CAnimation>(Assets::getInstance().getAnimation("life"), true);
+		life->addComponent<CTransform>(Vec2(lifeX + i * 70, lifeY), Vec2(0, 0), Vec2(1.5f, 1.5f));
+	}
+
+	auto& axeS = m_entityManager.getEntities("axeStatus");
+	for (auto& e : axeS)
+	{
+		e->destroy();
+	}
+	std::string equipped = (m_player->getComponent<CInput>().canShoot) ? "axeGet" : "axeBlank";
+	auto axeStatus = m_entityManager.addEntity("axeStatus");
+	axeStatus->addComponent<CAnimation>(Assets::getInstance().getAnimation(equipped), true);
+	axeStatus->addComponent<CTransform>(Vec2(lifeX + 15, lifeY + 70), Vec2(0, 0), Vec2(1.5f, 1.5f));
+
+	m_game->window().draw(lblScore);
+	m_game->window().draw(score);
+	m_game->window().draw(lblHighScore);
+	m_game->window().draw(highScore);
+	for (int i = 0; i < m_timeCount; ++i) {
+		if (i < m_remainingTime)
+			m_game->window().draw(timeBars[i]);
+		else
+		{
+			auto color = sf::Color::Black;
+			color.a = 150;
+			timeBars[i].setFillColor(color);
+			m_game->window().draw(timeBars[i]);
+		}
+	}
+
+
 }

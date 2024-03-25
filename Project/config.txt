@@ -8,6 +8,9 @@ Font    Arcade          ../Assets/Fonts/arcadeclassic.regular.ttf
 
 Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
+Sound	die		../Assets/Sound/09Die.wav
+Sound	trip		../Assets/Sound/01Coin.mp3
+
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png
 Texture TomTom		../Assets/Textures/resize/tt_atlasx4.png
