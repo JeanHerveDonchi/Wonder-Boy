@@ -10,6 +10,7 @@ Music menuScreenTheme   ../Assets/Music/01_main_screen_trailer.wav
 
 Sound	die		../Assets/Sound/09Die.wav
 Sound	trip		../Assets/Sound/01Coin.mp3
+Sound   item		../Assets/Sound/item-sound-effect.mp3
 
 # Textures
 Texture Title           ../Assets/Textures/Title_Screen.png

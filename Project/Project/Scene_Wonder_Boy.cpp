@@ -289,6 +289,8 @@ void Scene_Wonder_Boy::sCollisions()
 			{
 				if (overlap.x > 0 && overlap.y > 0)
 				{
+					SoundPlayer::getInstance().play("item");
+
 					e->removeComponent<CBoundingBox>();
 					std::string aName = e->getComponent<CAnimation>().animation.getName();
 					auto& anim = e->getComponent<CAnimation>().animation;
