@@ -69,6 +69,8 @@ private:
 
     sf::FloatRect   getViewBounds();
 
+    void          playerPostionAdjustment();
+
 public:
 
     Scene_Wonder_Boy(GameEngine *gameEngine, const std::string &levelPath);

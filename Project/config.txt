@@ -38,10 +38,10 @@ Animation	tt_axe		TomTom		4	no
 Animation	tt_fall		TomTom		8	yes
 Animation	tt_fire		TomTom		2	no
 Animation	tt_run		TomTom		8	yes
-Animation	tt_skate_axe	TomTom		2	no
+Animation	tt_skate_axe	TomTom		4	no
 Animation	tt_skate_fall	TomTom		2	no
 Animation	tt_skate_run	TomTom		2	yes
-Animation	tt_skate_trip	TomTom		2	no
+Animation	tt_skate_trip	TomTom		2	yes
 Animation	tt_stand	TomTom		6	yes
 Animation	tt_trip		TomTom		4	no
 

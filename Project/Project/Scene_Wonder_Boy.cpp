@@ -18,7 +18,7 @@ namespace
 }
 
 const Vec2 BB_SIZE(96, 96);
-const Vec2 WEAPON_SPEED(30.f, -30.f);
+const Vec2 WEAPON_SPEED(30.f, -25.f);
 const float RESPAWN_DEPTH = 1700.f;
 const Vec2 SPAWN_POS1(2, 10);
 const Vec2 SPAWN_POS2(2, 10);
@@ -66,13 +66,25 @@ void Scene_Wonder_Boy::sMovement(sf::Time dt)
 	{
 		pTfm.vel.x = 0;
 
-		if (pInput.left)
-			pTfm.vel.x = -m_playerConfig.SPEED;
-		if (pInput.right)
-			pTfm.vel.x = m_playerConfig.SPEED;
-		if (abs(pTfm.vel.x) > 0)
-			pTfm.scale.x = (pTfm.vel.x) > 0 ? 1.f : -1.f;
-
+		if (!pState.test(CState::onSkate))
+		{
+			if (pInput.left)
+				pTfm.vel.x = -m_playerConfig.SPEED;
+			if (pInput.right)
+				pTfm.vel.x = m_playerConfig.SPEED;
+			if (abs(pTfm.vel.x) > 0)
+				pTfm.scale.x = (pTfm.vel.x) > 0 ? 1.f : -1.f;
+		}
+		else 
+		{
+			if (pInput.left) {
+				pTfm.vel.x = m_playerConfig.SPEED / 4;
+				
+			}
+			else {
+				pTfm.vel.x = m_playerConfig.SPEED * 1.3;
+			}
+		}
 		// setting a running state should be rocated in checkPlayerState, not here	
 
 		if (pInput.jump)
@@ -224,8 +236,20 @@ void Scene_Wonder_Boy::sCollisions()
 			{
 				if (overlap.x > 0 && overlap.y > 0)
 				{
-					m_player->getComponent<CState>().set(CState::onSkate);
-					e->destroy();
+					e->removeComponent<CBoundingBox>();
+					if (!m_player->getComponent<CState>().test(CState::onSkate))
+					{
+						m_player->getComponent<CState>().set(CState::onSkate);
+						e->destroy();
+					}
+					else
+					{
+						auto& anim = e->getComponent<CAnimation>().animation;
+						auto& aTfm = e->getComponent<CTransform>();
+						anim = Assets::getInstance().getAnimation("1000");
+						aTfm.scale = Vec2(2.f, 2.f);
+						m_score += 1000;
+					}
 				}
 			}
 		}
@@ -348,8 +372,15 @@ void Scene_Wonder_Boy::sCollisions()
 					}
 					else if (aName == "axe")
 					{
-						m_player->getComponent<CInput>().canShoot = true;
-						e->destroy();
+						if (m_player->getComponent<CInput>().canShoot == true) {
+							anim = Assets::getInstance().getAnimation("500");
+							aTfm.scale = Vec2(2.f, 2.f);
+							m_score += 500;
+						}
+						else {
+							m_player->getComponent<CInput>().canShoot = true;
+							e->destroy();
+						}
 					}
 					else
 					{
@@ -372,11 +403,19 @@ void Scene_Wonder_Boy::sCollisions()
 			{
 				if (overlap.x > 0 && overlap.y > 0)
 				{
-					pState.unSet(CState::isAlive);
-					pTfm.vel.y = -12;
-					MusicPlayer::getInstance().stop();
-					SoundPlayer::getInstance().stop();
-					SoundPlayer::getInstance().play("die");
+					if (pState.test(CState::onSkate)) {
+						e->destroy();
+						pState.unSet(CState::onSkate);
+						pState.set(CState::isTripping);
+					}
+					else
+					{
+						pState.unSet(CState::isAlive);
+						pTfm.vel.y = -12;
+						MusicPlayer::getInstance().stop();
+						SoundPlayer::getInstance().stop();
+						SoundPlayer::getInstance().play("die");
+					}
 				}
 			}
 
@@ -491,25 +530,25 @@ void Scene_Wonder_Boy::sRender()
 
 	// set the view to center on the player
 	// this is a side scroller so only worry about the x axis
-	auto &playerPos = m_player->getComponent<CTransform>().pos;
-	float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
-	/*sf::View view = m_game->window().getView();*/
-	float centerY = m_game->window().getSize().y / 2.f;
-	// 250 - 275
-	/*if (playerPos.x > 26400)
-	{
-		centerY = 100.f;
-	}*/
-	if (playerPos.x > 250 * 96 && playerPos.x < 273 * 96)
-	{
-		centerY -= (playerPos.x - 250 * 96) * 0.26 + 6;
-		m_worldView.setCenter(centerX, centerY);
+	auto& playerPos = m_player->getComponent<CTransform>().pos;
+	auto& playerPrePos = m_player->getComponent<CTransform>().prevPos;
+	if (playerPos.x > playerPrePos.x && playerPos.x > m_worldView.getCenter().x) {
+		float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
+		float centerY = m_game->window().getSize().y / 2.f;
+		if (playerPos.x > 250 * 96 && playerPos.x < 273 * 96)
+		{
+			centerY -= (playerPos.x - 250 * 96) * 0.26 + 6;
+			m_worldView.setCenter(centerX, centerY);
+		}
+		else
+			m_worldView.setCenter(centerX, m_worldView.getCenter().y);
+		m_game->window().setView(m_worldView);
 	}
 	else
-		m_worldView.setCenter(centerX, m_worldView.getCenter().y);
-	
-	m_game->window().setView(m_worldView);
-	
+	{
+		
+		m_game->window().setView(m_worldView);
+	}
 
 	// draw all entities
 	if (m_drawTextures)
@@ -654,51 +693,88 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 			SoundPlayer::getInstance().stop();
 			SoundPlayer::getInstance().play("die");
 		}
-		if (pState.test(CState::isTripping))
+
+		if (pState.test(CState::onSkate))
 		{
-			if (!pAnim.hasEnded())
+			if (pInput.left && !pState.test(CState::isThrowing) && !pState.test(CState::isTripping))
 			{
-				if (pAnim.getName() != "tt_trip") {
-					pAnim = Assets::getInstance().getAnimation("tt_trip");
+				if (pAnim.getName() != "tt_skate_trip")
+				{
+					pAnim = Assets::getInstance().getAnimation("tt_skate_trip");
+				}
+			}
+			else if (pState.test(CState::isThrowing))
+			{
+				if (!pAnim.hasEnded())
+				{
+					if (pAnim.getName() != "tt_skate_axe")
+					{
+						pAnim = Assets::getInstance().getAnimation("tt_skate_axe");
+					}
+				}
+				else
+				{
+					pState.unSet(CState::isThrowing);
+				}
+			}
+			else if (pState.test(CState::isTripping))
+			{
+				pState.unSet(CState::onSkate);
+			}
+			else
+			{
+				if (pAnim.getName() != "tt_skate_run")
+				{
+					pAnim = Assets::getInstance().getAnimation("tt_skate_run");
+				}
+			}
+		}
+		else {
+			if (pState.test(CState::isTripping))
+			{
+				if (pState.test(CState::onSkate))
+				{
+					pState.unSet(CState::onSkate);
+				}
+				if (!pAnim.hasEnded())
+				{
+					if (pAnim.getName() != "tt_trip") {
+						pAnim = Assets::getInstance().getAnimation("tt_trip");
+					}
+				}
+				else
+				{
+					pState.unSet(CState::isTripping);
+				}
+			}
+			else if (pState.test(CState::isThrowing))
+			{
+				if (!pAnim.hasEnded())
+				{
+					if (pAnim.getName() != "tt_axe") {
+						pAnim = Assets::getInstance().getAnimation("tt_axe");
+					}
+				}
+				else
+				{
+					pState.unSet(CState::isThrowing);
 				}
 			}
 			else
 			{
-				pState.unSet(CState::isTripping);
-			}
-		}
-		else if (pState.test(CState::onSkate))
-		{
-			if (pAnim.getName() != "tt_skate_run") {
-				pAnim = Assets::getInstance().getAnimation("tt_skate_run");
-			}
-		}
-		else if (pState.test(CState::isThrowing))
-		{
-			if (!pAnim.hasEnded())
-			{
-				if (pAnim.getName() != "tt_axe") {
-					pAnim = Assets::getInstance().getAnimation("tt_axe");
+				if (pState.test(CState::isRunning))
+				{
+					if (pAnim.getName() != "tt_run")
+						pAnim = Assets::getInstance().getAnimation("tt_run");
+				}
+				else
+				{
+					if (pAnim.getName() != "tt_stand")
+						pAnim = Assets::getInstance().getAnimation("tt_stand");
 				}
 			}
-			else
-			{
-				pState.unSet(CState::isThrowing);
-			}
 		}
-		else 
-		{
-			if (pState.test(CState::isRunning))
-			{
-				if (pAnim.getName() != "tt_run")
-					pAnim = Assets::getInstance().getAnimation("tt_run");
-			}
-			else
-			{
-				if (pAnim.getName() != "tt_stand")
-					pAnim = Assets::getInstance().getAnimation("tt_stand");
-			}
-		}
+		
 
 	}
 	else if (!pState.test(CState::isAlive)) // == else
@@ -748,6 +824,7 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		{
 			checkedSpawnPos = Vec2(100, 7);
 		}
+		m_worldView.setCenter((checkedSpawnPos.x + 5) * m_gridSize.x, m_worldView.getCenter().y);
 		spawnPlayer(checkedSpawnPos); // replace this parameter to designated respawn points
 		MusicPlayer::getInstance().play("level01");
 	}
@@ -830,6 +907,7 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 		return;
 
 	sMovement(dt);
+	playerPostionAdjustment();
 	sEnemyAI();
 	sCollisions();
 
@@ -932,6 +1010,27 @@ void Scene_Wonder_Boy::spawnPlayer(Vec2 spawnPos)
 sf::FloatRect Scene_Wonder_Boy::getViewBounds()
 {
 	return sf::FloatRect();
+}
+
+void Scene_Wonder_Boy::playerPostionAdjustment()
+{
+	// don't ajust position if dead
+	if (!(m_player->getComponent<CState>().test(CState::isAlive)))
+		return;
+
+	auto center = m_worldView.getCenter();
+	sf::Vector2f viewHalfSize = m_worldView.getSize() / 2.f;
+
+
+	auto left = center.x - viewHalfSize.x;
+	auto right = center.x + viewHalfSize.x;
+	auto top = center.y - viewHalfSize.y;
+	auto bot = center.y + viewHalfSize.y;
+
+	auto& player_pos = m_player->getComponent<CTransform>().pos;
+	auto halfSize = m_player->getComponent<CBoundingBox>().halfSize;
+	// keep player in bounds
+	player_pos.x = std::max(player_pos.x, left + halfSize.x);
 }
 
 
@@ -1209,13 +1308,13 @@ void Scene_Wonder_Boy::drawHUD()
 	float centerX = std::max(m_game->window().getSize().x / 2.f, playerPos.x); // don't go left of window
 	float centerY = m_game->window().getSize().y / 2.f;
 
-	float scoreX = std::max(m_worldView.getSize().x / 2.f - 450.f, playerPos.x - 450.f);
+	float scoreX = m_worldView.getCenter().x - 450.f;
 	float scoreY = m_worldView.getCenter().y - 530.f;
-	float hScoreX = std::max(m_worldView.getSize().x / 2.f - 200.f, playerPos.x - 200.f);
+	float hScoreX = m_worldView.getCenter().x - 200.f;
 	float hScoreY = m_worldView.getCenter().y - 530.f;
-	float timerX = std::max(m_worldView.getSize().x / 2.f + 200.f, playerPos.x + 200.f);
+	float timerX = m_worldView.getCenter().x + 200.f;
 	float timerY = m_worldView.getCenter().y - 530.f;
-	float lifeX = std::max(m_worldView.getSize().x / 2.f - 800.f, playerPos.x - 800.f);
+	float lifeX = m_worldView.getCenter().x - 800.f;
 	float lifeY = m_worldView.getCenter().y - 510.f;
 
 	// Draw Score
