@@ -77,7 +77,8 @@ Animation 	banana 		TexItems 	2	yes
 Animation 	bee 		TexItems 	3 	yes
 Animation	blueSkull 	TexItems 	5	yes
 Animation	candy 		TexItems 	2 	yes
-Animation 	egg 		TexItems 	2 	yes
+Animation 	egg1 		TexItems 	1 	yes
+Animation 	egg2 		TexItems 	2 	no
 Animation 	fire 		TexItems	2 	yes
 Animation 	frog 		TexItems	4 	yes
 Animation 	goldenAxe 	TexItems	4 	yes

@@ -182,6 +182,7 @@ void Scene_Wonder_Boy::sCollisions()
 	auto& obstacles = m_entityManager.getEntities("obstacle");
 	auto& helpers = m_entityManager.getEntities("helper");
 	auto& rollingRocks = m_entityManager.getEntities("rollingRock");
+	auto& skateBoards = m_entityManager.getEntities("skateBoard");
 
  	auto& pTfm = m_player->getComponent<CTransform>();
 	auto& pState = m_player->getComponent<CState>();
@@ -212,8 +213,23 @@ void Scene_Wonder_Boy::sCollisions()
 
 	if (m_player->hasComponent<CBoundingBox>())
 	{
+		for (auto& e : skateBoards) {
+			auto& tfm = e->getComponent<CTransform>();
+			auto& box = e->getComponent<CBoundingBox>();
 
-		for (auto &e : tiles)
+			auto overlap = Physics::getOverlap(m_player, e);
+			auto preoverlap = Physics::getPreviousOverlap(m_player, e);
+
+			if (e->hasComponent<CBoundingBox>())
+			{
+				if (overlap.x > 0 && overlap.y > 0)
+				{
+					m_player->getComponent<CState>().set(CState::onSkate);
+					e->destroy();
+				}
+			}
+		}
+		for (auto& e : tiles)
 		{
 			auto& tfm = e->getComponent<CTransform>();
 			auto& box = e->getComponent<CBoundingBox>();
@@ -333,11 +349,6 @@ void Scene_Wonder_Boy::sCollisions()
 					else if (aName == "axe")
 					{
 						m_player->getComponent<CInput>().canShoot = true;
-						e->destroy();
-					}
-					else if (aName == "skate")
-					{
-						m_player->getComponent<CState>().set(CState::onSkate);
 						e->destroy();
 					}
 					else
@@ -654,6 +665,12 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 			else
 			{
 				pState.unSet(CState::isTripping);
+			}
+		}
+		else if (pState.test(CState::onSkate))
+		{
+			if (pAnim.getName() != "tt_skate_run") {
+				pAnim = Assets::getInstance().getAnimation("tt_skate_run");
 			}
 		}
 		else if (pState.test(CState::isThrowing))
@@ -1069,7 +1086,8 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			confFile >> name >> gx >> gy;
 
 			auto e = m_entityManager.addEntity("item");
-			auto IAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& IAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			
 
 			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
 			e->addComponent<CBoundingBox>(IAnim.animation.getSize());
@@ -1127,7 +1145,7 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 		}
 		else if (token == "RollingRock")
 		{
-							std::string name;
+				std::string name;
 				float gx, gy;
 				confFile >> name >> gx >> gy;
 
@@ -1137,7 +1155,17 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 				e->addComponent<CBoundingBox>(EAnim.animation.getSize());
 				e->addComponent<CPhysics>(1, 0, 0, 0);
 				e->addComponent<CAI>(10);
-			}
+		}
+		else if (token == "SkateBoard") {
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("skateBoard");
+			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+			e->addComponent<CBoundingBox>(EAnim.animation.getSize());
+		}
 		else if (token == "#") 
 		{
 			; // ignore comments

@@ -3,7 +3,7 @@
 World 1280 720
 
 #     	gX, 	gY, 	cW,  	cH,   	sX,  	sY, 	 sM, 	 g,   	bullet 
-Player 	2   	10  	80  	120   	30  	40  	 20   	 2   	axe
+Player 	2   	10  	80  	120   	20  	40  	 20   	 2   	axe
 
 # Tile Row 0
 Tile	grassbottom2	0	0
@@ -812,7 +812,7 @@ Tina	TinaTaynaResue	411	8
 # Item 
 Item	apple		12	4
 Item	banana		20	7
-Item	egg		30	2
+SkateBoard	skateBoard		30	2
 Item	axe		30	3
 Item	tomato		42	7
 Item	banana		43	7
@@ -824,7 +824,7 @@ Item 	tomato		81	7
 Item	banana		92	7
 Item	apple		103	4
 Item	banana		106	7
-Item	egg		110	2
+Item	egg1		110	2
 Item	tomato		120	7
 Item	banana		121	7
 Item 	apple		124	4
@@ -845,7 +845,7 @@ Item	banana		245	7
 Item	tomato		255	7
 Item	apple		257	6
 Item	banana		265	9
-Item	egg		273 	8
+Item	egg1		273 	8
 Item	apple		282	9
 Item	apple		283	9
 Item	axe		294	9

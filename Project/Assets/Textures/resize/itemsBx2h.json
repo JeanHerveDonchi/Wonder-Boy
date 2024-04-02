@@ -241,7 +241,7 @@
 	"sourceSize": {"w":113,"h":188}
 },
 {
-	"filename": "egg (1).png",
+	"filename": "egg1 (1).png",
 	"frame": {"x":0,"y":913,"w":116,"h":85},
 	"rotated": false,
 	"trimmed": true,
@@ -249,7 +249,15 @@
 	"sourceSize": {"w":135,"h":188}
 },
 {
-	"filename": "egg (2).png",
+	"filename": "egg2 (1).png",
+	"frame": {"x":0,"y":913,"w":116,"h":85},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":83,"w":116,"h":85},
+	"sourceSize": {"w":135,"h":188}
+},
+{
+	"filename": "egg2 (2).png",
 	"frame": {"x":116,"y":913,"w":117,"h":85},
 	"rotated": false,
 	"trimmed": true,
