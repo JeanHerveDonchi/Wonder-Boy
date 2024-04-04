@@ -162,5 +162,7 @@ struct CAI : public Component
         : detectPlayer(false), velX(vx), moveVertically(true), velY(vy), maxY(980.f), minY(979.f) {}
     CAI(float vx, bool mv, float vy, float max, float min)
 		: detectPlayer(false), velX(vx), moveVertically(mv), velY(vy), maxY(max), minY(min) {}
+    CAI(float vy, float max, float min)
+		: detectPlayer(true), velX(0.f), moveVertically(true), velY(vy), maxY(max), minY(min) {}
 };
 #endif //BREAKOUT_COMPONENTS_H

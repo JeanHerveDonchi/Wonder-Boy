@@ -373,9 +373,9 @@ void Scene_Wonder_Boy::sCollisions()
 					else if (aName == "axe")
 					{
 						if (m_player->getComponent<CInput>().canShoot == true) {
-							anim = Assets::getInstance().getAnimation("500");
+							anim = Assets::getInstance().getAnimation("100");
 							aTfm.scale = Vec2(2.f, 2.f);
-							m_score += 500;
+							m_score += 100;
 						}
 						else {
 							m_player->getComponent<CInput>().canShoot = true;
@@ -407,6 +407,8 @@ void Scene_Wonder_Boy::sCollisions()
 						e->destroy();
 						pState.unSet(CState::onSkate);
 						pState.set(CState::isTripping);
+						SoundPlayer::getInstance().stop();
+						SoundPlayer::getInstance().play("trip");
 					}
 					else
 					{
@@ -467,7 +469,7 @@ void Scene_Wonder_Boy::sCollisions()
 			auto preoverlap = Physics::getPreviousOverlap(m_player, h);
 			if (overlap.x > 0 && overlap.y > 0) {
 				// collision is in the y direction
-				if (preoverlap.x > 0) {
+				if (preoverlap.x > 0 && pTfm.prevPos.y + m_player->getComponent<CBoundingBox>().halfSize.y < h->getComponent<CTransform>().prevPos.y) {
 					if (pTfm.prevPos.y < h->getComponent<CTransform>().prevPos.y) {
 						
 						// player standing on something isGrounded
@@ -824,7 +826,10 @@ void Scene_Wonder_Boy::checkPlayerState() // check player state and change anima
 		{
 			checkedSpawnPos = Vec2(100, 7);
 		}
-		m_worldView.setCenter((checkedSpawnPos.x + 5) * m_gridSize.x, m_worldView.getCenter().y);
+		if (!(pTfm.pos.x > 250 * 96 && pTfm.pos.x < 273 * 96))
+			m_worldView.setCenter((checkedSpawnPos.x + 5) * m_gridSize.x, m_worldView.getCenter().y);
+		else
+			m_worldView.setCenter((checkedSpawnPos.x + 5)* m_gridSize.x, 540);
 		spawnPlayer(checkedSpawnPos); // replace this parameter to designated respawn points
 		MusicPlayer::getInstance().play("level01");
 	}
@@ -920,7 +925,7 @@ void Scene_Wonder_Boy::update(sf::Time dt)
 		m_highScore = m_score;
 	}
 
-	int elapsed = m_clock.getElapsedTime().asSeconds() /2.f;
+	int elapsed = m_clock.getElapsedTime().asSeconds();
 	
 	m_remainingTime = m_timeCount + m_earnedTime - elapsed;
 	if (m_remainingTime > m_timeCount)
@@ -1241,6 +1246,19 @@ void Scene_Wonder_Boy::loadLevel(const std::string& path)
 			}
 			else
 				e->addComponent<CBoundingBox>(EAnim.animation.getSize());
+		}
+		else if (token == "HelperM")
+		{
+			std::string name;
+			float gx, gy;
+			confFile >> name >> gx >> gy;
+
+			auto e = m_entityManager.addEntity("helper");
+			auto& EAnim = e->addComponent<CAnimation>(Assets::getInstance().getAnimation(name), true);
+			auto& tfm = e->addComponent<CTransform>(gridToMidPixel(gx, gy, e));
+
+			e->addComponent<CBoundingBox>(EAnim.animation.getSize());
+			e->addComponent<CAI>(5, 2 * 98, -3 * 98);
 		}
 		else if (token == "RollingRock")
 		{

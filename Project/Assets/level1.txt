@@ -261,6 +261,13 @@ Tile    grassbottom2    249     0
 Tile	uphill3a	250	0	
 Tile	uphill3b	254	0
 
+Tile    emptyblack      258     0
+Tile    emptyblack      259     0
+Tile    emptyblack      260     0
+Tile    emptyblack      261     0
+Tile    emptyblack      262     0
+Tile    emptyblack      263     0
+
 
 # Tile Row 1
 Tile	grass2green	0	1
@@ -519,12 +526,26 @@ Uphill	uphill2		251	1
 Tile	uphill3a	255	1
 Tile	uphill3b	259	1
 
+Tile    emptyblack      263     1
+Tile    emptyblack      264     1
+Tile    emptyblack      265     1
+Tile    emptyblack      266     1
+Tile    emptyblack      267     1
+Tile    emptyblack      268     1
+
 # Tile Row 2
 Uphill	uphill1		250	2
 Uphill	uphillcontinue	254	2
 Tile	uphill2		255	2
 Tile	uphill3a	259	2
 Tile   	uphill3b        263     2
+
+Tile    emptyblack      267     2
+Tile    emptyblack      268     2
+Tile    emptyblack      269     2
+Tile    emptyblack      270     2
+Tile    emptyblack      271     2
+Tile    emptyblack      272     2
 
 # Tile Row 3
 Uphill  uphill1 	254     3
@@ -533,6 +554,13 @@ Tile    uphill2 	259     3
 Tile    uphill3a        263     3
 Tile    uphill3b        267     3
 
+Tile    emptyblack      271     3
+Tile    emptyblack      272     3
+Tile    emptyblack      273     3
+Tile    emptyblack      274     3
+Tile    emptyblack      275     3
+Tile    emptyblack      276     3
+
 # Tile Row 4
 Uphill   uphill1 	258     4
 Uphill   uphillcontinue  262     4
@@ -540,12 +568,27 @@ Tile    uphill2 	263     4
 Tile    uphill3a        267     4
 Tile    uphill3b        271     4
 
+Tile    emptyblack      275     4
+Tile    emptyblack      276     4
+Tile    emptyblack      277     4
+Tile    emptyblack      278     4
+Tile    emptyblack      279     4
+Tile    emptyblack      280     4
+
 # Tile Row 5
 Uphill    uphill1 	262     5
 Uphill   uphillcontinue  266     5
 Tile    uphill2 	267     5
 Tile    uphill3a        271     5
 Tile    uphill3b        275     5
+
+Tile    emptyblack      279     5
+Tile    emptyblack      280     5
+Tile    emptyblack      281     5
+Tile    emptyblack      282     5
+Tile    emptyblack      283     5
+Tile    emptyblack      284     5
+
 
 # Tile Row 6
 Uphill   uphill1 	266     6
@@ -874,12 +917,12 @@ Obst	fire		320	8
 Obst	rock		342	8
 
 #Helper
-Helper	flyingGrass	348	8
+Helper	flyingGrass	348	9
 Helper	springOBefore	365	7
 Helper	flyingGrass	383	8
 Helper	flyingGrass	388	8
 Helper	flyingGrass	392	9
-Helper	flyingGrass	397	10
+HelperM	flyingGrass	397	10
 
 	
 # Enemy

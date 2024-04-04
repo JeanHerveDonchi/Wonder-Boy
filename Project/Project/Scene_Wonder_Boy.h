@@ -51,25 +51,16 @@ private:
     void            sMovement(sf::Time dt);
     void            sCollisions();
     void            sAnimation(sf::Time dt);
-
-    // Enemy Systems
-
-
     void	        onEnd() override;
-
+    void            init(const std::string& levelPath);
+    void            loadLevel(const std::string& path);
+    void			registerActions();
+    void            drawHUD();
 
     // helper functions
     void            spawnPlayer(Vec2 spawnPos = Vec2(2, 7));
-
-    void            init(const std::string& levelPath);
-    void            loadLevel(const std::string &path);
-    void			registerActions();
-
-    void            drawHUD();
-
     sf::FloatRect   getViewBounds();
-
-    void          playerPostionAdjustment();
+    void            playerPostionAdjustment();
 
 public:
 
